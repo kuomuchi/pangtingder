@@ -1,0 +1,309 @@
+*{
+    margin: 0;
+}
+
+a{
+    text-decoration:none
+}
+
+.logo, .top_login, .top_about_us{
+    height: 100%;
+    text-align:center;
+    transition: 0.7s;
+}
+
+
+.top_box{
+    display: flex;
+    background-color: #ccc;
+    height: 80px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+
+.top_login, .top_about_us{
+    color: black;
+    background-color: #ccc;
+    line-height: 80px;
+    width: 150px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.top_box_right{
+    display: flex;
+}
+
+.top_login:hover,  .logo:hover, .top_about_us:hover{
+    background-color: #aaa;
+}
+
+.block_box{
+    width: 100%;
+    height: 10px;
+    background-color: rgb(112, 112, 112);
+}
+
+/* 課程資訊 */
+
+.class_detail_box{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+
+    width: 100%;
+    height: 400px;
+    background-color: red;
+}
+
+.class_data{
+    margin-top: 20px;
+    margin-left: 30px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.class_image{
+    height:350px;
+}
+
+.class_detail_text{
+    margin-top: 40px;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.detail_name{
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.detail_departnemt{
+    margin-top: 5px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.detail_teacher{
+    margin-top: 80px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.detail_mark{
+    margin-top: 10px;
+    display: flex;
+}
+
+.star{
+    height: 50px;
+}
+
+.detail_source{
+    font-size: 20px;
+    margin-right: 30px;
+    line-height: 700px;
+}
+
+.class_detail_msg_box{
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.detail_msg_title, .detail_web_title{
+    font-size: 25px;
+    margin-top: 30px;
+}
+
+.detail_data_text, .detail_web_url{
+    margin-top: 10px;
+    font-size: 18px;
+    color: black;
+}
+
+
+.detail_web_title{
+    margin-top: 50px;
+}
+
+
+.clsee_detail_recommend{
+    background: pink;
+    margin-top: 70px;
+}
+
+.clsee_detail_recommend_title{
+    font-size: 30px;
+    position: absolute;
+    margin-top: -40px;
+    margin-left: 50px;
+    width: 170px;
+    text-align: center;
+    background-color: pink;
+}
+
+.recommend{
+    margin-top: 15px;
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    background-color: pink;
+    padding-bottom: 75px;
+}
+
+
+.class_num{
+    margin-left: 10px;
+}
+
+.class_item{
+    flex-grow: 2;
+    width: 20%
+}
+
+.class_name{
+    flex-grow: 4;
+    width: 40%
+}
+
+.class_mark{
+    flex-grow: 1;
+    width: 10%
+}
+
+
+.class{
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+
+    height: 50px;
+
+    background-color: white;
+
+    justify-content: space-between;
+    display: flex;
+    cursor: pointer;
+    text-align: left;
+}
+
+.recommend > .class{
+    line-height: 50px;
+    border-radius: 4px;
+}
+
+
+.class_box_title{
+    margin-bottom: -30px;
+    margin-left: 40px;
+    margin-right: 40px;
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    line-height: 50px;
+}
+
+
+.message{
+    width: 100%;
+    background-color: rgb(19, 218, 184);
+    display: flex;
+    flex-direction: column;
+}
+
+
+.message_title{
+    font-size: 30px;
+    position: absolute;
+    margin-top: -40px;
+    margin-left: 50px;
+    width: 170px;
+    text-align: center;
+    background-color: rgb(19, 218, 184);
+}
+
+.add_message_text{
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 50px;
+    padding-top: 20px;
+}
+
+.add_message_area{
+    height: 150px;
+}
+
+.message_sending_box{
+    margin-top: 10px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    height: 90px;
+}
+
+.user_icon{
+    width: 70px;
+    height: 70px;
+}
+
+.keyword{
+    margin-left: 10px;
+    margin-top: 20px;
+    width: 800px;
+    height: 35px;
+}
+
+.message_line{
+    text-align: center;
+}
+
+.message_area{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+}
+
+.get_message{
+    display: flex;
+    margin-top: 20px;
+    margin-left: 250px;
+
+}
+
+.user_msg_area{
+    display: flex;
+    text-align: left;
+}
+
+.user_name{
+    margin-left: 5px;
+    font-size: 15px;
+}
+
+.user_img_msg{
+    width: 50px;
+    height: 50px;
+}
+
+.user_msg{
+    margin-left: 10px;
+    margin-top: 10px;
+    background-color: white;
+    height: 50px;
+    border-radius: 4px;
+    padding-left: 20px;
+    padding-right: 10px;
+    line-height: 50px;
+}
+
+.star1:hover, .star2:hover, .star3:hover, .star4:hover, .star5:hover{
+    content: url('../images/star2.png');
+}
