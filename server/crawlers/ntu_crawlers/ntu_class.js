@@ -1,3 +1,4 @@
+require('dotenv').config()
 const fetch = require('node-fetch')
 const cheerio = require('cheerio')
 const { query } = require('../../models/mysql_model.js')
@@ -6,7 +7,8 @@ const { main } = require('./ntu_class_content.js')
 // axios
 
 const getClass = async () => {
-  const index = 1000
+  console.log('in')
+  const index = 14132
   const res = await fetch('https://nol.ntu.edu.tw/nol/coursesearch/search_result.php', {
     headers: {
       accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -53,7 +55,6 @@ const getClass = async () => {
             aws[aws.length - 1].department += (',' + array[1])
           }
         } else {
-          const getText = await main(url)
           const sendClass = {
             number: 'ntu' + array[2],
             className: array[4],
@@ -63,7 +64,9 @@ const getClass = async () => {
             remarks: array[15],
             web_url: url
           }
-          console.log(getText)
+          console.log(sendClass)
+          console.log('\n\n\n')
+
           const snedArray = []
           snedArray.push(sendClass.number)
           snedArray.push(sendClass.className)
@@ -88,7 +91,7 @@ const getClass = async () => {
   // })
 }
 
-getClass()
+// getClass()
 
 module.exports = {
   getClass

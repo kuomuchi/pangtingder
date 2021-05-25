@@ -1,0 +1,177 @@
+*{
+    margin: 0;
+}
+
+a{
+    text-decoration:none;
+    color: black;
+}
+
+.logo, .top_login, .top_about_us{
+    height: 100%;
+    text-align:center;
+    transition: 0.7s;
+}
+
+
+.top_box{
+    display: flex;
+    background-color: #ccc;
+    height: 80px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+
+.top_login, .top_about_us{
+    color: black;
+    background-color: #ccc;
+    line-height: 80px;
+    width: 150px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.top_box_right{
+    display: flex;
+}
+
+.top_login:hover,  .logo:hover, .top_about_us:hover{
+    background-color: #aaa;
+}
+
+
+
+.main_box{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.user_box{
+    display: flex;
+    justify-content: center;
+
+}
+
+.logout{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+.logout > p{
+    text-align: center;
+    background-color: red;
+    width: 120px;
+    cursor: pointer;
+}
+
+.user_icon{
+    margin-top: 35px;
+    width: 200px;
+    height: 200px;
+}
+
+.user_name{
+    margin-top: 5px;
+    font-size: 35px;
+}
+
+.change_box{
+    margin-top: 20px;
+    display: flex;
+    font-size: 25px;
+}
+
+.change_collect{
+    background-color: #ccc;
+    padding-left: 30px;
+    padding-right: 30px;
+    cursor: pointer;
+}
+
+.change_recommend{
+    background-color: #aaa;
+    padding-left: 30px;
+    padding-right: 30px;
+    cursor: pointer;
+}
+
+
+.user_data_box{
+    width: 100%;
+    height: 420px;
+    background-color: #ccc;
+}
+
+.collect_box, .recommend_box{
+    background-color: #ccc;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.recommend_box{
+    display: none;
+}
+
+
+.class_box_title{
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    background-color: #ddd
+}
+
+.class_num{
+    margin-left: 10px;
+}
+
+.class_item{
+    flex-grow: 2;
+    width: 20%
+}
+
+.class_name{
+    flex-grow: 4;
+    width: 40%
+}
+
+.class_mark{
+    flex-grow: 1;
+    width: 10%
+}
+
+.class_box_item{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.class{
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+
+    height: 50px;
+
+    background-color: white;
+
+    display: flex;
+    cursor: pointer;
+    justify-content: space-between;
+    text-align: left;
+}
+
+.class_box_item > .class{
+    line-height: 50px;
+    border-radius: 8px;
+}
+
+

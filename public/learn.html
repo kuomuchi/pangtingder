@@ -1,18 +1,19 @@
 <html>
-    <link href="../css/learn.css" rel="stylesheet">
+    <link href="./css/learn.css" rel="stylesheet">
     <title>PangTingDer</title>
     <body>
         <!-- 上面的部分 -->
         <div class='top_box'>
-            <a href="#">
-                <img src="../images/logo.png" class='logo'>
+            <a href="/">
+                <img src="./images/logo.png" class='logo'>
             </a>
             <div class='top_box_right'>
-                <a href="#">
+                <a href="./#sup_box">
                     <div class='top_about_us'>About us</div>
                 </a>
-                <a href="#">
+                <a href="./login.html">
                     <div class='top_login'>登入/註冊</div>
+                    <img src="./images/userIcon.png" class='top_login_icon'>
                 </a>
             </div>
         </div>
@@ -21,7 +22,7 @@
         <div class='block_box'></div>
 
         <!-- 至理名言的部分 -->
-        <div class='inspirational_quotes_box'>
+        <div class='inspirational_quotes_box' id='inspirational_quotes_box'>
             <h1>失敗乃成功之母</h1>
         </div>
 
@@ -33,8 +34,10 @@
         <div class='class_box'>
             <div class='select_box'>
                 <div class=select_item>
+
                     <select id="popular_select" name='熱門'>
-                        <option>熱門</option>
+                        <option>無</option>
+                        <!-- <option>熱門</option> -->
                         <option>評分</option>
                     </select>
 
@@ -43,7 +46,17 @@
                     </select>
 
                     <input type="text" class='keyword' id='keyword' placeholder="輸入關鍵字查詢">
+
+                    <div class='select_button'>查詢</div>
                 </div>
+
+
+                <div class='change_page'>
+                    <div class='now_Page'>1</div>
+                    <div class='previous' id='previous'>上一頁</div>
+                    <div class='next' id='next'>下一頁</div>
+                </div>
+
             </div>
 
             <div class='class_box_title'>
@@ -56,17 +69,18 @@
             </div>
 
             <div class='class_box_item'>
-                <div class='class'>
+                <!-- 範例 -->
+                <!-- <a class='class' href='./detail.html'>
                     <div class='class_item class_num'>1.</div>
                     <div class='class_name class_item'>台大簡報課</div>
                     <div class='class_item'>所有</div>
                     <div class='class_item'>葉丁城</div>
                     <div class='class_item'>台大</div>
                     <div class='class_item class_mark'>4.9</div>
-                </div> 
+                </a> -->
             </div>
 
         </div>
         
-    <script src="../js/learn.js"></script>
+    <script src="./js/learn.js"></script>
 </html>

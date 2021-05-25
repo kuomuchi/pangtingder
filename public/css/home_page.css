@@ -24,13 +24,20 @@ a{
 }
 
 
-.top_login, .top_about_us{
+.top_login, .top_about_us, .top_login_icon{
     color: black;
     background-color: #ccc;
     line-height: 80px;
     width: 150px;
     font-size: 20px;
     font-weight: bold;
+}
+
+.top_login_icon{
+    margin-top: 5px;
+    margin-right: 20px;
+    width: 70px;
+    height: 70px;
 }
 
 .top_box_right{

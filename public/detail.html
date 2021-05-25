@@ -1,18 +1,19 @@
 <html>
-    <link href="../css/detail.css" rel="stylesheet">
+    <link href="./css/detail.css" rel="stylesheet">
     <title>PangTingDer</title>
     <body>
         <!-- 上面的部分 -->
         <div class='top_box'>
-            <a href="#">
-                <img src="../images/logo.png" class='logo'>
+            <a href="/">
+                <img src="./images/logo.png" class='logo'>
             </a>
             <div class='top_box_right'>
-                <a href="#">
+                <a href="./#sup_box">
                     <div class='top_about_us'>About us</div>
                 </a>
-                <a href="#">
+                <a href="./login.html">
                     <div class='top_login'>登入/註冊</div>
+                    <img src="./images/userIcon.png" class='top_login_icon'>
                 </a>
             </div>
         </div>
@@ -24,33 +25,35 @@
 
         <div class='class_detail_box'>
             <div class='class_data'>
-                <img src="../images/noImage.png" class='class_image'>
+                <img src="./images/noImage.png" class='class_image'>
                 <div class='class_detail_text'>
-                    <div class="detail_name">疾病概論：未解決的問題</div>
-                    <div class='detail_departnemt'>For 臨醫所</div>
-                    <div class='detail_teacher'>教授: 黃凱文</div>
+                    <div class="detail_name">loading...</div>
+                    <div class='detail_departnemt'>loading...</div>
+                    <div class='detail_teacher'>loading.....</div>
                     <div class='detail_mark'>
-                        <img src="../images/star1.png" class='star star1' id='star1'>
-                        <img src="../images/star1.png" class='star star2' id='star2'>
-                        <img src="../images/star1.png" class='star star3' id='star3'>
-                        <img src="../images/star1.png" class='star star4' id='star4'>
-                        <img src="../images/star1.png" class='star star5' id='star5'>
+                        <img src="./images/star1.png" class='star star1' id='star1'>
+                        <img src="./images/star1.png" class='star star2' id='star2'>
+                        <img src="./images/star1.png" class='star star3' id='star3'>
+                        <img src="./images/star1.png" class='star star4' id='star4'>
+                        <img src="./images/star1.png" class='star star5' id='star5'>
                     </div>
+                    <div class='collect_button'>收藏</div>
                 </div>
+                
+                
             </div>
+            
+            <div class='detail_source'>課程來源: 台大</div>
 
-            <div class='detail_source'>
-                課程來源: 台大
-            </div>
         </div>
 
         <!-- 課程說明 -->
         <div class='class_detail_msg_box'>
             <div class='detail_msg_title'>課程資訊:
-                <div class='detail_data_text'>本課程中文授課,使用英文教科書。醫學校區研究所共同課程。課程目的讓學生了解世界上疾病概況及尚待解決之問題，期盼參與疾病相關研究。與薛博仁、王一中、陳思原、王秀伯、蒲永孝、婁培人、黃立民、許文明、張毓廷、江鴻生、黃國皓、何明志、劉志銘、高嘉宏、周祖述、楊偉。</div>
+                <div class='detail_data_text'>loading..</div>
             </div>
             <div class='detail_web_title'>詳情: <br>
-                <a class='detail_web_url' href="https://nol2.aca.ntu.edu.tw/nol/coursesearch/print_table.php?course_id=421%20U0500&class=&dpt_code=4210&ser_no=76159&semester=109-2&lang=CH">https://nol2.aca.ntu.edu.tw/nol/coursesearch/print_table.php?course_id=421%20U0500&class=&dpt_code=4210&ser_no=76159&semester=109-2&lang=CH</a>
+                <a class='detail_web_url' href="">loading...</a>
             </div>
         </div>
 
@@ -101,8 +104,8 @@
                 <div class='add_message_text'>新增留言</div>
 
                 <div class='message_sending_box'>
-                    <img class='user_icon' src="../images/userIcon.png">
-                    <input type="text" class='keyword' id='keyword' placeholder="留言">
+                    <img class='user_icon' src="./images/userIcon.png">
+                    <input type="text" class='keyword' id='keyword' placeholder="留言" maxlength="100">
                 </div>
             </div>
 
@@ -115,9 +118,8 @@
             <div class="message_area">
                 
                 <div class='get_message'>
-
                     <div class='user_msg_area'>
-                        <img src="../images/userIcon.png" class='user_img_msg'>
+                        <img src="./images/userIcon.png" class='user_img_msg'>
                         <div class='user_name'>
                             <p>user1</p>
                             <div class='user_msg'> 上課真的很棒誒！</div>
@@ -126,13 +128,28 @@
                 </div>
 
                 <div class='get_message'>
-
                     <div class='user_msg_area'>
-                        <img src="../images/userIcon.png" class='user_img_msg'>
+
+                        <img src="./images/userIcon.png" class='user_img_msg'>
+
                         <div class='user_name'>
                             <p>user2</p>
                             <div class='user_msg'> 淡江、輔大，真的也很棒！</div>
                         </div>
+
+                    </div>
+                </div>
+
+
+                <div class='self_message'>
+                    <div class='user_msg_area'>
+
+                        <div class='user_name'>
+                            <div class='user_msg'> 這是我自己:D</div>
+                        </div>
+                        
+                        <img src="./images/userIcon.png" class='user_img_msg'>
+                        
                     </div>
                 </div>
 
@@ -142,6 +159,5 @@
         </div>
 
     </body>
-        
-    <script src="../js/detail.js"></script>
+    <script src="./js/detail.js"></script>
 </html>

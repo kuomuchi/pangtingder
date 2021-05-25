@@ -102,7 +102,7 @@ async function main () {
         } else {
           console.log(dataArray)
 
-          //   將資料加入:D
+          //   將資料加入
           const sql = 'INSERT INTO professor (source, professor, mark) VALUES ?'
           query(sql, [sendData], (err, result) => {
             if (err) throw err

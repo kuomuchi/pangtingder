@@ -1,5 +1,6 @@
 const fetch = require('node-fetch')
 const cheerio = require('cheerio')
+const { query } = require('../../models/mysql_model.js')
 
 const main = async (url) => {
   try {
@@ -55,6 +56,32 @@ const main = async (url) => {
   }
 }
 
+const upDataContent =  async (req, res) => {
+  console.log('in')
+  let result = await query('SELECT number, web_url FROM pangtingder.class')
+  result = await JSON.parse(JSON.stringify(result))
+
+  console.log('進入！')
+
+  const maxNum = result.length
+
+  for(let i=0; i < maxNum; i++){
+    console.log(i)
+    console.log('\n')
+    const class_text =  await main(result[i].web_url)
+    // console.log(class_text)
+    const post = []
+    post[0] = class_text
+    post[1] = i + 1
+    const sql = 'UPDATE pangtingder.class SET class_content = ? WHERE id = ?'
+    await query(sql, post)
+  }
+  res.send('finish')
+  console.log('end')
+  return 0
+}
+
+
 module.exports = {
-  main
+  upDataContent
 }
