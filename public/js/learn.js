@@ -24,7 +24,7 @@ let getMaxPage = 9990
 // 第一頁
 getNextPage(nowpage)
 
-
+// 爆搜
 document.getElementsByClassName('select_button')[0].addEventListener('click', () => {
 
     const haveClass = document.getElementsByClassName('class').length
@@ -41,28 +41,22 @@ document.getElementsByClassName('select_button')[0].addEventListener('click', ()
 })
 
 
-const word = ['長大是一瞬間的', '發大財很棒', '活到老、學到老','冰鳥還敢下來啊！']
-const oldElement = document.querySelector('#inspirational_quotes_box > h1')
+const word = ['長大是一瞬間的', '發大財很棒', '活到老、學到老','冰鳥還敢下來啊！', '寧願辛苦一陣子，不要辛苦一輩子', '人生最大的敵人是自己怯懦', '健康的身體是實現目標的基石', '沒有退路時，潛能就發揮出來了', '你不一定要很厲害，才能開始；但你要開始，才能很厲害', '永不言敗，是成功者的最佳品格', '要成功，先發瘋，頭腦簡單向前衝', '擁有夢想只是一種智力，實現夢想才是一種能力']
 
 
 //背景文字切換
 setInterval(()=>{
+    const wordElement = document.getElementsByClassName('iq_text')[0]
+    wordElement.classList.remove('iq_text_delete')
+    randomNum = Math.floor(Math.random()* word.length)
+
+    wordElement.textContent = word[randomNum]
+
+    setTimeout(() =>{
+        wordElement.classList.add('iq_text_delete')
+    }, 4000)
     
-    oldElement.style.opacity = 0.1;
-    oldElement.remove()
-    
-    const outElement = document.getElementById('inspirational_quotes_box')
-    const newChlid = document.createElement('h1')
-    const randomnum = Math.floor(Math.random() * 5)
-    newChlid.textContent = word[randomnum]
-    setTimeout(() => {
-        newChlid.style.opacity = 0.1;
-    }, 9000)
-    setTimeout( ()=>{
-        newChlid.remove()
-    }, 9900)
-    outElement.appendChild(newChlid)
-},10000)
+},5000)
 
 
 // 上一頁

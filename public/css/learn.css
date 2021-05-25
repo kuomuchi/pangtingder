@@ -310,8 +310,13 @@ input{
     border-radius: 8px;
 }
 
-.inspirational_quotes_box >  h1{
+.iq_text{
+    transition: 0.7s;
     animation: world 2s 1;
+}
+
+.iq_text_delete{
+    opacity: 0;
 }
 
 @keyframes world{
