@@ -12,12 +12,6 @@ const selectClass = async (req, res) => {
         keyword
     } = req.body
 
-    if(popular == '無'){
-        popular = '*'
-    }else if(popular == '評分'){
-        popular = 'mark'
-    }
-
     if(!keyword.trim()){
         keyword = '%'
     }else{
@@ -25,17 +19,23 @@ const selectClass = async (req, res) => {
     }
 
     const page = req.params.page;
-    const selectArray = [source, keyword, keyword, popular,page*10]
+    const selectArray = [source, keyword, keyword, keyword, page*10]
     
-    const allPage = await query("SELECT COUNT(*) as maxpage FROM pangtingder.class WHERE source = ? AND (class_name LIKE ? OR number LIKE ?) ORDER BY ? DESC", selectArray)
+    const allPage = await query("SELECT COUNT(*) as maxpage FROM pangtingder.class WHERE source = ? AND (class_name LIKE ? OR number LIKE ? OR professor LIKE ?)", selectArray)
 
-    let sql = "SELECT * FROM pangtingder.class WHERE source = ? AND (class_name LIKE ? OR number LIKE ?) ORDER BY ? DESC LIMIT ?, 10"
+    let sql = "SELECT * FROM pangtingder.class WHERE source = ? AND (class_name LIKE ? OR number LIKE ? OR professor LIKE ?) LIMIT ?, 10"
+
+    if(popular == '評分'){
+        sql = "SELECT * FROM pangtingder.class WHERE source = ? AND (class_name LIKE ? OR number LIKE ? OR professor LIKE ?) ORDER BY mark DESC LIMIT ?, 10"
+    }
+    
 
     
 
     if(!isNaN(page)){
         getData = await query(sql, selectArray)
         getData.push(JSON.parse(JSON.stringify(allPage[0])))
+        
         res.send(getData)
 
     }else{
@@ -51,44 +51,67 @@ const getClassDetail = async (req, res) => {
     const number = req.params.number;
     let userId = userInfo.id
 
-    console.log(userInfo)
-
     // 拿取課程detail資料
     let sql = 'SELECT * FROM class WHERE number = ?'
     let getData = await query(sql, number)
     getData = JSON.parse(JSON.stringify(getData))
     
-    sql = 'SELECT id, user_name, class_msg FROM detail_msg WHERE class_number = ?'
+    sql = 'SELECT user_id, user_name, class_msg FROM detail_msg WHERE class_number = ?'
     let detail_msg = await query(sql, number)
 
-    // console.log(userInfo)
-    // console.log(getData)
-
-    //確認玩家是否有將其加入收藏
-    if(userInfo !== 0){
-        const packge = []
-        packge.push(userInfo.email)
-        packge.push(getData[0].number)
-        sql = 'SELECT * FROM collect WHERE email = ? AND class_number = ?'
-        const isCollect =  await query(sql, packge)
-
-        if(isCollect.length){
-            getData.push('1')
-        }else{
-            getData.push('0')
-        }
-
-    }else{
-        getData.push('2')
+    const userStatus = {
+        collect: '',
+        rating: '',
+        userId: '',
     }
-
 
     if(!userId){
         userId = 0
     }
 
+    userStatus.userId = userId
+
+    //確認玩家是否有將其加入收藏
+    if(userInfo !== 0){
+        const packge = []
+        packge.push(userInfo.id)
+        packge.push(getData[0].number)
+        sql = 'SELECT * FROM collect WHERE user_id = ? AND class_number = ?'
+        const isCollect =  await query(sql, packge)
+
+        sql = 'SELECT mark FROM user_rating WHERE user_id = ? AND class_number = ?'
+
+        let isUserRating =  await query(sql, packge)
+        isUserRating = JSON.parse(JSON.stringify(isUserRating))
+
+        if(isCollect.length){
+            // 已經加入收藏
+            userStatus.collect = 1
+        }else{
+            // 沒有加入收藏
+            userStatus.collect = 0
+        }
+
+        if(isUserRating.length){
+            //如果有收藏
+            userStatus.rating = isUserRating[0].mark
+
+        }else{
+            //沒有評分
+            userStatus.rating = 0
+        }
+
+        console.log(userInfo.name+ '進入' + number + ' 課程。\n收藏狀態: ' + userStatus.collect + '\n評分: ' + userStatus.rating + '\n\n')
+
+    }else{
+        // 如果用戶沒有登入
+        userStatus.collect = -1
+        userStatus.rating = -1
+    }
+
+    getData.push(userStatus)
+
     getData.push(detail_msg)
-    getData.push(userId)
 
     res.send(getData)
 
@@ -97,14 +120,14 @@ const getClassDetail = async (req, res) => {
 
 const addCollect = async (req, res) => {
 
-    const token = req.body.token
     const number = req.body.number
+    const userInfo = req.userData
 
-    const getuser = await decod_JWT(token)
-    console.log(getuser.email)
+    console.log('用戶: ' + userInfo.name +' 將 ' + number + '加入了收藏')
 
-    const sendData = [getuser.email, number]
-    let sql = "INSERT INTO collect (`email`, `class_number`) VALUES (?, ?)"
+
+    const sendData = [userInfo.id, number]
+    let sql = "INSERT INTO collect (`user_id`, `class_number`) VALUES (?, ?)"
 
     try {
         await query(sql, sendData)
@@ -112,8 +135,69 @@ const addCollect = async (req, res) => {
         console.log(error)
     }
 
+    res.send({data: 'success'})
+    
+}
+
+const addRating = async (req, res) => {
+    try {
+        const userInfo = req.userData
+        const number = req.body.number
+        const mark = req.body.mark
+        const trueMark = +mark
+        let package = [userInfo.id, number]
+
+        
+
+        // 檢查
+        let sql = 'SELECT mark FROM user_rating WHERE user_id = ? AND class_number = ?'
+        let isRating = await query(sql, package)
+        isRating = JSON.parse(JSON.stringify(isRating))
+
+        if(isRating.length){
+            // 更新
+            if(isRating.mark !== trueMark){
+                const updata = [trueMark, userInfo.id, number]
+                sql = "UPDATE user_rating SET mark = ? WHERE user_id = ? AND class_number = ?"
+                await query(sql, updata)
+            }
+
+        }else{
+            // 新增
+            package.push(trueMark)
+            sql = "INSERT INTO user_rating (user_id, class_number, mark) VALUES (?, ?, ?)"
+            await query(sql, package)
+        }
+        
+    } catch (error) {
+        console.log(error)
+        res.send('false')
+        return
+    }
+
+    res.send('success')
+    
+}
+
+
+const deleteCollect = async (req, res) => {
+    const collect = req.body.collect
+    const userInfo = req.userData
     
     
+
+    const package = [userInfo.id, collect]
+
+    let sql = "DELETE FROM collect WHERE user_id = ? AND class_number in (?)"
+
+    try {
+        await query(sql, package)
+    } catch (error) {
+        console.log(error)
+    }
+
+    console.dir(userInfo.name + '將' + collect + '從收藏中移除了')
+
     res.send({data: 'success'})
     
 }
@@ -122,5 +206,7 @@ const addCollect = async (req, res) => {
 module.exports = {
     selectClass,
     getClassDetail,
-    addCollect
+    addCollect,
+    deleteCollect,
+    addRating
 }

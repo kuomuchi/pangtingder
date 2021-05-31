@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {wrapAsync} = require('../../util/util.js')
+const {wrapAsync, userStatus} = require('../../util/util.js')
 
 const {
     profile,
@@ -9,6 +9,6 @@ const {
 
 router.route('/profile').post(wrapAsync(profile))
 
-router.route('/profile').get(wrapAsync(getProData))
+router.route('/profile').get(userStatus(), wrapAsync(getProData))
 
 module.exports = router

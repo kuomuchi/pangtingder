@@ -7,14 +7,13 @@ const {
 const { query } = require('../models/mysql_model')
 
 const profile = async (req, res) => {
-    console.log(req.body)
 
     const password = req.body.password
     const email = req.body.email
     const getSafe = await addpass(password) //密碼加密
 
 
-    let sql = 'SELECT id, password, user_name FROM account WHERE email = ?'
+    let sql = 'SELECT id, user_name, password, root, status FROM account WHERE email = ?'
     const getEmail = await query(sql, email)
     const haveEmail = JSON.parse(JSON.stringify(getEmail))[0]
 
@@ -27,7 +26,9 @@ const profile = async (req, res) => {
     const userJwt = {
         name: '',
         email: '',
-        id: ''
+        id: '',
+        root: '',
+        status: ''
     }
 
     // 註冊
@@ -43,13 +44,15 @@ const profile = async (req, res) => {
             sql = "INSERT INTO pangtingder.account (`user_name`, `email`, `password`, `root`, `status`) VALUES (?, ?, ?, 'user', 'normal')"
             await query(sql, createNewUser)
 
-            sql = 'SELECT id FROM pangtingder.account WHERE email = ?'
+            sql = 'SELECT id, root, status FROM pangtingder.account WHERE email = ?'
             const userId = (sql, email)
-            console.log(userId)
+            const userData = JSON.parse(JSON.stringify(userId))
 
             userJwt.name = req.body.name
             userJwt.email = email
-            userJwt.id = userId
+            userJwt.id = userData.id
+            userJwt.root = userData.root
+            userJwt.status = userData.status
             const jwt =  await create_JWT_token(userJwt)
             res.send({msg:'success', token: jwt})
         }
@@ -61,6 +64,9 @@ const profile = async (req, res) => {
                 userJwt.name = haveEmail.user_name
                 userJwt.email = email
                 userJwt.id = haveEmail.id
+                userJwt.root = haveEmail.root
+                userJwt.status = haveEmail.status
+
                 const jwt =  await create_JWT_token(userJwt)
                 res.send({msg:'success', token: jwt})
             }else{
@@ -77,13 +83,11 @@ const profile = async (req, res) => {
 }
 
 async function getProData(req, res){ // getProData
-    let getToken = req.headers.authorization
-    account_token = getToken.split('Bearer ')[1]
-    let resend = ''
 
+    let resend = req.userData
 
-    const resendData = await decod_JWT(account_token) //解碼Token 並且回傳
-    resend = resendData
+    console.log(resend)
+
 
     // 如果沒有東西，就直接消失！
     if(!resend){
@@ -93,25 +97,25 @@ async function getProData(req, res){ // getProData
         return
     }
 
-
-    let userCollect = await query(`SELECT class_number FROM pangtingder.collect where email = '${resend.email}'`)
+    let userCollect = await query(`SELECT class_number FROM pangtingder.collect where user_id = '${resend.id}'`)
     userCollect = JSON.parse(JSON.stringify(userCollect))
-    // console.log(userCollect)
 
     const allCollectNumber = []
+    let userCollectClass
 
-    for(let i=0; i<userCollect.length; i++){
-        allCollectNumber.push(userCollect[i].class_number)
-    }
-
+    // 如果有收藏，將收藏整理起來，傳送到前端。
+    if(userCollect.length){
+        for(let i=0; i<userCollect.length; i++){
+            allCollectNumber.push(userCollect[i].class_number)
+        }
     
+        sql = 'SELECT * FROM pangtingder.class WHERE number in (?)'
+    
+        userCollectClass = await query(sql, [allCollectNumber])
+    
+        userCollectClass = JSON.parse(JSON.stringify(userCollectClass))
 
-    sql = 'SELECT * FROM pangtingder.class WHERE number in (?)'
-
-    let userCollectClass = await query(sql, [allCollectNumber])
-
-    userCollectClass = JSON.parse(JSON.stringify(userCollectClass))
-
+    }
 
     res.send({data:[resend, userCollectClass]})
 }

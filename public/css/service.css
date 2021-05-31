@@ -1,0 +1,160 @@
+*{
+    margin: 0;
+}
+
+a{
+    text-decoration:none;
+    color: black;
+}
+
+.logo, .top_login, .top_about_us{
+    height: 100%;
+    text-align:center;
+    transition: 0.7s;
+}
+
+
+.top_box{
+    display: flex;
+    background-color: #ccc;
+    height: 80px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+
+.top_login, .top_about_us, .top_login_icon{
+    color: black;
+    background-color: #ccc;
+    line-height: 80px;
+    width: 150px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.top_login_icon{
+    margin-top: 5px;
+    margin-right: 20px;
+    width: 70px;
+    height: 70px;
+}
+
+.top_box_right{
+    display: flex;
+}
+
+.top_login:hover,  .logo:hover, .top_about_us:hover{
+    background-color: #aaa;
+}
+
+
+.main_box{
+    height: 100% - 80px;
+    width: 100%;
+    
+}
+
+.service_box_fix{
+    display: flex;
+    justify-content: center;
+}
+
+.service_box{
+    margin-top: 20px;
+    border: 3px solid black;
+    width: 650px;
+    height: 500px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+}
+
+.msg_box{
+    width: 100%;
+    height: 420px;
+    background-color: white;
+    overflow: scroll;
+    padding-bottom: 10px;
+}
+
+.typing_box{
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+    height: 80px;
+    background-color: pink;
+
+    border-top: 3px solid black;
+}
+
+.input{
+    margin-top: 20px;
+    height: 40px;
+    width: 500px;
+    font-size: 15px;
+    border: 0;
+}
+
+.service_title{
+    text-align: center;
+    margin-top: 10px;
+}
+
+.send_buttom{
+    cursor: pointer;
+    margin-top: 25px;
+    margin-left: 10px;
+    text-align: center;
+    line-height: 30px;
+    background-color: #bbb;
+    height: 30px;
+    width: 80px;
+}
+
+.send_buttom:hover{
+    background-color: #aaa;
+}
+
+.get_message{
+    display: flex;
+    margin-top: 15px;
+    margin-left: 20px;
+}
+
+.self_message{
+    display: flex;
+    flex-direction: row-reverse;
+    margin-top: 15px;
+    margin-right: 20px;
+}
+
+.user_img_msg{
+    width: 50px;
+    height: 50px;
+}
+
+.user_name{
+    margin-left: 5px;
+    font-size: 15px;
+}
+
+.user_msg{
+    margin-top: 10px;
+    background-color: rgb(209, 209, 255);
+
+    padding-left: 20px;
+    padding-right: 20px;
+
+    border-radius: 10px;
+    line-height: 50px;
+    margin-right: 30px; 
+}
+
+.self_message > .user_msg{
+    background-color: greenyellow;
+    margin-right: 10px;
+    margin-left: 30px;
+}

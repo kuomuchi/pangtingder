@@ -6,7 +6,9 @@ const {
 
 const {selectClass,
     getClassDetail,
-    addCollect
+    addCollect,
+    deleteCollect,
+    addRating
 } = require('../controls/getClass_control')
 
 
@@ -14,6 +16,10 @@ router.route('/learnpage/:page').post(wrapAsync(selectClass))
 
 router.route('/detail/:number').get(userStatus(), wrapAsync(getClassDetail))
 
-router.route('/collect').post(wrapAsync(addCollect))
+router.route('/collect').post(userStatus(), wrapAsync(addCollect))
+
+router.route('/collect').delete(userStatus(), wrapAsync(deleteCollect))
+
+router.route('/rating').post(userStatus(), wrapAsync(addRating))
 
 module.exports = router

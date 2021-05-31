@@ -1,3 +1,5 @@
+let clickStar = -1
+
 // 查看是否有登入
 const account_token = window.localStorage.getItem('account_token')
 if(!window.localStorage.getItem('account_token')){
@@ -110,6 +112,7 @@ document.getElementById('keyword').addEventListener('focus', () => {
 // 獲得頁面資訊
 const xhr = new XMLHttpRequest()
 const userName = []
+let originRating = -1
 
 xhr.open('GET', `/detail/${queryParamsString}`, true)
 xhr.setRequestHeader("authorization", 'Bearer ' + account_token);
@@ -122,16 +125,31 @@ xhr.onreadystatechange = function () {
         const msgData = JSON.parse(data)[2]
 
         userName.push(objData.number)
-        console.log(allData)
+        
 
-        if(allData[1] === '1'){
+        if(allData[1].collect === 1){
+            // 如果有收藏課程
             document.getElementsByClassName('collect_button')[0].style.display = 'none'
             document.getElementsByClassName('detail_mark')[0].style.display = 'flex'
-        }else if(allData[1] === '2'){
+        }else if(allData[1].collect === -1){
+            // 如果沒有登入
             document.getElementsByClassName('collect_button')[0].style.display = 'none'
+        }else{
+            // 登入後，沒有該死的歐藏
+            document.getElementsByClassName('collect_button')[0].style.display = 'flex'
+            
+        }
+
+        if(allData[1].rating === -1){
+            // 沒有登入
             document.getElementsByClassName('detail_mark')[0].style.display = 'none'
         }else{
-            document.getElementsByClassName('collect_button')[0].style.display = 'flex'
+            // 沒有評分
+            originRating = +allData[1].rating
+
+            clickStar = originRating
+
+            changeStar(allData[1].rating)
             document.getElementsByClassName('detail_mark')[0].style.display = 'flex'
         }
         
@@ -162,14 +180,14 @@ xhr.onreadystatechange = function () {
         document.getElementsByClassName('detail_web_url')[0].href = objData.web_url
 
         // 準備要拿取處理留言區
-        console.log(msgData.length)
+
         for(let i = 0; i<msgData.length; i++){
             let outElement = document.getElementsByClassName('message_area')[0]
             let addnewChild = document.createElement('div')
 
             // 新的class
             let msgStatus = 'get_message'
-            if(msgData[i].id === allData[3]){
+            if(msgData[i].user_id == allData[1].userId){
                 msgStatus = 'self_message'
             }
 
@@ -215,6 +233,7 @@ xhr.onreadystatechange = function () {
 
                 outElement = document.getElementsByClassName('user_name')[outLenght]
                 addnewChild = document.createElement('p')
+                console.log(msgData[i])
                 addnewChild.textContent = msgData[i].user_name
                 outElement.appendChild(addnewChild)
 
@@ -263,6 +282,7 @@ document.getElementsByClassName('collect_button')[0].addEventListener('click', (
     }
 
     addCollect.open('POST', '/collect', true)
+    addCollect.setRequestHeader("authorization", 'Bearer ' + account_token);
     addCollect.setRequestHeader("Content-Type", "application/json");
     
     addCollect.onreadystatechange = function () {
@@ -274,3 +294,51 @@ document.getElementsByClassName('collect_button')[0].addEventListener('click', (
 
     addCollect.send(JSON.stringify(sendData))
 })
+
+
+
+// 評分
+document.getElementsByClassName('detail_mark')[0].addEventListener('click', (event) => {
+    
+    clickStar = event.path[0].id
+    clickStar = clickStar.split('star')[1]
+    clickStar = 6 - +clickStar // 校正回歸
+
+    changeStar(clickStar)
+})
+
+function changeStar (num) {
+    for(let i=0; i < 5; i++){
+        if(i+1 <= num){
+            document.getElementById(`star${6 - (i+1)}`).src = '../images/star2.png'
+        }else{
+            document.getElementById(`star${6 - (i+1)}`).src = '../images/star1.png'
+        }
+    }
+}
+
+
+// 關閉網頁之後，才執行。
+window.onbeforeunload =  () => {
+    if(clickStar !== -1 && clickStar !== originRating){
+        const addrating = new XMLHttpRequest()
+
+        let sendData = {
+            number: userName[0],
+            mark: clickStar
+        }
+
+        addrating.open('POST', '/rating', true)
+        addrating.setRequestHeader("authorization", 'Bearer ' + account_token);
+        addrating.setRequestHeader("Content-Type", "application/json");
+        
+        // addrating.onreadystatechange = function () {
+        //     if (addrating.readyState === 4) {
+        //         const data = addrating.responseText
+        //     }
+        // }
+
+        addrating.send(JSON.stringify(sendData))
+    }
+
+}

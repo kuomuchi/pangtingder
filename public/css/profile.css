@@ -148,6 +148,16 @@ a{
     width: 10%
 }
 
+.class_remove{
+    flex-grow: 1;
+    width: 10%;
+    color: black;
+}
+
+.class_remove:hover{
+    color: red;
+}
+
 .class_box_item{
     display: flex;
     flex-direction: column;

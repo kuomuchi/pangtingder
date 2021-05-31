@@ -27,9 +27,30 @@ app.use('/', [
     require('./server/routes/getClassData_route.js'),
     require('./server/routes/ntu_updata_route.js'),
     require('./server/routes/profile_route.js'),
-    require('./server/routes/msg_route.js')
+    require('./server/routes/msg_route.js'),
+    require('./server/routes/admin_route.js'),
 ])
 
 io.on('connection', (socket) => {
     console.log('a user connected')
+
+    // 傳送用戶訊息
+    socket.on('sendMsg', (msg) => {
+      console.log(msg)
+      socket.broadcast.emit('sendMsg', msg)
+    })
 })
+
+// 自動:D
+// 自動修改評分
+const { upDataRating } = require('./server/models/rating_model')
+upDataRating()
+setInterval(() => {
+  upDataRating()
+}, 86400000);
+
+
+// 爬取unschool
+// const { main } = require('./server/crawlers/ntu_crawlers/urschool_comment')
+
+// main('https://urschool.org/ntu/list?page=1')

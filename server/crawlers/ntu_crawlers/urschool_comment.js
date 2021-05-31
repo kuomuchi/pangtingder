@@ -6,7 +6,7 @@ const dataArray = []
 const sendData = []
 let nowPage = 1
 
-async function main () {
+async function main (url) {
   try {
     let timeOut = 0
     setTimeout(() => {
@@ -21,10 +21,10 @@ async function main () {
     }, 15000)
 
     console.log('開始！' + '目前在:' + nowPage)
-    console.log('https://urschool.org/ntu/list?page=1')
+    console.log(url)
 
     console.log('loading')
-    const res = await fetch('https://urschool.org/ntu/list?page=1')
+    const res = await fetch(url)
     const html = await res.text()
     console.log('進入!')
     if (timeOut === 1) {
@@ -98,9 +98,11 @@ async function main () {
         nowPage++
         if (nowPage !== 154) {
           timeOut = 1
+          console.log(nowPage)
           main(`https://urschool.org/ntu/list?page=${nowPage}`)
         } else {
           console.log(dataArray)
+          console.dir(sendData, {'maxArrayLength': null})
 
           //   將資料加入
           const sql = 'INSERT INTO professor (source, professor, mark) VALUES ?'

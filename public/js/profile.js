@@ -1,6 +1,7 @@
 console.log('js')
 
 let account_token = ''
+let deleteCollectArray = []
 
 if(!window.localStorage.getItem('account_token')){
     window.location.href ="/login.html"
@@ -15,7 +16,6 @@ document.querySelector('.logout > p').addEventListener('click', (event) => {
     alert('登出成功')
     window.location.href = '/'
 })
-
 
 
 //切換推薦與收藏
@@ -62,6 +62,10 @@ xhr.onreadystatechange = function () {
             alert('請重新登入')
             window.location.href = '/login.html'
             return
+        }else if(getData.data[0].root === 'admin'){
+            document.querySelectorAll('.top_box_right > a')[1].href = '/admin_service.html'
+        }else{
+            document.querySelectorAll('.top_box_right > a')[1].href = '/service.html'
         }
 
 
@@ -70,10 +74,16 @@ xhr.onreadystatechange = function () {
         getData = getData.data[0]
         console.log(getData)
 
-        console.log(getUserCollect)
+        let isCollert = 0
+
+        if(getUserCollect){
+            isCollert = getUserCollect.length
+        }else{
+            isCollert = 0
+        }
 
 
-        for(let num=0; num < getUserCollect.length; num++){
+        for(let num=0; num < isCollert; num++){
             // 創造一個新的課程
             let outElemant = document.getElementsByClassName('class_box_item')[0]
             let addnewChild = document.createElement('a')
@@ -134,24 +144,31 @@ xhr.onreadystatechange = function () {
             }else{
                 addnewChild.textContent = '~'
             }
-            
+            outElemant.appendChild(addnewChild)
+
+            outElemant = document.getElementsByClassName('class')[num]
+            addnewChild = document.createElement('div')
+            addnewChild.classList.add('class_item')  
+            addnewChild.classList.add('class_remove')
+            addnewChild.textContent = '⊗'
+            addnewChild.style.fontSize = '30px'
+
+            // 刪除收藏
+            addnewChild.addEventListener('click', (event)=>{
+                event.preventDefault()
+                const deleteNumber = event.path[1].children[0].textContent
+                deleteCollectArray.push(deleteNumber)
+                event.path[1].remove()
+            })
+
             outElemant.appendChild(addnewChild)
 
 
         }
 
 
-
-
-
-
-
-
-
         
-        
-        
-
+        // 如果有登入，頭線的href 位置。
         if(getData.msg){
             window.localStorage.removeItem('account_token')
             window.location.href ="/login.html"
@@ -163,3 +180,22 @@ xhr.onreadystatechange = function () {
 }
 
 xhr.send()
+
+
+
+window.onbeforeunload =  () => {
+
+    if(deleteCollectArray.length){
+        const dCollectReuqest = new XMLHttpRequest()
+        dCollectReuqest.open('DELETE', '/collect', true)
+        dCollectReuqest.setRequestHeader("authorization", 'Bearer ' + account_token);
+        dCollectReuqest.setRequestHeader("Content-Type", "application/json");
+        const collect = {
+            collect: deleteCollectArray
+        }
+        dCollectReuqest.send(JSON.stringify(collect))
+    }
+
+    deleteCollectArray = []
+
+}

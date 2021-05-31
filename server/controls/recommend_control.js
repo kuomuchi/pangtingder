@@ -11,9 +11,9 @@ const translte = async (req, res) => {
     const max = sortData.length
     console.log(max)
 
-    let timesRun = 29;
-    let interval = setInterval(async function (){
+    let timesRun = 0;
 
+    async function main(){
         console.log('現在是:' + sortData[timesRun].id)
         // 如果還沒有被翻譯過，加入DB
         if(!sortData[timesRun].content_translte && sortData[timesRun].class_content){
@@ -24,27 +24,38 @@ const translte = async (req, res) => {
             // 如果翻譯爆掉
             if(resutl === 0 || resutl === undefined){
                 console.log('壞掉 ' + sortData[timesRun].id)
-                clearInterval(interval);
-                return res.send('google-Api爆氣')
+                console.log('google-Api爆氣')
+                setTimeout( ()=> {
+                    main()
+                }, 3600000)
             }else{
                 // 加入DB
                 let sql = "UPDATE pangtingder.class SET `content_translte` = ? WHERE (id = ?)"
                 const data = [resutl, sortData[timesRun].id]
                 await query(sql, data)
                 console.log(resutl)
+                // 等待8秒之後，在call這個function一次
+                timesRun++
+                setTimeout( ()=> {
+                    main()
+                }, 8000)
             }
             
+        }else{
+            console.log('這裡不需要翻譯')
+            timesRun++
+            setTimeout( () => {
+                main()
+            }, 100)
         }
-
-        timesRun++
-        console.log(timesRun)
         
         if(timesRun === max){
-            clearInterval(interval);
             return res.send('finish')
         }
 
-    }, 10000);
+    }
+
+    main()
 
 }
 

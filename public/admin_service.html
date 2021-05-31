@@ -1,0 +1,70 @@
+<html>
+    <link href="./css/admin_service.css" rel="stylesheet">
+    <title>PangTingDer</title>
+    <body>
+        <!-- 上面的部分 -->
+        <div class='top_box'>
+            <a href="/">
+                <img src="./images/logo.png" class='logo'>
+            </a>
+            <div class='top_box_right'>
+                <a href="./#sup_box">
+                    <div class='top_about_us'>About us</div>
+                </a>
+                <a href="./profile.html">
+                    <img src="./images/userIcon.png" class='top_login_icon'>
+                </a>
+            </div>
+        </div>
+
+        <div class='main_box'>
+            <div class='service_title'>
+                <h1>adminの地方</h1>
+            </div>
+
+            <div class='service_box_fix'>
+                <div class='user_list_box'>
+
+                    <!-- 範例 -->
+                    <!-- <div class='user_item' tabindex="1">
+                        <img src="./images/userIcon.png" class='user_img_msg'>
+                        <div class='item_text'>
+                            <p class='user'>user name</p>
+                            <p class='history_msg'>msg</p>
+                        </div>
+                    </div> -->
+                    
+                    
+                </div>
+
+                <div class='service_box'>
+                    <div class='msg_box'>
+
+                        <div class='get_message'>
+                            <img src="./images/userIcon.png" class='user_img_msg'>
+                            <div class='user_name'>
+                                <p>user</p>
+                                <div class='user_msg'> 別人的訊息</div>
+                            </div>
+                        </div>
+
+                        <div class='self_message'>
+                            <div class='user_msg'> 自己的訊息 </div>
+                        </div>
+                        
+
+                    </div>
+
+                    <div class='typing_box'>
+                        <input type='text' class='input' placeholder="輸入">
+                        <div class='send_buttom'>傳送</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/admin_service.js"></script>
+</html>
