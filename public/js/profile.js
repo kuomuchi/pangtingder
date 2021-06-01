@@ -11,7 +11,7 @@ if(!window.localStorage.getItem('account_token')){
 
 
 // 登出按鈕被按下
-document.querySelector('.logout > p').addEventListener('click', (event) => {
+document.querySelector('.logout_button').addEventListener('click', (event) => {
     window.localStorage.removeItem('account_token')
     alert('登出成功')
     window.location.href = '/'
@@ -26,8 +26,8 @@ const collectBox = document.getElementsByClassName('collect_box')[0]
 const recommendBox = document.getElementsByClassName('recommend_box')[0]
 
 collect.addEventListener('click', () =>{
-    collect.style.backgroundColor = '#ccc'
-    recommend.style.backgroundColor = '#aaa'
+    collect.style.backgroundColor = 'var(--color-1)'
+    recommend.style.backgroundColor = 'var(--color-1-hover)'
 
     collectBox.style.display = 'flex'
     recommendBox.style.display = 'none'
@@ -36,8 +36,8 @@ collect.addEventListener('click', () =>{
 
 
 recommend.addEventListener('click', () =>{
-    collect.style.backgroundColor = '#aaa';
-    recommend.style.backgroundColor = '#ccc';
+    collect.style.backgroundColor = 'var(--color-1-hover)'
+    recommend.style.backgroundColor = 'var(--color-1)'
 
     collectBox.style.display = 'none'
     recommendBox.style.display = 'flex'

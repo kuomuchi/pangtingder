@@ -1,5 +1,18 @@
+:root {
+    --color-1: #FFA908;
+    --color-1-hover: #ffa9089a;
+    
+    --color-2: #ffffff;
+    --color-2-hover: rgba(221, 221, 221, 0.933);
+
+    --color-3: #1e1e1c;
+    --color-4: #C86FC9;
+}
+
+
 *{
     margin: 0;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', Verdana, sans-serif;
 }
 
 a{
@@ -15,18 +28,22 @@ a{
 
 
 .top_box{
+    z-index: 2;
+    position: fixed;
     display: flex;
-    background-color: #ccc;
-    height: 80px;
+    background-color: var(--color-2);
+    height: 60px;
     width: 100%;
     justify-content: space-between;
+
+    box-shadow: 0 1px 3px rgb(18 18 18 / 10%);
 }
 
 
 .top_login, .top_about_us, .top_login_icon{
-    color: black;
-    background-color: #ccc;
-    line-height: 80px;
+    color: var(--color-3);
+    background-color: var(--color-2);
+    line-height: 60px;
     width: 150px;
     font-size: 20px;
     font-weight: bold;
@@ -35,8 +52,9 @@ a{
 .top_login_icon{
     margin-top: 5px;
     margin-right: 20px;
-    width: 70px;
-    height: 70px;
+    padding-left: 20px;
+    width: 50px;
+    height: 50px;
 }
 
 .top_box_right{
@@ -44,14 +62,13 @@ a{
 }
 
 .top_login:hover,  .logo:hover, .top_about_us:hover{
-    background-color: #aaa;
+    background-color: var(--color-2-hover);
 }
 
-.block_box{
-    width: 100%;
-    height: 10px;
-    background-color: rgb(112, 112, 112);
-}
+/* 上半部分 top-box */
+
+
+
 
 /* 課程資訊 */
 
@@ -60,10 +77,49 @@ a{
     justify-content: space-between;
     flex-direction: row;
 
+    padding-top: 80px;
+
     width: 100%;
     height: 430px;
-    background-color: red;
+    background-color: var(--color-3);
+    color: var(--color-2);
 }
+
+.collect_button_color{
+    user-select: none;
+    position: absolute;
+    color: var(--color-3);
+
+    font-size: 10px;
+    margin-top: 35px;
+    margin-left: 65px;
+
+    transition: 0.7s;
+}
+
+.collect_button{
+    display: none;
+    font-size: 22px;
+    background-color: var(--color-1);
+    margin-top: 15px;
+    margin-left: 10px;
+    width: 105px;
+    height: 25px;
+    padding: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: 0.7s;
+}
+
+.collect_button:hover{
+    background-color: var(--color-1-hover);
+}
+
+.collect_button:hover > .collect_button_color{
+    color: var(--color-2);
+    margin-top: 15px;
+}
+
 
 .class_data{
     margin-top: 20px;
@@ -117,18 +173,6 @@ a{
     line-height: 700px;
 }
 
-.collect_button{
-    display: none;
-    font-size: 22px;
-    background-color: pink;
-    margin-top: 15px;
-    margin-left: 10px;
-    width: 105px;
-    height: 25px;
-    padding: 10px;
-    border-radius: 3px;
-    cursor: pointer;
-}
 
 
 .class_detail_msg_box{
@@ -157,88 +201,125 @@ a{
 }
 
 
+
+/* 推薦課程 */
+
 .clsee_detail_recommend{
-    background: pink;
+    background: var(--color-1);
     margin-top: 70px;
 }
 
 .clsee_detail_recommend_title{
+    background: var(--color-1);
+
+    text-align: center;
     font-size: 30px;
+
     position: absolute;
+
     margin-top: -40px;
     margin-left: 50px;
+
     width: 170px;
-    text-align: center;
-    background-color: pink;
+    
 }
 
 .recommend{
-    margin-top: 15px;
-    margin-left: 20px;
-    margin-right: 20px;
     display: flex;
-    flex-direction: column;
-    text-align: left;
-    background-color: pink;
-    padding-bottom: 75px;
+    flex-wrap: wrap;
+    justify-content:left;
+    min-height:200px;
+
+    margin-left: 50px;
+    margin-right: 50px;
+
+    padding-top: 20px;
+    padding-bottom: 70px;
 }
 
-
-.class_num{
-    margin-left: 10px;
+.recommend_loading{
+    position: absolute;
+    margin-top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 350px;
+    height: 350px;
 }
 
-.class_item{
-    flex-grow: 2;
-    width: 20%
+.recommend > .class{
+    border-radius: 8px;
+    transition: 0.7s;
+    height: 200px;
+    width: 400px;
 }
-
-.class_name{
-    flex-grow: 4;
-    width: 40%
-}
-
-.class_mark{
-    flex-grow: 1;
-    width: 10%
-}
-
 
 .class{
     margin-top: 20px;
     margin-left: 20px;
     margin-right: 20px;
 
-    height: 50px;
-
     background-color: white;
 
-    justify-content: space-between;
     display: flex;
     cursor: pointer;
+    /* justify-content: space-between; */
     text-align: left;
 }
 
-.recommend > .class{
-    line-height: 50px;
-    border-radius: 4px;
+
+.class:hover{
+    box-shadow: 0px 0px 1.5em black;
 }
 
+.class_image, .class_text{
+    margin-top: 25px;
+}
 
-.class_box_title{
-    margin-bottom: -30px;
-    margin-left: 40px;
-    margin-right: 40px;
+.class_text{
     display: flex;
-    justify-content: space-between;
-    text-align: left;
-    line-height: 50px;
+    flex-direction: column;
+    margin-left: 10px;
 }
+
+
+.class_text > .class_image{
+    width:180px;
+}
+
+.class_image > img {
+    margin-left: 15px;
+    width: 150px;
+}
+
+.class_name{
+    font-size: 25px;
+    /* flex-grow: 4; */
+    /* width: 100%; */
+}
+
+.class_num{
+    font-size: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.class_item{
+    /* flex-grow: 2; */
+    /* width: 20% */
+}
+
+.class_mark{
+    /* flex-grow: 1; */
+    /* width: 10% */
+}
+
+
+/* 留言區 */
 
 
 .message{
     width: 100%;
-    background-color: rgb(19, 218, 184);
+    background-color: var(--color-4);
     display: flex;
     flex-direction: column;
 }
@@ -251,7 +332,7 @@ a{
     margin-left: 50px;
     width: 170px;
     text-align: center;
-    background-color: rgb(19, 218, 184);
+    background-color: var(--color-4);
 }
 
 .add_message_text{
@@ -262,6 +343,7 @@ a{
 }
 
 .add_message_area{
+    width: 100%;
     height: 150px;
 }
 
@@ -286,13 +368,23 @@ a{
 }
 
 .message_line{
-    text-align: center;
+    text-align:center;
+
+    display: flex;
+    justify-content: center;
+
+}
+
+.line{
+    width: 1000px;
+    border: 1px solid black;
 }
 
 .message_area{
     display: flex;
     flex-direction: column-reverse;
     padding-bottom: 20px;
+    /* width: 1000px; */
 }
 
 .get_message{
@@ -362,4 +454,17 @@ a{
 
 .star1:hover, .star2:hover, .star3:hover, .star4:hover, .star5:hover{
     content: url('../images/star2.png');
+}
+
+
+/* 暫時用不到 */
+
+.class_box_title{
+    margin-bottom: -30px;
+    margin-left: 40px;
+    margin-right: 40px;
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    line-height: 50px;
 }

@@ -21,14 +21,9 @@ async function translateText(text){
 
 
 async function getRecommend (t1, t2) {
-  console.log('in')
 
-  let text1
-  let text2
-  
-
-  console.log(text1)
-  console.log(text2)
+  let text1 = t1
+  let text2 = t2
 
   let alltext = text1 + ' ' + text2
   alltext = alltext.split(' ')
@@ -91,8 +86,8 @@ async function getRecommend (t1, t2) {
     sum2 += d2[b] * a
   })
 
-  const ans = sum2 / sum
-  // console.log(ans)
+  let ans = sum2 / sum
+  ans = ans.toFixed(3)
   return ans
 }
 

@@ -123,6 +123,9 @@ xhr.onreadystatechange = function () {
         const allData = JSON.parse(data)
         const objData = JSON.parse(data)[0]
         const msgData = JSON.parse(data)[2]
+        const recommendData = JSON.parse(data)[3]
+
+        console.log(allData)
 
         userName.push(objData.number)
         
@@ -256,12 +259,117 @@ xhr.onreadystatechange = function () {
                 outElement.appendChild(addnewChild)
                 createImg()
             }
-            
-
-            
-
 
         }
+
+        //推薦課程 recommendData
+
+        if(recommendData.data === 'false'){
+            console.log('hio')
+            let outElemant = document.getElementsByClassName('recommend')[0]
+            let addnewChild = document.createElement('img')
+            addnewChild.classList.add('recommend_loading')
+            addnewChild.src = './images/recommend404.png'
+            outElemant.appendChild(addnewChild)
+
+        }else{
+            for(let num=0; num < recommendData.length; num++){
+                // 創造一個新的課程
+                let outElemant = document.getElementsByClassName('recommend')[0]
+                let addnewChild = document.createElement('a')
+                addnewChild.classList.add('class')
+                addnewChild.href = './detail.html?'+recommendData[num].number
+                addnewChild.target = "_blank"
+                outElemant.appendChild(addnewChild)
+
+
+                // 創建圖片的div
+                outElemant = document.getElementsByClassName('class')[num]
+                addnewChild = document.createElement('div')
+                addnewChild.classList.add('class_image') 
+                outElemant.appendChild(addnewChild)
+
+                // 創建圖片本人
+                outElemant = document.getElementsByClassName('class_image')[num+1] //這裡需要＋1 因為會選到標題的照片
+                console.log(outElemant)
+                addnewChild = document.createElement('img')
+                addnewChild.src = './images/noImage.png'
+                outElemant.appendChild(addnewChild)
+
+                // 包住課程資訊的 div
+                outElemant = document.getElementsByClassName('class')[num]
+                addnewChild = document.createElement('div')
+                addnewChild.classList.add('class_text') 
+                outElemant.appendChild(addnewChild)
+
+
+                //放入課程的內容-課程名稱
+                outElemant = document.getElementsByClassName('class_text')[num]
+                addnewChild = document.createElement('div')
+                addnewChild.classList.add('class_item') 
+                addnewChild.classList.add('class_name')
+                let text = recommendData[num].class_name
+                if(recommendData[num].class_name.length > 11){
+                    addnewChild.style.fontSize = '20px'
+                    text = text.substr(0, 10)
+                    text += '...'
+                }else if(recommendData[num].class_name.length > 8){
+                    addnewChild.style.fontSize = '20px'
+                }
+                addnewChild.textContent = text
+                outElemant.appendChild(addnewChild)
+
+
+                //放入課程的內容-課程代碼
+                outElemant = document.getElementsByClassName('class_text')[num]
+                addnewChild = document.createElement('div')
+                addnewChild.classList.add('class_item') 
+                addnewChild.classList.add('class_num')
+                addnewChild.textContent = recommendData[num].number
+                outElemant.appendChild(addnewChild)
+
+
+                //放入課程的內容-教授姓名
+                outElemant = document.getElementsByClassName('class_text')[num]
+                addnewChild = document.createElement('div')
+                addnewChild.classList.add('class_item') 
+                addnewChild.textContent = recommendData[num].professor
+                outElemant.appendChild(addnewChild)
+
+                //放入課程的內容-科系
+                outElemant = document.getElementsByClassName('class_text')[num]
+                addnewChild = document.createElement('div')
+                addnewChild.classList.add('class_item') 
+                if(recommendData[num].department.trim()){
+                    addnewChild.textContent = '對象: ' + recommendData[num].department
+                }else{
+                    addnewChild.textContent = '對象: 所有'
+                }
+                outElemant.appendChild(addnewChild)
+
+                //放入課程的內容-課程來源
+                outElemant = document.getElementsByClassName('class_text')[num]
+                addnewChild = document.createElement('div')
+                addnewChild.classList.add('class_item') 
+                addnewChild.textContent = '來源: ' + recommendData[num].source
+                outElemant.appendChild(addnewChild)
+
+                //放入課程的內容-課程分數
+                outElemant = document.getElementsByClassName('class_text')[num]
+                addnewChild = document.createElement('div')
+                addnewChild.classList.add('class_item')  
+                addnewChild.classList.add('class_mark')
+                if( recommendData[num].mark !== null){
+                    addnewChild.textContent = '評分: ' + recommendData[num].mark
+                }else{
+                    addnewChild.textContent = '評分: ~'
+                }
+                
+                outElemant.appendChild(addnewChild)
+
+            }
+        }
+
 
     }
 }

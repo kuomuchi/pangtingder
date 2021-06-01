@@ -1,5 +1,18 @@
+:root {
+    --color-1: #FFA908;
+    --color-1-hover: #ffa9089a;
+    
+    --color-2: #ffffff;
+    --color-2-hover: rgba(221, 221, 221, 0.933);
+
+    --color-3: #1e1e1c;
+    --color-4: #C86FC9;
+}
+
+
 *{
     margin: 0;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', Verdana, sans-serif;
 }
 
 a{
@@ -15,18 +28,22 @@ a{
 
 
 .top_box{
+    z-index: 2;
+    position: fixed;
     display: flex;
-    background-color: #ccc;
-    height: 80px;
+    background-color: var(--color-2);
+    height: 60px;
     width: 100%;
     justify-content: space-between;
+
+    box-shadow: 0 1px 3px rgb(18 18 18 / 10%);
 }
 
 
 .top_login, .top_about_us, .top_login_icon{
-    color: black;
-    background-color: #ccc;
-    line-height: 80px;
+    color: var(--color-3);
+    background-color: var(--color-2);
+    line-height: 60px;
     width: 150px;
     font-size: 20px;
     font-weight: bold;
@@ -35,8 +52,9 @@ a{
 .top_login_icon{
     margin-top: 5px;
     margin-right: 20px;
-    width: 70px;
-    height: 70px;
+    padding-left: 20px;
+    width: 50px;
+    height: 50px;
 }
 
 .top_box_right{
@@ -44,13 +62,15 @@ a{
 }
 
 .top_login:hover,  .logo:hover, .top_about_us:hover{
-    background-color: #aaa;
+    background-color: var(--color-2-hover);
 }
+
+/* 上半部分 top-box */
 
 
 .main_box{
-    height: 100% - 80px;
     width: 100%;
+    padding-top: 100px;
     
 }
 

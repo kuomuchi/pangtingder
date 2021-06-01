@@ -17,6 +17,7 @@ const nowSelect = {
     source: document.getElementById('source_select').value,
     keyword: document.getElementById('keyword').value
 }
+
 let nowpage = 0
 let getMaxPage = 9990
 
@@ -25,19 +26,18 @@ let getMaxPage = 9990
 getNextPage(nowpage)
 
 // 爆搜
-document.getElementsByClassName('select_button')[0].addEventListener('click', () => {
+document.getElementById('keyword').addEventListener('keyup', (event) => {
+    if(event.code === 'Enter'){
+        sendingData()
+    }
+})
 
-    const haveClass = document.getElementsByClassName('class').length
-    nowSelect.popular = document.getElementById('popular_select').value
-    nowSelect.source = document.getElementById('source_select').value
-    nowSelect.keyword = document.getElementById('keyword').value
-    // console.log(nowSelect)
-    nowpage = 0
-    removeAllClass()
-    getNextPage(nowpage)
+document.getElementById('popular_select').addEventListener('change', (event) => {
+    sendingData()
+})
 
-    alert('hi')
-    
+document.getElementById('source_select').addEventListener('change', (event) => {
+    sendingData()
 })
 
 
@@ -104,7 +104,6 @@ function removeAllClass(){
 
 
 function getNextPage(num){
-
     const xhr = new XMLHttpRequest()
 
     xhr.open('POST', `/learnpage/${num}`, true)
@@ -116,7 +115,8 @@ function getNextPage(num){
             const objData = JSON.parse(data)
             // console.log(objData)
 
-            getMaxPage = objData[10].maxpage
+            const num = objData.length - 1
+            getMaxPage = objData[num].maxpage
 
             for(let num=0; num < objData.length -1; num++){
                 // 創造一個新的課程
@@ -127,8 +127,45 @@ function getNextPage(num){
                 addnewChild.target = "_blank"
                 outElemant.appendChild(addnewChild)
 
-                //放入課程的內容-課程代碼
+
+                // 創建圖片的div
                 outElemant = document.getElementsByClassName('class')[num]
+                addnewChild = document.createElement('div')
+                addnewChild.classList.add('class_image') 
+                outElemant.appendChild(addnewChild)
+
+                // 創建圖片本人
+                outElemant = document.getElementsByClassName('class_image')[num]
+                addnewChild = document.createElement('img')
+                addnewChild.src = './images/noImage.png'
+                outElemant.appendChild(addnewChild)
+
+                // 包住課程資訊的 div
+                outElemant = document.getElementsByClassName('class')[num]
+                addnewChild = document.createElement('div')
+                addnewChild.classList.add('class_text') 
+                outElemant.appendChild(addnewChild)
+
+
+                //放入課程的內容-課程名稱
+                outElemant = document.getElementsByClassName('class_text')[num]
+                addnewChild = document.createElement('div')
+                addnewChild.classList.add('class_item') 
+                addnewChild.classList.add('class_name')
+                let text = objData[num].class_name
+                if(objData[num].class_name.length > 11){
+                    addnewChild.style.fontSize = '20px'
+                    text = text.substr(0, 10)
+                    text += '...'
+                }else if(objData[num].class_name.length > 8){
+                    addnewChild.style.fontSize = '20px'
+                }
+                addnewChild.textContent = text
+                outElemant.appendChild(addnewChild)
+
+
+                //放入課程的內容-課程代碼
+                outElemant = document.getElementsByClassName('class_text')[num]
                 addnewChild = document.createElement('div')
                 addnewChild.classList.add('class_item') 
                 addnewChild.classList.add('class_num')
@@ -136,48 +173,40 @@ function getNextPage(num){
                 outElemant.appendChild(addnewChild)
 
 
-                //放入課程的內容-課程名稱
-                outElemant = document.getElementsByClassName('class')[num]
-                addnewChild = document.createElement('div')
-                addnewChild.classList.add('class_item') 
-                addnewChild.classList.add('class_name')
-                addnewChild.textContent = objData[num].class_name
-                outElemant.appendChild(addnewChild)
-
-                //放入課程的內容-科系
-                outElemant = document.getElementsByClassName('class')[num]
-                addnewChild = document.createElement('div')
-                addnewChild.classList.add('class_item') 
-                if(objData[num].department.trim()){
-                    addnewChild.textContent = objData[num].department
-                }else{
-                    addnewChild.textContent = '所有'
-                }
-                outElemant.appendChild(addnewChild)
-
                 //放入課程的內容-教授姓名
-                outElemant = document.getElementsByClassName('class')[num]
+                outElemant = document.getElementsByClassName('class_text')[num]
                 addnewChild = document.createElement('div')
                 addnewChild.classList.add('class_item') 
                 addnewChild.textContent = objData[num].professor
                 outElemant.appendChild(addnewChild)
 
-                //放入課程的內容-課程來源
-                outElemant = document.getElementsByClassName('class')[num]
+                //放入課程的內容-科系
+                outElemant = document.getElementsByClassName('class_text')[num]
                 addnewChild = document.createElement('div')
                 addnewChild.classList.add('class_item') 
-                addnewChild.textContent = objData[num].source
+                if(objData[num].department.trim()){
+                    addnewChild.textContent = '對象: ' + objData[num].department
+                }else{
+                    addnewChild.textContent = '對象: 所有'
+                }
+                outElemant.appendChild(addnewChild)
+
+                //放入課程的內容-課程來源
+                outElemant = document.getElementsByClassName('class_text')[num]
+                addnewChild = document.createElement('div')
+                addnewChild.classList.add('class_item') 
+                addnewChild.textContent = '來源: ' + objData[num].source
                 outElemant.appendChild(addnewChild)
 
                 //放入課程的內容-課程分數
-                outElemant = document.getElementsByClassName('class')[num]
+                outElemant = document.getElementsByClassName('class_text')[num]
                 addnewChild = document.createElement('div')
                 addnewChild.classList.add('class_item')  
                 addnewChild.classList.add('class_mark')
                 if( objData[num].mark !== null){
-                    addnewChild.textContent = objData[num].mark
+                    addnewChild.textContent = '評分: ' + objData[num].mark
                 }else{
-                    addnewChild.textContent = '~'
+                    addnewChild.textContent = '評分: ~'
                 }
                 
                 outElemant.appendChild(addnewChild)
@@ -192,3 +221,17 @@ function getNextPage(num){
 
 }
 
+
+const sendingData = () => {
+    const haveClass = document.getElementsByClassName('class').length
+    nowSelect.popular = document.getElementById('popular_select').value
+    nowSelect.source = document.getElementById('source_select').value
+    nowSelect.keyword = document.getElementById('keyword').value
+    // console.log(nowSelect)
+    nowpage = 0
+    removeAllClass()
+    getNextPage(nowpage)
+    document.getElementsByClassName('now_Page')[0].textContent = '1'
+
+    alert('查詢')
+}

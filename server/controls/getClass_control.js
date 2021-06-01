@@ -109,9 +109,35 @@ const getClassDetail = async (req, res) => {
         userStatus.rating = -1
     }
 
-    getData.push(userStatus)
 
+    // // 該課程的推薦課程
+    let getRecommendNumber = await query("SELECT recommend FROM pangtingder.recommend WHERE number = ?", number)
+    getRecommendNumber = JSON.parse(JSON.stringify(getRecommendNumber))
+
+    // 如果有課程
+    if(getRecommendNumber.length){
+
+        // 拿取所有的課程編號
+        const recommendNumberArray = []
+        for(let i = 0; i<getRecommendNumber.length; i++){
+            recommendNumberArray.push(getRecommendNumber[i].recommend)
+        }
+
+        // 搜尋課程資料
+        let getRecommendClass = await query("SELECT * FROM pangtingder.class WHERE number in (?)", [recommendNumberArray])
+        getRecommendClass = JSON.parse(JSON.stringify(getRecommendClass))
+        getRecommendNumber = getRecommendClass
+
+    }else{
+        // 否則回傳false
+        getRecommendNumber = {
+            data: 'false'
+        }
+    }
+
+    getData.push(userStatus)
     getData.push(detail_msg)
+    getData.push(getRecommendNumber)
 
     res.send(getData)
 
