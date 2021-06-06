@@ -69,11 +69,16 @@ a{
 /* 上半部top-box */
 
 
+.main_box{
+    background-color: var(--color-2);
+}
+
 
 .home_page_image{
     width: 100%;
     -webkit-filter:blur(30px);
 }
+
 
 
 .main_text_box{
@@ -112,6 +117,9 @@ a{
     color: var(--color-3);
     background-color: var(--color-2);
 }
+
+
+/* 斗內的部分 */
 
 
 .sup_box{

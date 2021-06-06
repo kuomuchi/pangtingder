@@ -31,6 +31,10 @@ app.use('/', [
     require('./server/routes/admin_route.js'),
 ])
 
+app.use(function(req, res, next) {
+  res.status(404).sendFile(__dirname + '/public/404.html');
+});
+
 io.on('connection', (socket) => {
     console.log('a user connected')
 

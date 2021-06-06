@@ -1,0 +1,101 @@
+:root {
+    --color-1: #FFA908;
+    --color-1-hover: #ffa9089a;
+    
+    --color-2: #ffffff;
+    --color-2-hover: rgba(221, 221, 221, 0.933);
+
+    --color-3: #1e1e1c;
+    --color-4: #C86FC9;
+    --color-4-hover: #c696c7;
+}
+
+
+*{
+    margin: 0;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', Verdana, sans-serif;
+}
+
+a{
+    text-decoration:none;
+    color: black;
+}
+
+.logo, .top_login, .top_about_us, .top_edit{
+    height: 100%;
+    text-align:center;
+    transition: 0.7s;
+}
+
+
+.top_box{
+    z-index: 4;
+    position: fixed;
+    display: flex;
+    background-color: var(--color-2);
+    height: 60px;
+    width: 100%;
+    justify-content: space-between;
+
+    box-shadow: 0 1px 3px rgb(18 18 18 / 10%);
+}
+
+
+.top_login, .top_about_us, .top_login_icon, .top_edit{
+    color: var(--color-3);
+    background-color: var(--color-2);
+    line-height: 60px;
+    width: 150px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.top_login_icon{
+    margin-top: 5px;
+    margin-right: 20px;
+    padding-left: 20px;
+    width: 50px;
+    height: 50px;
+}
+
+.top_box_right{
+    display: flex;
+}
+
+.top_login:hover,  .logo:hover, .top_about_us:hover, .top_edit:hover{
+    background-color: var(--color-2-hover);
+}
+
+/* 上半部分 top-box */
+
+.main_box{
+    display: flex;
+    min-height: 800px;
+    background-color: var(--color-2);
+}
+
+.error_position{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.error_msg{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-top: 70px;
+}
+
+.err_text{
+    font-size: 30px;
+}
+
+.err_detail{
+    margin-top: 10px;
+}
+
+.error_img{
+    width: 500px;
+    height: 500px;
+}

@@ -34,7 +34,122 @@ const getAccountMsg = async (req, res) => {
 
 }
 
+
+const getAccountStatus = (req, res) => {
+    const userInfo = req.userData
+
+    const resend = {
+        data: false
+    }
+    
+    if(userInfo.root === 'admin'){
+        resend.data = true
+    }
+
+    res.send(resend)
+}
+
+
+const upDateClass = async (req, res) => {
+    const userInfo = req.userData
+    const classDate = req.body
+
+    const resend = {
+        data: false
+    }
+    
+    if(userInfo.root === 'admin'){
+
+        let upDateArray = []
+        upDateArray.push(classDate.class_name)
+        upDateArray.push(classDate.department)
+        upDateArray.push(classDate.professor)
+        upDateArray.push(classDate.source)
+        upDateArray.push(classDate.remarks)
+        upDateArray.push(classDate.web_url)
+        upDateArray.push(classDate.class_content)
+        upDateArray.push(classDate.number)
+
+        let sql = "UPDATE pangtingder.class SET class_name = ?,  department = ?, professor = ?, source = ?, remarks = ?, web_url = ?, class_content = ? WHERE number = ?"
+        await query(sql, upDateArray)
+        resend.data = true
+
+        console.log('成功更新課程')
+
+        res.send(resend)
+
+    }else{
+        res.send(resend)
+    }
+
+    
+}
+// 新增課程
+const createClass = async (req, res) => {
+    const userInfo = req.userData
+    const classDate = req.body
+
+    const resend = {
+        data: false
+    }
+    
+    if(userInfo.root === 'admin'){
+
+        const upDateArray = []
+        upDateArray.push(classDate.number)
+        upDateArray.push(classDate.class_name)
+        upDateArray.push(classDate.department)
+        upDateArray.push(classDate.professor)
+        upDateArray.push(classDate.source)
+        upDateArray.push(classDate.remarks)
+        upDateArray.push(classDate.web_url)
+        upDateArray.push(classDate.class_content)
+
+        
+
+        let sql = 'INSERT INTO class (number, class_name, department, professor, source, remarks, web_url, class_content) VALUES (?)';
+        await query(sql, [upDateArray])
+
+        resend.data = true
+        console.log('成功創建課程')
+        res.send(resend)
+    }else{
+        res.send(resend)
+    }
+
+}
+
+
+// 刪除課程
+
+const deleteClass = async (req, res) => {
+    const userInfo = req.userData
+    const classDate = req.body
+
+    const resend = {
+        data: false
+    }
+    
+    if(userInfo.root === 'admin'){
+
+        let sql = 'DELETE FROM pangtingder.class WHERE (number = ?)'
+        await query(sql, classDate.number)
+        console.log('刪除課程:' + classDate.number)
+        resend.data = true
+        res.send(resend)
+    }else{
+        res.send(resend)
+    }
+
+}
+
+
+
 module.exports = {
     routeUpDataRating,
-    getAccountMsg
+    getAccountMsg,
+    getAccountStatus,
+    upDateClass,
+    createClass,
+    deleteClass
 }

@@ -1,0 +1,111 @@
+<html>
+    <link href="./css/admin_edit_class.css" rel="stylesheet">
+    <title>PangTingDer</title>
+    <body>
+        <!-- 上面的部分 -->
+        <div class='top_box'>
+            <a href="/">
+                <img src="./images/logo.png" class='logo'>
+            </a>
+            <div class='top_box_right'>
+                <a href="./#sup_box">
+                    <div class='top_about_us'>About us</div>
+                </a>
+                <a href="./profile.html">
+                    <img src="./images/userIcon.png" class='top_login_icon'>
+                </a>
+            </div>
+        </div>
+
+        <div class='main_box'>
+
+            <!-- 顯示課程的部分 -->
+            <div class='class_box'>
+                <div class='select_box'>
+
+                    <div class='change_page'>
+                        <div class='previous' id='previous'>上一頁</div>
+                        <div class='next' id='next'>下一頁</div>
+                        <div class='now_Page'>1</div>
+                    </div>
+                    <div class=select_item>
+                        <input type="text" class='keyword' id='keyword' placeholder="輸入關鍵字查詢">
+                        <div class='edit_create'>新增課程</div>
+                    </div>
+
+                </div>
+
+                <div class='class_box_item'>
+                    <div class='selecter none'></div>
+                    <!-- 範例 -->
+                    <!-- <div class='class'>
+                        <div class='class_item class_num'>1.</div>
+                        <div class='class_item class_name'>台大簡報課</div>
+                        <div class='class_item'>葉丁城</div>
+                        <div class='class_item'>台大</div>
+                    </div> -->
+                </div>
+
+            </div>
+
+            <!-- 編輯的部分 -->
+
+            <div class='edit_box'>
+
+                <div class='edit_box_text edit_item'>
+                    <div class='number_box'>
+                        <p>課程編號</p>
+                        <div class='edit_number'>xxxxx</div>
+                    </div>
+
+                    <div class='name_box edit_item'>
+                        <p>課程名稱</p>
+                        <input type="text" class='edit_name'>
+                    </div>
+
+                    <div class='professor_box edit_item'>
+                        <p>教授</p>
+                        <input type="text" class='edit_professor'>
+                    </div>
+
+                    <div class='department_box edit_item'>
+                        <p>對象</p>
+                        <input type="text" class='edit_department'>
+                    </div>
+
+                    <div class='content_box edit_item'>
+                        <p>課程內容</p>
+                        <textarea class='edit_content' cols='55' rows='5'></textarea>
+                    </div>
+
+                    <div class='remark_box edit_item'>
+                        <p>課程備註</p>
+                        <textarea class='edit_remark' cols='40' rows='2'></textarea>
+                    </div>
+
+                    <div class='web_box edit_item'>
+                        <p>詳情url</p>
+                        <input type="text" class='edit_url'>
+                    </div>
+
+                    <div class='source_box edit_item'>
+                        <p>來源</p>
+                        <input type="text" class='edit_source'>
+                    </div>
+                </div>
+
+                <div class='edit_botton'>
+                    <div class='edit_remove none'>delete</div>
+                    <div class='edit_reset'>reset</div>
+                    <div class='edit_save'>save</div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+    </body>
+    <script src="./js/admin_edit_class.js"></script>
+</html>

@@ -152,7 +152,7 @@ function getNextPage(num){
                 addnewChild = document.createElement('div')
                 addnewChild.classList.add('class_item') 
                 addnewChild.classList.add('class_name')
-                let text = objData[num].class_name
+                let text = objData[num].class_name.trim()
                 if(objData[num].class_name.length > 11){
                     addnewChild.style.fontSize = '20px'
                     text = text.substr(0, 10)

@@ -17,8 +17,6 @@ const profile = async (req, res) => {
     const getEmail = await query(sql, email)
     const haveEmail = JSON.parse(JSON.stringify(getEmail))[0]
 
-    console.log(haveEmail)
-
 
     //INSERT INTO `pangtingder`.`account` (`user_name`, `email`, `password`, `root`, `status`) VALUES ('admin', 'admin', 'admin', 'admin', 'admin');
 
@@ -45,14 +43,19 @@ const profile = async (req, res) => {
             await query(sql, createNewUser)
 
             sql = 'SELECT id, root, status FROM pangtingder.account WHERE email = ?'
-            const userId = (sql, email)
-            const userData = JSON.parse(JSON.stringify(userId))
+            const userId = await query(sql, email)
+            const userData = JSON.parse(JSON.stringify(userId))[0]
+
+            console.log(userData)
 
             userJwt.name = req.body.name
             userJwt.email = email
             userJwt.id = userData.id
             userJwt.root = userData.root
             userJwt.status = userData.status
+
+            console.log(userJwt)
+
             const jwt =  await create_JWT_token(userJwt)
             res.send({msg:'success', token: jwt})
         }

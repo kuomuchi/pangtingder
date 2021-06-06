@@ -157,7 +157,7 @@ xhr.onreadystatechange = function () {
         }
         
 
-        document.getElementsByClassName('detail_name')[0].textContent = objData.class_name
+        document.getElementsByClassName('detail_name')[0].textContent = objData.class_name.trim()
         if(objData.department.trim()){
             document.getElementsByClassName('detail_departnemt')[0].textContent = 'For' + objData.department
         }else{
@@ -179,7 +179,7 @@ xhr.onreadystatechange = function () {
             document.getElementsByClassName('detail_data_text')[0].textContent = 'no data'
         }
 
-        document.getElementsByClassName('detail_web_url')[0].textContent = objData.web_url
+        document.getElementsByClassName('detail_web_url')[0].textContent = 'learn more...'
         document.getElementsByClassName('detail_web_url')[0].href = objData.web_url
 
         // 準備要拿取處理留言區
@@ -188,8 +188,9 @@ xhr.onreadystatechange = function () {
             let outElement = document.getElementsByClassName('message_area')[0]
             let addnewChild = document.createElement('div')
 
-            // 新的class
+            // 新的留言
             let msgStatus = 'get_message'
+
             if(msgData[i].user_id == allData[1].userId){
                 msgStatus = 'self_message'
             }
@@ -206,7 +207,6 @@ xhr.onreadystatechange = function () {
             outElement.appendChild(addnewChild)
             
             // 放入資料
-
             function createImg(){
                 outLenght = document.getElementsByClassName('user_msg_area').length - 1
             
@@ -247,6 +247,8 @@ xhr.onreadystatechange = function () {
                 addnewChild = document.createElement('div')
                 addnewChild.classList.add('user_msg')
                 addnewChild.textContent = addnewChild.textContent = msgData[i].class_msg
+                addnewChild.scrollIntoView()
+
                 outElement.appendChild(addnewChild)
             }else{
                 createNameBox()
@@ -256,6 +258,8 @@ xhr.onreadystatechange = function () {
                 addnewChild = document.createElement('div')
                 addnewChild.classList.add('user_msg')
                 addnewChild.textContent = addnewChild.textContent = msgData[i].class_msg
+                addnewChild.scrollIntoView()
+                
                 outElement.appendChild(addnewChild)
                 createImg()
             }

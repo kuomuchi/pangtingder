@@ -73,8 +73,8 @@ const upDataContent =  async (req, res) => {
     const post = []
     post[0] = class_text
     post[1] = i + 1
-    const sql = 'UPDATE pangtingder.class SET class_content = ? WHERE id = ?'
-    await query(sql, post)
+    // const sql = 'UPDATE pangtingder.class SET class_content = ? WHERE id = ?'
+    // await query(sql, post)
   }
   res.send('finish')
   console.log('end')

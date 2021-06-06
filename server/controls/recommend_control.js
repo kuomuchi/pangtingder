@@ -68,7 +68,7 @@ const recommend = async (req, res) => {
     const getClass = await query('SELECT number, class_name, content_translate FROM pangtingder.class WHERE content_translate IS NOT NULL')
     let data = JSON.parse(JSON.stringify(getClass))
 
-    console.log(data.length)
+    console.log('max: ' + data.length)
 
 
     const insertDB = []
@@ -78,8 +78,14 @@ const recommend = async (req, res) => {
     const classNumber = []
     const recommend = []
     const similar = []
-    
-    for(let i=0; i<data.length; i++){
+
+    let oldData =  await query('SELECT id FROM pangtingder.recommend')
+    oldData = oldData.length / 10
+
+    for(let i= oldData ; i<data.length; i++){
+
+        console.log('now ' + i)
+
         const self = data[i].content_translate
 
 
@@ -97,8 +103,6 @@ const recommend = async (req, res) => {
                     
                     rec.push(data[u].number)
                     sim.push(+result)
-
-                    console.log(data[i].class_name + ' and ' +data[u].class_name + ' = ' +result)
                 }
 
             }
@@ -154,8 +158,6 @@ const recommend = async (req, res) => {
     // console.log(similar.length)
 
     // await query('TRUNCATE TABLE pangtingder.recommend')
-
-    console.log('is clear')
 
     res.send('finish')
 }
