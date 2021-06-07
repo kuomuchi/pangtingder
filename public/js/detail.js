@@ -17,18 +17,20 @@ if(!window.localStorage.getItem('account_token')){
 }
 
 
-
 // 切字網頁的url
 const queryParamsString = window.location.search.substr(1)
 // console.log(queryParamsString)
 
 
 //留言
-document.getElementById('keyword').addEventListener('focus', () => {
 
+const userInfo = []
+document.getElementById('keyword').addEventListener('focus', () => {
     window.addEventListener('keyup', (event) => {
         const intputContent =  document.getElementById('keyword').value
         if(event.code === 'Enter' && intputContent.trim()){
+            console.log('sendINg')
+            document.getElementById('keyword').value = ''
             if(window.localStorage.getItem('account_token')){
 
                 const UserData = {
@@ -42,15 +44,19 @@ document.getElementById('keyword').addEventListener('focus', () => {
                 reqDetailMsg.setRequestHeader("authorization", 'Bearer ' + account_token);
                 reqDetailMsg.setRequestHeader("Content-Type", "application/json");
 
+                let now = 0
                 reqDetailMsg.onreadystatechange = function () {
                     const resend = reqDetailMsg.responseText
-                    console.log(resend)
 
                     if(resend === 'false'){
                         window.localStorage.removeItem('account_token')
-                        alert('登入逾時')
+                        alert('登入逾時')
 
-                    }else if(resend === 'success'){
+                    }else if(resend === 'ban'){
+                        alert('被禁言了')
+                        
+                    }else if(resend === 'success' && now === 0){
+                        now++
                         console.log('yes!')
 
                         let outElement = document.getElementsByClassName('message_area')[0]
@@ -87,6 +93,23 @@ document.getElementById('keyword').addEventListener('focus', () => {
                         addnewChild.textContent = intputContent
                         outElement.appendChild(addnewChild)
 
+                        addnewChild = document.createElement('div')
+                        addnewChild.classList.add('delete')
+                        addnewChild.textContent = 'delete'
+                        addnewChild.addEventListener('click', (event) => {
+
+
+                            const packate = {
+                                user_id: userInfo[0].id, 
+                                ser_name: userInfo[0].name,
+                                class_msg: intputContent
+                            }
+                            deleteData(packate, event.path[2])
+                            
+                        })
+                        outElement.appendChild(addnewChild)
+                        
+
                         outElement = document.getElementsByClassName('user_msg_area')
                         stack = outElement.length - 1
                         outElement = outElement[stack]
@@ -94,6 +117,7 @@ document.getElementById('keyword').addEventListener('focus', () => {
                         addnewChild = document.createElement('img')
                         addnewChild.classList.add('user_img_msg')
                         addnewChild.src = './images/userIcon.png'
+                        outElement.scrollIntoView()
                         outElement.appendChild(addnewChild)
                         
                         document.getElementById('keyword').value = ''
@@ -124,8 +148,9 @@ xhr.onreadystatechange = function () {
         const objData = JSON.parse(data)[0]
         const msgData = JSON.parse(data)[2]
         const recommendData = JSON.parse(data)[3]
-
-        console.log(allData)
+        userInfo.push(allData[4])
+        
+        console.log(userInfo)
 
         userName.push(objData.number)
         
@@ -247,9 +272,35 @@ xhr.onreadystatechange = function () {
                 addnewChild = document.createElement('div')
                 addnewChild.classList.add('user_msg')
                 addnewChild.textContent = addnewChild.textContent = msgData[i].class_msg
-                addnewChild.scrollIntoView()
 
                 outElement.appendChild(addnewChild)
+
+                // 刪除別人的留言
+                if(userInfo[0].root === 'admin'){
+                    outElement = document.getElementsByClassName('user_name')[outLenght]
+                    addnewChild = document.createElement('div')
+                    addnewChild.classList.add('delete')
+                    addnewChild.textContent = 'delete'
+                    addnewChild.addEventListener('click', (event) => {
+                        console.log('nice')
+
+                        deleteData(msgData[i], event.path[2])
+                    })
+                    outElement.appendChild(addnewChild)
+                }
+
+                if(userInfo[0].root === 'admin'){
+                    outElement = document.getElementsByClassName('user_name')[outLenght]
+                    addnewChild = document.createElement('div')
+                    addnewChild.classList.add('user_ban')
+                    addnewChild.textContent = '禁言'
+                    addnewChild.addEventListener('click', (event) => {
+                        console.log('nice')
+                        banUser(msgData[i].user_id)
+                    })
+                    outElement.appendChild(addnewChild)
+                }
+
             }else{
                 createNameBox()
                 outLenght = document.getElementsByClassName('user_name').length - 1
@@ -258,13 +309,27 @@ xhr.onreadystatechange = function () {
                 addnewChild = document.createElement('div')
                 addnewChild.classList.add('user_msg')
                 addnewChild.textContent = addnewChild.textContent = msgData[i].class_msg
-                addnewChild.scrollIntoView()
-                
+                outElement.appendChild(addnewChild)
+
+                // 刪除自己的留言
+                outElement = document.getElementsByClassName('user_name')[outLenght]
+                addnewChild = document.createElement('div')
+                addnewChild.classList.add('delete')
+                addnewChild.textContent = 'delete'
+                addnewChild.addEventListener('click', (event) => {
+                    console.log('self')
+
+                    deleteData(msgData[i], event.path[2])
+                })
                 outElement.appendChild(addnewChild)
                 createImg()
             }
 
         }
+
+        // 最底下
+        let objDiv = document.getElementsByClassName('message_area')[0]
+        objDiv.scrollTop = objDiv.scrollHeight;
 
         //推薦課程 recommendData
 
@@ -295,7 +360,6 @@ xhr.onreadystatechange = function () {
 
                 // 創建圖片本人
                 outElemant = document.getElementsByClassName('class_image')[num+1] //這裡需要＋1 因為會選到標題的照片
-                console.log(outElemant)
                 addnewChild = document.createElement('img')
                 addnewChild.src = './images/noImage.png'
                 outElemant.appendChild(addnewChild)
@@ -380,6 +444,62 @@ xhr.onreadystatechange = function () {
 
 xhr.send()
 
+// 禁言
+async function banUser(dataMsg){
+    
+    const banUserReq = new XMLHttpRequest()
+    banUserReq.open('PATCH', '/admin_ban', true)
+    banUserReq.setRequestHeader("authorization", 'Bearer ' + account_token);
+    banUserReq.setRequestHeader("Content-Type", "application/json");
+
+    banUserReq.onreadystatechange = function () {
+        if (banUserReq.readyState === 4) {
+            const data = banUserReq.responseText
+            console.log(data)
+            if(data === 'yes'){
+                alert('禁言成功')
+            }else{
+                alert('失敗！')
+            }
+            
+        }
+    }
+
+    const package = {
+        userId: dataMsg
+    }
+    stringIt = JSON.stringify(package)
+    banUserReq.send(stringIt)
+}
+
+
+
+// 刪除
+async function deleteData(dataMsg, element){
+
+    const deleteMsgReq = new XMLHttpRequest()
+    deleteMsgReq.open('DELETE', '/classMsg', true)
+    deleteMsgReq.setRequestHeader("authorization", 'Bearer ' + account_token);
+    deleteMsgReq.setRequestHeader("Content-Type", "application/json");
+
+    deleteMsgReq.onreadystatechange = function () {
+        if (deleteMsgReq.readyState === 4) {
+            const data = deleteMsgReq.responseText
+            console.log(data)
+            if(data === 'yes'){
+                element.remove()
+                alert('刪除成功')
+            }
+            
+        }
+    }
+
+    let stringIt = dataMsg
+    console.log(stringIt)
+    stringIt.number = userName[0]
+    stringIt = JSON.stringify(stringIt)
+    deleteMsgReq.send(stringIt)
+}
 
 
 // 收藏

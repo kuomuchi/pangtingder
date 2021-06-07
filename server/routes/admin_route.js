@@ -10,7 +10,8 @@ const {
     getAccountStatus,
     upDateClass,
     createClass,
-    deleteClass
+    deleteClass,
+    banUser
  } = require('../controls/rating_control')
 
 router.route('/fixrating').get(wrapAsync(routeUpDataRating))
@@ -21,5 +22,6 @@ router.route('/admin_editclass').get(userStatus(), wrapAsync(getAccountStatus))
 router.route('/admin_editclass').patch(userStatus(), wrapAsync(upDateClass))
 router.route('/admin_editclass').post(userStatus(), wrapAsync(createClass))
 router.route('/admin_editclass').delete(userStatus(), wrapAsync(deleteClass))
+router.route('/admin_ban').patch(userStatus(), wrapAsync(banUser))
 
 module.exports = router

@@ -139,6 +139,7 @@ const getClassDetail = async (req, res) => {
     getData.push(userStatus)
     getData.push(detail_msg)
     getData.push(getRecommendNumber)
+    getData.push(userInfo)
 
     res.send(getData)
 

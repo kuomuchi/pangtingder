@@ -38,7 +38,7 @@ const main = async () =>{
         package.push(sortData[i]._snippetResult.description.value) // 介紹
         package.push(sortData[i].objectUrl) // objectUrl
         package.push(sortData[i].objectID) // objectID
-
+               
         console.log(package)
     }
 

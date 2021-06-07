@@ -8,8 +8,13 @@ const sendDetailMsg = async (req, res) => {
     const classMsg = req.body;
     const userInfo = req.userData
 
+    console.log(userInfo)
+
     if(!userInfo){
         res.send('false')
+        return
+    }else if(userInfo.status !== 'normal'){
+        res.send('ban')
         return
     }
 
@@ -21,6 +26,26 @@ const sendDetailMsg = async (req, res) => {
     await query(sql, sendData)
 
     res.send('success')
+    
+}
+
+const deleteDetailMsg = async (req, res) => {
+    const userInfo = req.userData
+    const deleteMsg = req.body
+
+    console.log(deleteMsg)
+
+    if(userInfo.id === deleteMsg.user_id || userInfo.root){
+        const package = [deleteMsg.number, deleteMsg.user_id, deleteMsg.class_msg]
+        let sql = "DELETE FROM pangtingder.detail_msg WHERE class_number = ? AND user_id = ? AND class_msg like ?"
+        await query(sql, package)
+        res.send('yes')
+        return
+    }
+
+    res.send('false')
+    
+
     
 }
 
@@ -81,5 +106,6 @@ const servicePostMsg = async (req, res) => {
 module.exports = {
     sendDetailMsg,
     serviceData,
-    servicePostMsg
+    servicePostMsg,
+    deleteDetailMsg
 }

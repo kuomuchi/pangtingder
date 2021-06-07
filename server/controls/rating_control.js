@@ -143,6 +143,23 @@ const deleteClass = async (req, res) => {
 
 }
 
+const banUser = async (req, res) => {
+    const userInfo = req.userData
+    const userData = req.body
+
+    console.log(userData)
+
+    try {
+        sql = "UPDATE pangtingder.account SET status = 'ban' WHERE (id = ?);"
+        await query(sql, userData.userId)    
+        res.send('yes')
+
+    } catch (error) {
+        console.log(error)
+        res.send('false')
+    }
+}
+
 
 
 module.exports = {
@@ -151,5 +168,6 @@ module.exports = {
     getAccountStatus,
     upDateClass,
     createClass,
-    deleteClass
+    deleteClass,
+    banUser
 }
