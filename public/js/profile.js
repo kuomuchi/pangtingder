@@ -103,7 +103,12 @@ xhr.onreadystatechange = function () {
             addnewChild = document.createElement('div')
             addnewChild.classList.add('class_item') 
             addnewChild.classList.add('class_num')
-            addnewChild.textContent = getUserCollect[num].number
+            let text = getUserCollect[num].number
+            if(text.length > 15){
+                text = text.substr(0, 14)
+                text += '...'
+            }
+            addnewChild.textContent = text
             outElemant.appendChild(addnewChild)
 
 
@@ -130,7 +135,14 @@ xhr.onreadystatechange = function () {
             outElemant = document.getElementsByClassName('class')[num]
             addnewChild = document.createElement('div')
             addnewChild.classList.add('class_item') 
-            addnewChild.textContent = getUserCollect[num].professor
+
+            text = getUserCollect[num].professor
+            if(text.length > 13){
+                text = text.substr(0, 12)
+                text += '...'
+            }
+
+            addnewChild.textContent = text
             outElemant.appendChild(addnewChild)
 
             //放入課程的內容-課程來源
