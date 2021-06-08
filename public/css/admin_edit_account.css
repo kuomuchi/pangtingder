@@ -71,31 +71,223 @@ a{
 .main_box{
     display: flex;
     min-height: 800px;
-    background-color: var(--color-2);
+    background-color: var(--color-1);
+    padding-bottom: 30px;
 }
 
-.error_position{
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
-
-.error_msg{
+.all_account{
     display: flex;
     flex-direction: column;
+    
+    padding-top: 75px;
+    margin-top: 25px;
+    margin-left: 50px;
+
+    width: 550px;
+}
+
+/* 輸入關鍵字 */
+
+.select{
+    display: flex;
+    flex-direction: column;
+}
+
+.page{
     text-align: center;
-    margin-top: 70px;
+    margin-left: 20px;
+    background-color: white;
+    width: 70px;
+    line-height: 30px;
+    height: 30px;
+    margin-right: 10px;
+
 }
 
-.err_text{
-    font-size: 30px;
+.previous, .next{
+    transition: 0.7s;
+
+    text-align: center;
+
+    background-color: var(--color-2);
+    color: var(--color-3);
+
+    border: 2px solid var(--color-2);
+    
+    
+    width: 100px;
+    line-height: 30px;
+    height: 30px;
+    margin-right: 10px;
+
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.err_detail{
+.previous:hover, .next:hover{
+    color: var(--color-2);
+    background-color: var(--color-1);
+    
+}
+.change_page{
+    display: flex;
+}
+
+
+.keyword{
+    padding-left: 10px;
+    font-size: 16px;
+
+    width: 450px;
+    height: 30px;
+
+    border: 0px;
+    border-radius: 5px;
+
+    margin-left: 20px;
     margin-top: 10px;
 }
 
-.error_img{
+/* Title */
+.account_box_title{
+    margin-left: 30px;
+    margin-right: 20px;
+    margin-top: 15px;
     width: 500px;
-    height: 500px;
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    /* background-color: var(--color-2); */
+    padding-bottom: 5px;
+
+    border-bottom: 2px solid var(--color-3);
+}
+
+.account_box{
+    padding-bottom: 20px;
+    margin-top: 10px;
+    min-height: 550px;
+}
+
+.selecter{
+    position: absolute;
+    background-color: var(--color-2-hover);
+    height: 50px;
+    width: 630px;
+    margin-left: -30px;
+    transform: translateY(-15%);
+    transition: 0.7s;
+    z-index: -1;
+}
+
+.account{
+    z-index: 2;
+
+    cursor: pointer;
+
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    
+    margin-top: 20px;
+    margin-left: 15px;
+    margin-right: 20px;
+
+    width: 500px;
+    height: 35px;
+    line-height: 35px;
+
+    padding: 5px 5px;
+    padding-left: 20px;
+
+    border-radius: 5px;
+    background-color: var(--color-2);
+
+    
+}
+
+.account_item{
+    width:25%
+}
+
+.account_box{
+    z-index: 1;
+    background-color: var(--color-4);   
+}
+
+.userDate_box{
+    width:100%;
+    display: flex;
+    justify-content: center;
+}
+
+.userData{
+    margin-top: 220px;
+    width: 600px;
+    height: 400px;
+    background-color: var(--color-2);
+
+    display: flex;
+    flex-direction: column;
+}
+
+.user_data{
+    margin-left: 30px;
+    margin-top: 30px;   
+}
+
+.user_status{
+    display: flex;
+    flex-direction: column;
+
+}
+
+select{
+    margin-top: 5px;
+    width: 150px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.root_box, .status_box{
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 15px;
+}
+
+.upDataButton{
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 20px;
+    margin-top: 65px;
+}
+
+.save, .reset{
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+
+    margin-top: 10px;
+    margin-left: 10px;
+
+    height: 30px;
+
+    line-height: 30px;
+    width: 90px;
+    border: 2px solid var(--color-3);
+    transition: 0.7s;
+}
+
+.save:hover, .reset:hover{
+    background-color: var(--color-1);
+}
+
+
+.none{
+    opacity: 0;
+    cursor: default;
 }

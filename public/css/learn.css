@@ -334,3 +334,20 @@ input{
     text-align: left;
     background-color: #ddd
 }
+
+
+.loading{
+    position: absolute;
+    left: 50%;
+    margin-top: 50px;
+    transform: translateX(-50%);
+    transition: 0.7s;
+    opacity: 1;
+    z-index: 2;
+}
+
+
+.nano{
+    opacity: 0;
+    z-index: -1;
+}

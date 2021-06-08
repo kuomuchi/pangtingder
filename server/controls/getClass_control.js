@@ -18,11 +18,16 @@ const selectClass = async (req, res) => {
         keyword = '%'+keyword+'%'
     }
 
+    if(source === '無'){
+        source = '%'
+    }
+
+
     const page = req.params.page;
     const selectArray = [source, keyword, keyword, keyword, keyword, page*10]
     
     // 抓取資料的頁數
-    const allPage = await query("SELECT COUNT(*) as maxpage FROM pangtingder.class WHERE source = ? AND (class_name LIKE ? OR number LIKE ? OR professor LIKE ? OR source LIKE ?)", selectArray)
+    const allPage = await query("SELECT COUNT(*) as maxpage FROM pangtingder.class WHERE source like ? AND (class_name LIKE ? OR number LIKE ? OR professor LIKE ? OR source LIKE ?)", selectArray)
 
     let sql = "SELECT * FROM pangtingder.class WHERE source like ? AND (class_name LIKE ? OR number LIKE ? OR professor LIKE ? OR source LIKE ?) LIMIT ?, 10"
 

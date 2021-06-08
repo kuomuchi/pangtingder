@@ -140,6 +140,7 @@ let originRating = -1
 
 xhr.open('GET', `/detail/${queryParamsString}`, true)
 xhr.setRequestHeader("authorization", 'Bearer ' + account_token);
+document.getElementsByClassName('loading')[0].classList.remove('nano')
 
 xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
@@ -149,6 +150,9 @@ xhr.onreadystatechange = function () {
         const msgData = JSON.parse(data)[2]
         const recommendData = JSON.parse(data)[3]
         userInfo.push(allData[4])
+
+
+        document.getElementsByClassName('loading')[0].classList.add('nano')
         
         console.log(userInfo)
 
@@ -181,6 +185,9 @@ xhr.onreadystatechange = function () {
             document.getElementsByClassName('detail_mark')[0].style.display = 'flex'
         }
         
+        if(objData.image){
+            document.getElementsByClassName('class_image')[0].src = objData.image
+        }
 
         document.getElementsByClassName('detail_name')[0].textContent = objData.class_name.trim()
         if(objData.department.trim()){
@@ -208,8 +215,9 @@ xhr.onreadystatechange = function () {
         document.getElementsByClassName('detail_web_url')[0].href = objData.web_url
 
         // 準備要拿取處理留言區
-
+        
         for(let i = 0; i<msgData.length; i++){
+
             let outElement = document.getElementsByClassName('message_area')[0]
             let addnewChild = document.createElement('div')
 
@@ -261,7 +269,6 @@ xhr.onreadystatechange = function () {
 
                 outElement = document.getElementsByClassName('user_name')[outLenght]
                 addnewChild = document.createElement('p')
-                console.log(msgData[i])
                 addnewChild.textContent = msgData[i].user_name
                 outElement.appendChild(addnewChild)
 
@@ -274,6 +281,7 @@ xhr.onreadystatechange = function () {
                 addnewChild.textContent = addnewChild.textContent = msgData[i].class_msg
 
                 outElement.appendChild(addnewChild)
+
 
                 // 刪除別人的留言
                 if(userInfo[0].root === 'admin'){
@@ -334,7 +342,6 @@ xhr.onreadystatechange = function () {
         //推薦課程 recommendData
 
         if(recommendData.data === 'false'){
-            console.log('hio')
             let outElemant = document.getElementsByClassName('recommend')[0]
             let addnewChild = document.createElement('img')
             addnewChild.classList.add('recommend_loading')
@@ -355,13 +362,17 @@ xhr.onreadystatechange = function () {
                 // 創建圖片的div
                 outElemant = document.getElementsByClassName('class')[num]
                 addnewChild = document.createElement('div')
-                addnewChild.classList.add('class_image') 
+                addnewChild.classList.add('class_image')
                 outElemant.appendChild(addnewChild)
 
                 // 創建圖片本人
                 outElemant = document.getElementsByClassName('class_image')[num+1] //這裡需要＋1 因為會選到標題的照片
                 addnewChild = document.createElement('img')
-                addnewChild.src = './images/noImage.png'
+                if(recommendData[num].image){
+                    addnewChild.src = recommendData[num].image
+                }else{
+                    addnewChild.src = './images/noImage.png'
+                }
                 outElemant.appendChild(addnewChild)
 
                 // 包住課程資訊的 div
@@ -448,7 +459,7 @@ xhr.send()
 async function banUser(dataMsg){
     
     const banUserReq = new XMLHttpRequest()
-    banUserReq.open('PATCH', '/admin_ban', true)
+    banUserReq.open('PATCH', '/admin_account', true)
     banUserReq.setRequestHeader("authorization", 'Bearer ' + account_token);
     banUserReq.setRequestHeader("Content-Type", "application/json");
 
@@ -466,7 +477,9 @@ async function banUser(dataMsg){
     }
 
     const package = {
-        userId: dataMsg
+        userId: dataMsg,
+        root:'',
+        status: 'ban'
     }
     stringIt = JSON.stringify(package)
     banUserReq.send(stringIt)

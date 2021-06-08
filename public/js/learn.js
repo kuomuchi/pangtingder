@@ -106,6 +106,8 @@ function removeAllClass(){
 function getNextPage(num){
     const xhr = new XMLHttpRequest()
 
+    document.getElementsByClassName('loading')[0].classList.remove('nano')
+
     xhr.open('POST', `/learnpage/${num}`, true)
     xhr.setRequestHeader("Content-Type", "application/json");
 
@@ -117,6 +119,8 @@ function getNextPage(num){
 
             const num = objData.length - 1
             getMaxPage = objData[num].maxpage
+
+            document.getElementsByClassName('loading')[0].classList.add('nano')
 
             for(let num=0; num < objData.length -1; num++){
                 // 創造一個新的課程
@@ -137,7 +141,11 @@ function getNextPage(num){
                 // 創建圖片本人
                 outElemant = document.getElementsByClassName('class_image')[num]
                 addnewChild = document.createElement('img')
-                addnewChild.src = './images/noImage.png'
+                if(objData[num].image){
+                    addnewChild.src = objData[num].image
+                }else{
+                    addnewChild.src = './images/noImage.png'
+                }
                 outElemant.appendChild(addnewChild)
 
                 // 包住課程資訊的 div

@@ -63,9 +63,12 @@ xhr.onreadystatechange = function () {
             window.location.href = '/login.html'
             return
         }else if(getData.data[0].root === 'admin'){
+            console.log('yes')
             document.querySelectorAll('.admin_service')[0].href = '/admin_service.html'
 
             document.querySelectorAll('.admin_edit')[0].classList.remove('user')
+            document.querySelectorAll('.admin_edit_account')[0].classList.remove('user')
+            
 
         }else{
             document.querySelectorAll('.admin_service')[0].href = '/service.html'

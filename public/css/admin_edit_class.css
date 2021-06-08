@@ -393,7 +393,18 @@ select{
     background-color: var(--color-4);
 }
 
-.none{
+.loading{
+    position: absolute;
+    margin-top: 50px;
+    margin-left: 150px;
+    transition: 0.7s;
+    opacity: 1;
+    z-index: 2;
+}
+
+
+.none, .nano{
+    z-index: -1;
     opacity: 0;
     cursor: default;
 }

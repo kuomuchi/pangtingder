@@ -307,16 +307,6 @@ a{
     margin-bottom: 10px;
 }
 
-.class_item{
-    /* flex-grow: 2; */
-    /* width: 20% */
-}
-
-.class_mark{
-    /* flex-grow: 1; */
-    /* width: 10% */
-}
-
 
 /* 留言區 */
 
@@ -528,4 +518,20 @@ a{
     justify-content: space-between;
     text-align: left;
     line-height: 50px;
+}
+
+
+.loading{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: 0.7s;
+    opacity: 1;
+    z-index: 2;
+}
+
+
+.nano{
+    opacity: 0;
+    z-index: -1;
 }

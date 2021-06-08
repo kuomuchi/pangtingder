@@ -145,19 +145,49 @@ const deleteClass = async (req, res) => {
 
 const banUser = async (req, res) => {
     const userInfo = req.userData
-    const userData = req.body
-
-    console.log(userData)
+    const {userId, status, root} = req.body
+    
+    if(root){
+        sql = "UPDATE pangtingder.account SET root = ? WHERE (id = ?);"
+        const package = [root, userId]
+        await query(sql, package)
+    }
 
     try {
-        sql = "UPDATE pangtingder.account SET status = 'ban' WHERE (id = ?);"
-        await query(sql, userData.userId)    
+        sql = "UPDATE pangtingder.account SET status = ? WHERE (id = ?);"
+        const package = [status, userId]
+        await query(sql, package)
         res.send('yes')
 
     } catch (error) {
         console.log(error)
         res.send('false')
     }
+}
+
+const getAccount = async (req, res) => {
+    const userInfo = req.userData
+    const {keyword, page, userId} = req.body
+
+
+    if(userInfo.root === 'admin'){
+        if(userId){
+            const getAccountMsg = await query("SELECT count(user_id) as msgTime FROM pangtingder.detail_msg WHERE user_id = ?", userId)
+            const getAccountCollect = await query("SELECT count(user_id) as collectTime FROM pangtingder.collect WHERE user_id = ?", userId)
+            const resend = [getAccountMsg[0], getAccountCollect[0]]
+            res.send(resend)
+
+        }else{
+            const package = [keyword, keyword, keyword, page*10]
+            const getAllAccount = await query('SELECT * FROM pangtingder.account WHERE user_name like ? or email like ? or id like ? LIMIT ?, 10', package)
+            res.send(getAllAccount)
+        }
+    
+
+    }else{
+        res.send('false')
+    }
+
 }
 
 
@@ -169,5 +199,6 @@ module.exports = {
     upDateClass,
     createClass,
     deleteClass,
-    banUser
+    banUser,
+    getAccount
 }

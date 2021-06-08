@@ -1,0 +1,101 @@
+<html>
+    <link href="./css/admin_edit_account.css" rel="stylesheet">
+    <title>PangTingDer</title>
+    <body>
+        <!-- 上面的部分 -->
+        <div class='top_box'>
+            <a href="/">
+                <img src="./images/logo.png" class='logo'>
+            </a>
+            <div class='top_box_right'>
+                <a href="./#sup_box">
+                    <div class='top_about_us'>About us</div>
+                </a>
+                <a href="./profile.html">
+                    <img src="./images/userIcon.png" class='top_login_icon'>
+                </a>
+            </div>
+        </div>
+
+        <div class='main_box'>
+            <div class='all_account'>
+
+                <div class='select'>
+                    <div class='change_page'>
+                        <div class='previous'>上一頁</div>
+                        <div class='next'>下一頁</div>
+                        <div class='page'>1</div>
+                    </div>
+                    <input type="text" class='keyword' placeholder="搜尋用戶">
+                </div>
+
+                <div class='account_box_title'>
+                    <div class='account_item'>user_id</div>
+                    <div class='account_item'>user_name</div>
+                    <div class='account_item'>root</div>
+                    <div class='account_item'>status</div>
+                </div>
+
+                <div class='account_box'>
+                    
+
+                    <!-- 範例 -->
+                    <!-- <div class='account'>
+                        <div class='account_item'>user_id</div>
+                        <div class='account_item'>user_name</div>
+                        <div class='account_item'>root</div>
+                        <div class='account_item'>status</div>
+                    </div> -->
+                    <div class='selecter none'></div>
+                </div>
+
+            </div>
+
+            <div class='userDate_box'>
+                <div class='userData'>
+
+
+                    <div class='user_data'>
+                        <div class='user_name'>用戶: </div>
+                        <div class='user_email'>email: </div>
+                        <div class='user_id'>編號: </div>
+                        <div class='user_msg_time'>留言次數: </div>
+                        <div class='user_collect'>收藏數量: </div>
+                    </div>
+
+
+                    <div class='user_status'>
+                        <div class='root_box'>
+                            <p>user root</p>
+
+                            <select id="root">
+                                <option>user</option>
+                                <option>admin</option>
+                            </select>
+                        </div>
+
+                        <div class='status_box'>
+                            <p>user status</p>
+                            <select id="status">
+                                <option>normal</option>
+                                <option>ban</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class='upDataButton'>
+                        <div class='save'>save</div>
+                        <div class='reset'>reset</div>
+                    </div>
+
+                </div>
+            </div>
+
+            
+        </div>
+        
+
+    </body>
+        
+    <script src="./js/admin_edit_account.js"></script>
+</html>

@@ -69,6 +69,7 @@ document.getElementById('previous').addEventListener('click', () => {
 document.getElementById('next').addEventListener('click', () => {
 
   const haveClass = document.getElementsByClassName('class').length
+
   if(nowpage >= (getMaxPage / 10) - 1){
     alert('到底？')
   }else if(haveClass){
@@ -251,8 +252,12 @@ function getNextPage(num){
   xhr.open('POST', `/learnpage/${num}`, true)
   xhr.setRequestHeader("Content-Type", "application/json");
 
+  document.getElementsByClassName('loading')[0].classList.remove('nano')
+
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
+
+      document.getElementsByClassName('loading')[0].classList.add('nano')
       const data = xhr.responseText
       const objData = JSON.parse(data)
 

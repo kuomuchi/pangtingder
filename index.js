@@ -54,6 +54,12 @@ setInterval(() => {
 }, 86400000);
 
 
+// 爬取coursera
+// const { main } = require('./server/crawlers/coursera_crawlers/coursera_class')
+// main()
+
+
+
 // 爬取unschool
 // const { main } = require('./server/crawlers/ntu_crawlers/urschool_comment')
 
