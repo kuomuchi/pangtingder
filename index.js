@@ -45,22 +45,4 @@ io.on('connection', (socket) => {
     })
 })
 
-// 自動:D
-// 自動修改評分
-const { upDataRating } = require('./server/models/rating_model')
-upDataRating()
-setInterval(() => {
-  upDataRating()
-}, 86400000);
 
-
-// 爬取coursera
-// const { main } = require('./server/crawlers/coursera_crawlers/coursera_class')
-// main()
-
-
-
-// 爬取unschool
-// const { main } = require('./server/crawlers/ntu_crawlers/urschool_comment')
-
-// main('https://urschool.org/ntu/list?page=1')

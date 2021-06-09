@@ -117,10 +117,10 @@ document.getElementById('keyword').addEventListener('focus', () => {
                         addnewChild = document.createElement('img')
                         addnewChild.classList.add('user_img_msg')
                         addnewChild.src = './images/userIcon.png'
-                        outElement.scrollIntoView()
                         outElement.appendChild(addnewChild)
                         
                         document.getElementById('keyword').value = ''
+                        document.getElementsByClassName('message_area')[0].scrollTop = -1000
                     }
                 }
                 reqDetailMsg.send(JSON.stringify(UserData))
@@ -332,12 +332,10 @@ xhr.onreadystatechange = function () {
                 outElement.appendChild(addnewChild)
                 createImg()
             }
+            document.getElementsByClassName('message_area')[0].scrollTop = -1000
 
         }
 
-        // 最底下
-        let objDiv = document.getElementsByClassName('message_area')[0]
-        objDiv.scrollTop = objDiv.scrollHeight;
 
         //推薦課程 recommendData
 

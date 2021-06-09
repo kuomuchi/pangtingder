@@ -379,7 +379,7 @@ a{
 
 .message_area{
     display: flex;
-    flex-direction: column;
+    flex-direction:column-reverse;
     padding-bottom: 20px;
     border-radius: 5px;
 
@@ -434,16 +434,22 @@ a{
 .user_msg{
     margin-left: 10px;
     margin-top: 10px;
+    margin-right: 10px; 
+
     background-color: white;
 
     padding-top:3px;
     padding-bottom: 3px;
 
     border-radius: 4px;
+
     padding-left: 20px;
     padding-right: 20px;
+
     line-height: 50px;
-    margin-right: 10px; 
+
+    max-width: 800px;
+    
 }
 .delete, .user_ban{
     opacity: 0;

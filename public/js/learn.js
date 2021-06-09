@@ -32,12 +32,23 @@ document.getElementById('keyword').addEventListener('keyup', (event) => {
     }
 })
 
+// 更改selecter
 document.getElementById('popular_select').addEventListener('change', (event) => {
-    sendingData()
+
+    const haveClass = document.getElementsByClassName('class').length
+    if(haveClass){
+        sendingData()        
+    }
+
 })
 
 document.getElementById('source_select').addEventListener('change', (event) => {
-    sendingData()
+
+    const haveClass = document.getElementsByClassName('class').length
+    if(haveClass){
+        sendingData()        
+    }
+
 })
 
 
@@ -67,7 +78,7 @@ document.getElementById('previous').addEventListener('click', () => {
         alert('到底？')
     }else if(haveClass){
         removeAllClass()
-        document.getElementsByClassName('now_Page')[0].textContent = nowpage
+        document.getElementsByClassName('now_Page')[0].value = nowpage
         nowpage--
         getNextPage(nowpage)
     }else{
@@ -84,12 +95,29 @@ document.getElementById('next').addEventListener('click', () => {
     }else if(haveClass){
         removeAllClass()
         nowpage++
-        document.getElementsByClassName('now_Page')[0].textContent = nowpage +1
+        document.getElementsByClassName('now_Page')[0].value = nowpage +1
         getNextPage(nowpage)
     }else{
         alert('你按太快了！慢慢來，溫柔一點')
     }
 
+})
+
+document.getElementsByClassName('now_Page')[0].addEventListener('keyup', (event) => {
+    if(event.code === 'Enter'){
+        const getPage = document.getElementsByClassName('now_Page')[0].value
+
+        if(!isNaN(getPage)){
+
+            if(+getPage - 1 >= 0){
+                removeAllClass()
+                nowpage = +getPage - 1
+                getNextPage(nowpage)
+            }
+            
+        }
+
+    }
 })
 
 
@@ -107,6 +135,7 @@ function getNextPage(num){
     const xhr = new XMLHttpRequest()
 
     document.getElementsByClassName('loading')[0].classList.remove('nano')
+    document.getElementsByClassName('loading')[0].src = './images/catloading.gif'
 
     xhr.open('POST', `/learnpage/${num}`, true)
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -120,7 +149,11 @@ function getNextPage(num){
             const num = objData.length - 1
             getMaxPage = objData[num].maxpage
 
-            document.getElementsByClassName('loading')[0].classList.add('nano')
+            if(objData.length === 1){
+                document.getElementsByClassName('loading')[0].src = './images/recommend404.png'
+            }else{
+                document.getElementsByClassName('loading')[0].classList.add('nano')
+            }
 
             for(let num=0; num < objData.length -1; num++){
                 // 創造一個新的課程
@@ -240,6 +273,4 @@ const sendingData = () => {
     removeAllClass()
     getNextPage(nowpage)
     document.getElementsByClassName('now_Page')[0].textContent = '1'
-
-    alert('查詢')
 }

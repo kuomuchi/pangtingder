@@ -154,6 +154,9 @@ const upDataRating = async (admin) => {
 
     let setTime = "UPDATE `pangtingder`.`auto_work` SET `time` = ? WHERE (`work` = 'rating');"
     await query(setTime, nowTime)
+
+    console.log('end')
+    return
     }
 
 }

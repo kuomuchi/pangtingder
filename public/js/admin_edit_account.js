@@ -122,9 +122,15 @@ const getAccount = (num) => {
           outElement.appendChild(addNewChild)
 
 
+          // 名稱
           addNewChild = document.createElement('div')
           addNewChild.classList.add('account_item')
-          addNewChild.textContent = getData[i].user_name
+          let text = getData[i].user_name.trim()
+          if(text.length > 12){
+            text = text.substr(0, 12)
+            text += '...'
+          }
+          addNewChild.textContent = text
           outElement.appendChild(addNewChild)
 
           addNewChild = document.createElement('div')
