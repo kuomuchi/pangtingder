@@ -134,12 +134,14 @@ function removeAllClass(){
 function getNextPage(num){
     const xhr = new XMLHttpRequest()
 
+    // 這裡讓貓咪出現
     document.getElementsByClassName('loading')[0].classList.remove('nano')
     document.getElementsByClassName('loading')[0].src = './images/catloading.gif'
 
     xhr.open('POST', `/learnpage/${num}`, true)
     xhr.setRequestHeader("Content-Type", "application/json");
 
+    // 抓到資料後
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             const data = xhr.responseText
@@ -149,6 +151,7 @@ function getNextPage(num){
             const num = objData.length - 1
             getMaxPage = objData[num].maxpage
 
+            // 貓咪消失
             if(objData.length === 1){
                 document.getElementsByClassName('loading')[0].src = './images/recommend404.png'
             }else{

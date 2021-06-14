@@ -8,9 +8,15 @@ const { query } = require('../models/mysql_model')
 
 const routeUpDataRating = async (req, res) => {
 
-    upDataRating(1)
-    res.send('finish')
+    const userInfo = req.userData
 
+    if(userInfo.root === 'admin'){
+        console.log('now is good')
+        upDataRating(1)
+        res.send('yes')
+    }else{
+        res.send('false')
+    }
 }
 
 
@@ -191,6 +197,46 @@ const getAccount = async (req, res) => {
 }
 
 
+const getAuto = async (req, res) => {
+    const userInfo = req.userData
+    const {page, keyword} = req.body
+
+    if(userInfo.root === 'admin'){
+        const package = [keyword, page*10]
+        const getAllAccount = await query('SELECT * FROM pangtingder.auto_work WHERE work like ? LIMIT ?, 10', package)
+        res.send(getAllAccount)
+
+    }else{
+        res.send('false')
+    }
+
+}
+
+// 更新課程
+const autoUpdata = async (req, res) => {
+    const userInfo = req.userData
+    const {status, run, event} = req.body
+
+    console.log(run)
+    
+    if(userInfo.root == 'admin'){
+        let sql = ''
+
+        if(run === 1){
+            sql = "UPDATE pangtingder.auto_work SET status = ? WHERE (work = ?)"
+        }else if(run ===  0){
+            sql = "UPDATE pangtingder.auto_work SET status = ?, run = ? WHERE (work = ?);"
+        }
+        
+        const package = [status, run, event]
+        await query(sql, package)
+        res.send('yes')
+    }else{
+        res.send('false')
+    }
+}
+
+
 
 module.exports = {
     routeUpDataRating,
@@ -200,5 +246,7 @@ module.exports = {
     createClass,
     deleteClass,
     banUser,
-    getAccount
+    getAccount,
+    getAuto,
+    autoUpdata
 }

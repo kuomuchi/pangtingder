@@ -91,7 +91,106 @@ async function getRecommend (t1, t2) {
   return ans
 }
 
+
+
+const upDataRecommend = async () => {
+
+  await query('TRUNCATE TABLE pangtingder.recommend')
+
+  const getClass = await query('SELECT number, class_name, content_translate FROM pangtingder.class WHERE content_translate IS NOT NULL')
+  let data = JSON.parse(JSON.stringify(getClass))
+
+  console.log('max: ' + data.length)
+  const insertDB = []
+
+  const classNumber = []
+  const recommend = []
+  const similar = []
+
+  let oldData =  await query('SELECT id FROM pangtingder.recommend')
+  oldData = oldData.length / 10
+
+  for(let i= oldData ; i<data.length; i++){
+
+      console.log('now ' + i)
+
+      const self = data[i].content_translate
+
+
+      const package = []
+      const rec = []
+      const sim = []
+
+      if(self.length > 30){
+
+          for(let u=0; u<data.length; u++){
+              if(u !== i){
+                      
+                  const other = data[u].content_translate
+                  const result = await getRecommend(self, other)          
+                  
+                  rec.push(data[u].number)
+                  sim.push(+result)
+              }
+
+          }
+
+
+          for(index = 0; index < 10; index++){
+              let place = -1
+              let max = 0;
+              for(let num = 0; num < sim.length; num++){
+                  if(+sim[num] > max){
+                      max = +sim[num]
+                      place = num;
+                  }
+              }
+
+              // 整理確認好看用的
+              let replace = {
+                  number: data[i].number,
+                  rec: rec[place],
+                  sim: sim[place]
+              }
+
+              insertDB.push(replace)
+
+
+              // 要加入DB的資料
+              classNumber.push(data[i].number)
+              recommend.push(rec[place])
+              similar.push(sim[place])
+
+              package.push([data[i].number, rec[place], sim[place]])
+
+              // 重新整理
+              rec[place] = 0
+              sim[place] = 0
+
+          }
+
+          let sql = 'INSERT INTO pangtingder.recommend (number, recommend, similar) VALUES ?'
+          await query(sql, [package]).catch(err => console.log(err))
+
+
+          console.log('next')
+          
+      }else{
+          console.log('skip')
+      }
+
+  }
+
+  // console.log(classNumber.length)
+  // console.log(recommend.length)
+  // console.log(similar.length)
+}
+
+
+
+
 module.exports = {
   getRecommend,
-  translateText
+  translateText,
+  upDataRecommend
 }

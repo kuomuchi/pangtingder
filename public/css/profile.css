@@ -19,7 +19,7 @@ a{
     color: black;
 }
 
-.logo, .top_login, .top_about_us, .top_edit, .top_edit_account{
+.logo, .top_login, .top_about_us, .top_edit, .top_edit_account, .top_edit_auto{
     height: 100%;
     text-align:center;
     transition: 0.7s;
@@ -39,7 +39,7 @@ a{
 }
 
 
-.top_login, .top_about_us, .top_login_icon, .top_edit, .top_edit_account{
+.top_login, .top_about_us, .top_login_icon, .top_edit, .top_edit_account, .top_edit_auto{
     color: var(--color-3);
     background-color: var(--color-2);
     line-height: 60px;
@@ -60,7 +60,7 @@ a{
     display: flex;
 }
 
-.top_login:hover,  .logo:hover, .top_about_us:hover, .top_edit:hover, .top_edit_account:hover{
+.top_login:hover,  .logo:hover, .top_about_us:hover, .top_edit:hover, .top_edit_account:hover, .top_edit_auto:hover{
     background-color: var(--color-2-hover);
 }
 

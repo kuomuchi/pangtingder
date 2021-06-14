@@ -35,6 +35,7 @@ app.use(function(req, res, next) {
   res.status(404).sendFile(__dirname + '/public/404.html');
 });
 
+// socket io
 io.on('connection', (socket) => {
     console.log('a user connected')
 

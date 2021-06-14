@@ -68,6 +68,7 @@ xhr.onreadystatechange = function () {
 
             document.querySelectorAll('.admin_edit')[0].classList.remove('user')
             document.querySelectorAll('.admin_edit_account')[0].classList.remove('user')
+            document.querySelectorAll('.admin_edit_auto')[0].classList.remove('user')
             
 
         }else{
