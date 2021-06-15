@@ -1,5 +1,8 @@
 const router = require('express').Router();
-const {wrapAsync} = require('../../util/util.js')
+const {
+    wrapAsync,
+    userStatus
+} = require('../../util/util.js')
 
 const {
     recommend,
@@ -9,10 +12,10 @@ const {
 } = require('../controls/recommend_control')
 
 
-router.route('/recommend').get(wrapAsync(recommend))
-router.route('/translte').get(wrapAsync(translte))
-router.route('/ntu').get(wrapAsync(ntu))
-router.route('/coursera').get(wrapAsync(coursera))
+router.route('/recommend').get(userStatus(), wrapAsync(recommend))
+router.route('/translte').get(userStatus(), wrapAsync(translte))
+router.route('/ntu').get(userStatus(), wrapAsync(ntu))
+router.route('/coursera').get(userStatus(), wrapAsync(coursera))
 
 
 module.exports = router

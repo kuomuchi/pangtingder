@@ -262,6 +262,7 @@ input{
     height: 200px;
     width: 400px;
     box-shadow: 0px 0px 0.3em var(--color-3);
+    z-index: 3;
 }
 
 .class{
@@ -284,7 +285,6 @@ input{
 .class:hover{
     box-shadow: 3px 3px 0.8em var(--color-3);
 }
-
 
 
 .class_image, .class_text{
@@ -354,8 +354,41 @@ input{
     z-index: 2;
 }
 
+#catMeme{
+    width: 70px;
+    height: 70px;
+    position: absolute;
+    transition: 0.7s;
+    left: 100%;
+    
+    /* -40 */
+    transform: rotate(0deg);
+    z-index: 1;
+}
 
 .nano{
     display: none;
     z-index: -1;
+}
+
+.moveCat{
+    animation: catMove 3s 1;
+}
+
+
+@keyframes catMove{
+    0%{
+        transform: rotate(0deg);
+        left: 100%;
+    }
+
+    50%{
+        transform: rotate(-40deg);
+        left: 96%;
+    }
+
+    70%{
+        transform: rotate(0deg);
+        left: 100%;
+    }
 }

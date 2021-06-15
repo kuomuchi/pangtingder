@@ -146,26 +146,29 @@ const getAuto = (num) => {
           // 狀態
           addNewChild = document.createElement('div')
           addNewChild.classList.add('account_item')
+          addNewChild.classList.add('status')
           let status = getData[i].status
+          let statusColor = ''
           if(+status === 1){
+            statusColor = '#00EC00'
             addNewChild.textContent = '啟動'
-          }else if(+status === 2){
-            addNewChild.textContent = '可啟動'
-          }else if(+status === '正在使用'){
-            addNewChild.textContent = '使用中'
           }else{
+            statusColor = 'red'
             addNewChild.textContent = '關閉'
           }
-
           outElement.appendChild(addNewChild)
 
 
           addNewChild = document.createElement('div')
           addNewChild.classList.add('account_item')
+          addNewChild.classList.add('root')
           let run = getData[i].run
+          let rootColor = ''
           if(+run === 1){
+            rootColor = '#00EC00'
             addNewChild.textContent = '使用中...'
           }else{
+            rootColor = 'red'
             addNewChild.textContent = '關閉'
           }
 
@@ -180,6 +183,23 @@ const getAuto = (num) => {
           }
           addNewChild.textContent = getTime
           outElement.appendChild(addNewChild)
+
+
+          // 新稱 status root 的 顏色。
+          outElement = document.getElementsByClassName('status')[i]
+          addNewChild = document.createElement('div')
+          addNewChild.classList.add('status_color')
+          addNewChild.style.backgroundColor = statusColor
+          outElement.appendChild(addNewChild)
+
+          outElement = document.getElementsByClassName('root')[i]
+          addNewChild = document.createElement('div')
+          addNewChild.classList.add('status_color')
+          addNewChild.style.backgroundColor = rootColor
+          outElement.appendChild(addNewChild)
+
+          
+
         }
 
 

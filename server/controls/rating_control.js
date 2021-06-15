@@ -3,6 +3,7 @@
 // } = require('../models/recommend_model')
 
 const { upDataRating } = require('../models/rating_model')
+const { fixWebModel } = require('../models/fixweb_model')
 
 const { query } = require('../models/mysql_model')
 
@@ -13,6 +14,17 @@ const routeUpDataRating = async (req, res) => {
     if(userInfo.root === 'admin'){
         console.log('now is good')
         upDataRating(1)
+        res.send('yes')
+    }else{
+        res.send('false')
+    }
+}
+
+const fixWeb = async (req, res) => {
+    //簡單來説，其實是fix db，把重複的資料給刪除。
+    const userInfo = req.userData
+    if(userInfo.root === 'admin'){
+        fixWebModel()
         res.send('yes')
     }else{
         res.send('false')
@@ -248,5 +260,6 @@ module.exports = {
     banUser,
     getAccount,
     getAuto,
-    autoUpdata
+    autoUpdata,
+    fixWeb
 }

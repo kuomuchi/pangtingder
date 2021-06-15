@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const {
     wrapAsync,
-    userStatus
+    userStatus,
 } = require('../../util/util.js')
 
 const { 
@@ -14,11 +14,14 @@ const {
     banUser,
     getAccount,
     getAuto,
-    autoUpdata
+    autoUpdata,
+    fixWeb
 } = require('../controls/rating_control')
 
 
 router.route('/fixrating').get(userStatus(), wrapAsync(routeUpDataRating))
+router.route('/fixweb').get(userStatus(), wrapAsync(fixWeb))
+
 
 
 // 抓取特定的聊天紀錄

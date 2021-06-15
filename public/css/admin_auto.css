@@ -219,6 +219,13 @@ a{
     background-color: var(--color-4);   
 }
 
+.status_color{
+    margin-top: -15px;
+    margin-left: 20px;
+    width: 20px;
+    height: 10px;
+}
+
 .userDate_box{
     width:100%;
     display: flex;

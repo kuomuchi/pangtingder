@@ -1,4 +1,5 @@
 const translate = require('translation-google')
+const { query } = require('../models/mysql_model')
 
 // const text1 = "一、提供正確運動指導，做為女性健康管理的參考。二、鼓勵女生參與規律健身運動並培養運動興趣。三、提供對女性運動經驗議題之思考與研究的機會。 一、認知：1.促進學生對女性體適能相關理論之認知。                  2.強化女性運動健康知識的理解。二、技能：1.增進個人體適能促進與規律運動之實作能力。                  2.提供女性個別健身運動處方說明與規劃之基礎能力。三、情意：1.培養良好的人際互動、合作態度與正面溝通技巧。                  2.增加女性運動公益推展的社會責任知覺與參與。 體適能參與表現30％：1分鐘仰臥起坐10％、5公里慢跑10％(35/分80;30分/90;25-30/95:25以下100)，課外體適能運動紀錄10％(每週2次課外體適能促進30分鐘/次)/課外運動參與(校馬)專題研究30％：1.促進運動女力專題研究與實務報告(25%)及影像製作報導90秒到120秒                          2.女性體適能影像紀錄短評(A4:含影像及短評100字)課程參與40％：1.出席30%                          2.熱身/皮拉提斯動作正確性，分組討論參與及課外體育活動參加情形10%                            :如上課動作確認及女性體適能或相關運動參與紀錄等 運動醫學講座  賴金鑫 著美國運動醫學會（ACSM）網頁與叢書Pamela Peeke （2005）Body for life for women.Rodale Inc. U.S.A體適能相關叢書與媒體及平臺的瀏覽 美國運動醫學會（ACSM）網頁與叢書Pamela Peeke （2005）Body for life for women.Rodale Inc. U.S.A女人20.40.60健康動起來! 臺大出版中心出版。女人迷網站相關資訊Women's running magazing Web site or fb課程簡介及資料表填寫;互動與專題說明;RUN for women 活動~~戶外慢跑活動位女性運動健康擬一段宣言^^討論1:進入女性運動的里程碑/個人體適能評估討論2:皮拉提斯基礎概論與呼吸練習*骨盆時鐘的認識討論3:皮拉提斯概論:身體風箱體驗及實作(入門組合動作)討論4:女性運動阻礙探討*:皮拉提斯基礎動作/伸展運動進階實作;專題資料蒐集2補假:自主運動*運動女性影像紀錄(繳交女性運動影像攝影紀錄 )皮拉提斯組合 /肌肉適能1:室內抗重力塑身循環運動 專題3.肌肉適能2.:健身房塑身運動與健身房使用說明。**帶毛巾肌肉適能3:健身房課程—阻力塑身運動課程； **帶毛巾體適能促進與進階皮拉提斯期中評量;肌肉適能4. 彈力帶課程—阻力塑身運動課程;專題6(準備影片及書面報告說明)。進階皮拉提斯+心肺適能/塑身有氧促進運動女力專題研究與實務-影像製作分組討論(一)分組實施促進運動女力專題研究與實務報告-影像製作分組報導247室健身中心的選擇與女性運動友善環境~小組參訪分享。討論7.期末體適能再測及自我評鑑;女性運動新視野講座進階活力運動課程:全方位階梯有氧;課程建議與分享"
 // const text2 = '本課程介紹楊氏太極劍，太極劍練習的基本常識，準備活動及整套太極劍套路。 1、了解太極劍簡史2、能操演太極劍套路3、培養欣賞太極劍的能力 上課出席，課後複習 歐業超、林崇彬(2001)。太極劍。台北：鴻柏。課程介紹、太極劍簡史、如何選擇一把合適的劍、圖說九構五刃劍身結構名稱、認識天盤地盤人盤。準備活動、持劍要領、攪劍、基礎八式、野馬跳澗起式至燕子抄水燕子抄水、左右攔掃至黃蜂入洞黃蜂入洞、靈貓捕鼠、鳳凰雙展翅左旋風、等魚式、撥草尋蛇至懷中抱月。講義《楊氏太極劍譜的意象思維》複習，起式至撥草尋蛇至懷中抱月第一次隨堂考野馬跳澗、翻身勒馬至挑簾式挑簾式、左右車輪劍至劍譜第二次懷中抱月第二次隨堂考青龍探爪、鳳凰雙展翅至白猿獻果白猿獻果、落花式至白虎攪尾白虎攪尾、魚躍龍門至抱劍還原測驗（一）；繳交學期書面報告測驗（二）測驗（三）'
@@ -95,90 +96,174 @@ async function getRecommend (t1, t2) {
 
 const upDataRecommend = async () => {
 
-  await query('TRUNCATE TABLE pangtingder.recommend')
 
-  const getClass = await query('SELECT number, class_name, content_translate FROM pangtingder.class WHERE content_translate IS NOT NULL')
-  let data = JSON.parse(JSON.stringify(getClass))
+  let getAutoStatus = await query("SELECT time, status, run FROM pangtingder.auto_work WHERE work = 'recommend'")
+  const getRun = JSON.parse(JSON.stringify(getAutoStatus))[0].run
+  const getStatus = JSON.parse(JSON.stringify(getAutoStatus))[0].status
 
-  console.log('max: ' + data.length)
-  const insertDB = []
+  if(getStatus){
 
-  const classNumber = []
-  const recommend = []
-  const similar = []
+    if(!+getRun){
 
-  let oldData =  await query('SELECT id FROM pangtingder.recommend')
-  oldData = oldData.length / 10
+      // 告訴DB，已經開始跑了
+      await query("UPDATE pangtingder.auto_work SET run = 1 WHERE (work = 'recommend')")
 
-  for(let i= oldData ; i<data.length; i++){
+      // 更新時間
+      let nowTime = new Date().toLocaleString('zh-TW');
+      let setTime = "UPDATE `pangtingder`.`auto_work` SET `time` = ? WHERE (`work` = 'recommend');"
+      await query(setTime, nowTime)
 
-      console.log('now ' + i)
+      // 確認狀態
+      async function getNowStatus(){
+        let data = await query("SELECT run FROM pangtingder.auto_work WHERE work = 'recommend'")
+        data = JSON.parse(JSON.stringify(data))
+        return data[0].run
+      }
 
-      const self = data[i].content_translate
+
+      // 拿取所有的課程
+      const getClass = await query('SELECT number, class_name, content_translate FROM pangtingder.class WHERE content_translate IS NOT NULL')
+      let data = JSON.parse(JSON.stringify(getClass))
 
 
-      const package = []
-      const rec = []
-      const sim = []
+      // 計算總共需要跑幾次
+      console.log('max: ' + data.length)
+      const insertDB = []
 
-      if(self.length > 30){
+      const classNumber = []
+      const recommend = []
+      const similar = []
 
+
+      
+
+      // 確認過去已經先跑過了 N 次的課程
+      let oldData =  await query('SELECT id FROM pangtingder.recommend')
+
+      oldData = JSON.parse(JSON.stringify(oldData))
+
+      // 如果推薦課程的數量接近結束。
+      if(oldData.length >= data.length){
+        // 清除所有的推薦課程，重新再跑一次
+        await query('TRUNCATE TABLE pangtingder.recommend')
+        oldData = 0
+
+      }else{
+
+        // 否則繼續跑
+        oldData = oldData.length / 10
+      }
+
+      console.log('跑到這裡')
+
+      // 開始推薦
+      for(let i = oldData; i<data.length; i++){
+
+        // 確保 run === 1
+        if(i % 5 === 0){
+          const checkPoint = await getNowStatus()
+
+          console.log(checkPoint)
+          if(!+checkPoint){
+            console.log('從外部被關閉')
+            return
+          }
+        }
+        
+
+        console.log('now ' + i)
+
+        const self = data[i].content_translate
+
+        const package = []
+        const rec = []
+        const sim = []
+
+        // 此課程的字數必須大於 30 ，否則不列入推薦
+        if(self.length > 30){
+
+          // 比對自己以外的所有課程。
           for(let u=0; u<data.length; u++){
-              if(u !== i){
-                      
-                  const other = data[u].content_translate
-                  const result = await getRecommend(self, other)          
-                  
-                  rec.push(data[u].number)
-                  sim.push(+result)
-              }
+            if(u !== i){
+              
+              // 這是比對的課程
+              const other = data[u].content_translate
+
+              // 這是比對結果
+              const result = await getRecommend(self, other)          
+              
+              // 將結果存入陣列
+              rec.push(data[u].number)
+              sim.push(+result)
+            }
 
           }
 
-
+          // 整理陣列，取出前10名相似度高的課程。
           for(index = 0; index < 10; index++){
-              let place = -1
-              let max = 0;
-              for(let num = 0; num < sim.length; num++){
-                  if(+sim[num] > max){
-                      max = +sim[num]
-                      place = num;
-                  }
+            let place = -1
+            let max = 0;
+            for(let num = 0; num < sim.length; num++){
+
+              if(+sim[num] > max){
+                max = +sim[num]
+                place = num;
               }
+            }
 
-              // 整理確認好看用的
-              let replace = {
-                  number: data[i].number,
-                  rec: rec[place],
-                  sim: sim[place]
-              }
+            // 整理確認好看用的
+            let replace = {
+              number: data[i].number,
+              rec: rec[place],
+              sim: sim[place]
+            }
 
-              insertDB.push(replace)
+            insertDB.push(replace)
 
 
-              // 要加入DB的資料
-              classNumber.push(data[i].number)
-              recommend.push(rec[place])
-              similar.push(sim[place])
+            // 要加入DB的資料
+            classNumber.push(data[i].number)
+            recommend.push(rec[place])
+            similar.push(sim[place])
 
-              package.push([data[i].number, rec[place], sim[place]])
+            package.push([data[i].number, rec[place], sim[place]])
 
-              // 重新整理
-              rec[place] = 0
-              sim[place] = 0
+            // 重新整理
+            rec[place] = 0
+            sim[place] = 0
 
           }
+          
 
+          // 將推薦結果放入DB
           let sql = 'INSERT INTO pangtingder.recommend (number, recommend, similar) VALUES ?'
           await query(sql, [package]).catch(err => console.log(err))
 
 
           console.log('next')
-          
-      }else{
+            
+        }else{
           console.log('skip')
+        }
       }
 
+
+      const msg = '課程更新完畢'
+      await query("UPDATE `pangtingder`.`auto_work` SET `msg` = ?, run = 0 WHERE (`work` = 'recommend');", msg)
+      console.log('end')
+      return
+
+
+
+    }else{
+      console.log("事件正在執行")
+      return
+    }
+
+
+  }else{
+    console.log('translate功能 狀態為null')
+    return
   }
 
   // console.log(classNumber.length)

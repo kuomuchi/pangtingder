@@ -52,7 +52,7 @@ document.getElementById('source_select').addEventListener('change', (event) => {
 })
 
 
-const word = ['長大是一瞬間的', '發大財很棒', '活到老、學到老','冰鳥還敢下來啊！', '寧願辛苦一陣子，不要辛苦一輩子', '人生最大的敵人是自己怯懦', '健康的身體是實現目標的基石', '沒有退路時，潛能就發揮出來了', '你不一定要很厲害，才能開始；但你要開始，才能很厲害', '永不言敗，是成功者的最佳品格', '要成功，先發瘋，頭腦簡單向前衝', '擁有夢想只是一種智力，實現夢想才是一種能力']
+const word = ['長大是一瞬間的', '發大財很棒', '活到老、學到老','冰鳥還敢下來啊！', '寧願辛苦一陣子，不要辛苦一輩子', '人生最大的敵人是自己怯懦', '健康的身體是實現目標的基石', '沒有退路時，潛能就發揮出來了', '你不一定要很厲害，才能開始；但你要開始，才能很厲害', '永不言敗，是成功者的最佳品格', '要成功，先發瘋，頭腦簡單向前衝', '擁有夢想只是一種智力，實現夢想才是一種能力', '鬼步開啟！']
 
 
 //背景文字切換
@@ -93,6 +93,16 @@ document.getElementById('next').addEventListener('click', () => {
     if(nowpage >= (getMaxPage / 10) - 1){
         alert('到底？')
     }else if(haveClass){
+
+        randomCat = Math.floor(Math.random()* 5) + 1
+
+        if(randomCat === 3){
+            document.getElementById('catMeme').classList.add('moveCat')
+            setTimeout( () => {
+                document.getElementById('catMeme').classList.remove('moveCat')
+            }, 3000)
+        }
+
         removeAllClass()
         nowpage++
         document.getElementsByClassName('now_Page')[0].value = nowpage +1
@@ -163,6 +173,7 @@ function getNextPage(num){
                 let outElemant = document.getElementsByClassName('class_box_item')[0]
                 let addnewChild = document.createElement('a')
                 addnewChild.classList.add('class')
+
                 addnewChild.href = './detail.html?'+objData[num].number
                 addnewChild.target = "_blank"
                 outElemant.appendChild(addnewChild)
@@ -177,10 +188,20 @@ function getNextPage(num){
                 // 創建圖片本人
                 outElemant = document.getElementsByClassName('class_image')[num]
                 addnewChild = document.createElement('img')
+                let imagePlace = objData[num].source
+
+                
                 if(objData[num].image){
                     addnewChild.src = objData[num].image
                 }else{
-                    addnewChild.src = './images/noImage.png'
+
+                    if(imagePlace === '台大'){
+                        addnewChild.src = './images/ntu.png'
+                    }else if(imagePlace === 'coursera'){
+                        addnewChild.src = './images/coursera.png'
+                    }else{
+                        addnewChild.src = './images/noImage.png'
+                    }
                 }
                 outElemant.appendChild(addnewChild)
 

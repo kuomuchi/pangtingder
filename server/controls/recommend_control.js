@@ -13,27 +13,51 @@ const { getCoursera } = require('../crawlers/coursera_crawlers/coursera_class')
 const { query } = require('../models/mysql_model')
 
 const translte = async (req, res) => {
+    const userInfo = req.userData
+    if(userInfo.root === 'admin'){
+        translteModel()
+        res.send('yes')
+    }else{
+        res.send('false')
+    }
     translteModel()
     res.send('yes')
 
 }
 
+
 const ntu = (req, res) => {
-    getClass()
-    res.send('yes')
+    const userInfo = req.userData
+    if(userInfo.root === 'admin'){
+        getClass()
+        res.send('yes')    
+    }else{
+        res.send('false')
+    }
 }
 
 
 const coursera = (req, res) => {
-    getCoursera()
-    res.send('yes')
+    const userInfo = req.userData
+    if(userInfo.root === 'admin'){
+        getCoursera()
+        res.send('yes')
+    }else{
+        res.send('false')
+    }
 }
 
 
 const recommend = async (req, res) => {
-    upDataRecommend()
-    res.send('yes')
+    const userInfo = req.userData
+    if(userInfo.root === 'admin'){
+        upDataRecommend()
+        res.send('yes')
+    }else{
+        res.send('false')
+    }
 }
+
 
 module.exports = {
     recommend,

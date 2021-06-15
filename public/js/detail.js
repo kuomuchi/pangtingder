@@ -184,9 +184,21 @@ xhr.onreadystatechange = function () {
             changeStar(allData[1].rating)
             document.getElementsByClassName('detail_mark')[0].style.display = 'flex'
         }
+
+        let imagePlace = objData.source
         
         if(objData.image){
+
             document.getElementsByClassName('class_image')[0].src = objData.image
+            
+        }else{
+
+            if(imagePlace === '台大'){
+                document.getElementsByClassName('class_image')[0].src = './images/ntu.png'
+            }else if(imagePlace === 'coursera'){
+                document.getElementsByClassName('class_image')[0].src ='./images/coursera.png'
+            }
+
         }
 
         document.getElementsByClassName('detail_name')[0].textContent = objData.class_name.trim()
@@ -366,8 +378,15 @@ xhr.onreadystatechange = function () {
                 // 創建圖片本人
                 outElemant = document.getElementsByClassName('class_image')[num+1] //這裡需要＋1 因為會選到標題的照片
                 addnewChild = document.createElement('img')
+
+                let imagePlace = recommendData[num].source
+
                 if(recommendData[num].image){
                     addnewChild.src = recommendData[num].image
+                }else if(imagePlace === '台大'){
+                    addnewChild.src = './images/ntu.png'
+                }else if(imagePlace === 'coursera'){
+                    addnewChild.src = './images/coursera.png'
                 }else{
                     addnewChild.src = './images/noImage.png'
                 }
