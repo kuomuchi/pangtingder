@@ -271,6 +271,7 @@ input{
     margin-right: 20px;
 
     background-color: white;
+    z-index: 3;
 
     display: flex;
     cursor: pointer;
@@ -354,6 +355,7 @@ input{
     z-index: 2;
 }
 
+/* 快樂的ID貓貓 */
 #catMeme{
     width: 70px;
     height: 70px;
@@ -366,6 +368,15 @@ input{
     z-index: 1;
 }
 
+/* 被新增的class 貓貓 */
+.catMeme{
+    width: 70px;
+    height: 70px;
+    position: absolute;
+    transition: 0.7s;
+    transform: rotateY(180deg);
+}
+
 .nano{
     display: none;
     z-index: -1;
@@ -373,6 +384,10 @@ input{
 
 .moveCat{
     animation: catMove 3s 1;
+}
+
+.moveCat2{
+    animation: catMove2 2s 1;
 }
 
 
@@ -390,5 +405,19 @@ input{
     70%{
         transform: rotate(0deg);
         left: 100%;
+    }
+}
+
+@keyframes catMove2{
+    0%{
+        opacity: 0;
+    }
+
+    50%{
+        opacity: 1;
+    }
+
+    100%{
+        opacity: 0;
     }
 }

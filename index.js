@@ -7,6 +7,14 @@ const socketio = require('socket.io')
 
 const bodyParser = require('body-parser')
 
+const rateLimit = require('express-rate-limit') // 引入「限制打入次數」
+
+const limiter = rateLimit({ // 設定post次數
+  windowMs: 1000, // 1秒
+  max: 3, // limit each IP to 10 requests per windowMs
+  message: '為什麼要ddos呢'
+})
+
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static('public')); // 可以以「/admin」為前提在，public裡獲取資料。
@@ -23,7 +31,7 @@ server.listen(3000, () => {
 })
 
 
-app.use('/', [
+app.use('/',limiter,  [
     require('./server/routes/getClassData_route.js'),
     require('./server/routes/ntu_updata_route.js'),
     require('./server/routes/profile_route.js'),

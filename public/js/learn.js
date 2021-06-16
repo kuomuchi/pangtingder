@@ -174,6 +174,39 @@ function getNextPage(num){
                 let addnewChild = document.createElement('a')
                 addnewChild.classList.add('class')
 
+                // 如果觸碰到
+                addnewChild.addEventListener('pointerenter', (event) => {
+                    const randomCoda = Math.floor(Math.random() * 30)
+
+                    // 觸發彩蛋 1/30的機率可以出現
+                    if(randomCoda ===  3){
+                        const outClass = event.path[0]
+                        const addCoda = document.createElement('img')
+                        addCoda.classList.add('catMeme')
+                        const imageRandom = Math.floor(Math.random() * 2) + 1
+
+                        if(imageRandom === 1){
+                            addCoda.src = './images/catMeme.png'
+                            addCoda.style.marginTop = '20px'
+                            addCoda.style.marginLeft = '370px'
+                        }else if(imageRandom === 2){
+                            addCoda.src = "https://assets.stickpng.com/images/5ec287d16add2c0004e5326c.png"
+                            addCoda.style.marginTop = '100px'
+                            addCoda.style.marginLeft = '300px'
+                        }
+                    
+
+                        addCoda.classList.add('moveCat2')
+
+                        setTimeout( () => {
+                            addCoda.remove()
+                        }, 2000)
+                        outClass.appendChild(addCoda)
+
+
+                    }
+                })
+
                 addnewChild.href = './detail.html?'+objData[num].number
                 addnewChild.target = "_blank"
                 outElemant.appendChild(addnewChild)
