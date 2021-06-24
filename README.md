@@ -8,25 +8,25 @@ waiing me to add it
 
 # Technologies
 
-## Design Concept
+**Design Concept**
 * MVC
 * RESTful API
 
-## Language
+**Language**
 * SQL
 * JavaScript
 * C++
 
-## Back-End
+**Back-End**
 * Node.js
 * Express
 * Framework
 
-## Front-End
+**Front-End**
 * HTML
 * CSS
 
-## Tool
+**Tool**
 * Linux
 * Line bot
 * Discord bot
