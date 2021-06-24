@@ -9,12 +9,10 @@ const {
     deleteDetailMsg,
     serviceData,
     servicePostMsg
-} = require('../controls/detail_msg_control')
-
+ } = require('../controls/detail_msg_control')
 
 router.route('/classMsg').post(userStatus(), wrapAsync(sendDetailMsg))
-router.route('/classMsg').delete(userStatus(), wrapAsync(deleteDetailMsg))
+router.route('/classMsg').delete(userStatus(), wrapAsync(deleteDetailMsg))s
 router.route('/service').post(userStatus(), wrapAsync(servicePostMsg))
-router.route('/service').get(userStatus(), wrapAsync(serviceData))
 
 module.exports = router

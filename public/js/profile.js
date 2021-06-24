@@ -195,6 +195,9 @@ xhr.onreadystatechange = function () {
             document.getElementsByClassName('user_name')[0].textContent = getData.name
         }
 
+    }else if(xhr.readyState === 4 && xhr.status === 429){
+        const data = xhr.responseText
+        alert(data)
     }
 }
 

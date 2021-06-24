@@ -4,8 +4,18 @@
 
 const { upDataRating } = require('../models/rating_model')
 const { fixWebModel } = require('../models/fixweb_model')
-
-const { query } = require('../models/mysql_model')
+const { accountMsg } = require('../models/account_msg_model')
+const {
+    doingUpdataClass,
+    doingCreateClass,
+    doingDeleteClass,
+    updataUserRoot,
+    updataUserStatus,
+    getUserAccountData,
+    selectAccount,
+    getAutoEvent,
+    updataAutoEvent
+} = require('../models/admin_model')
 
 const routeUpDataRating = async (req, res) => {
 
@@ -21,11 +31,14 @@ const routeUpDataRating = async (req, res) => {
 }
 
 const fixWeb = async (req, res) => {
-    //簡單來説，其實是fix db，把重複的資料給刪除。
+    
+    // fix DB class
     const userInfo = req.userData
+
     if(userInfo.root === 'admin'){
         fixWebModel()
         res.send('yes')
+
     }else{
         res.send('false')
     }
@@ -40,13 +53,14 @@ const getAccountMsg = async (req, res) => {
 
     if(userInfo.root === 'admin'){
         const package = [specify, specify]
-        
-        const histiryMsg = await query("SELECT user_name, user_id, sendTo, content FROM pangtingder.service WHERE user_id = ? OR sendTo = ?", package)
+        const histiryMsg = await accountMsg(package)
         res.send(histiryMsg)
     }else{
+
         const resend = {
             data:'failure'
         }
+
         res.send(resend)
     }
 
@@ -54,8 +68,7 @@ const getAccountMsg = async (req, res) => {
 
 
 const getAccountStatus = (req, res) => {
-    const userInfo = req.userData
-
+    const userInfo = req.userDatas
     const resend = {
         data: false
     }
@@ -88,10 +101,8 @@ const upDateClass = async (req, res) => {
         upDateArray.push(classDate.class_content)
         upDateArray.push(classDate.number)
 
-        let sql = "UPDATE pangtingder.class SET class_name = ?,  department = ?, professor = ?, source = ?, remarks = ?, web_url = ?, class_content = ? WHERE number = ?"
-        await query(sql, upDateArray)
+        await doingUpdataClass(upDateArray)
         resend.data = true
-
         console.log('成功更新課程')
 
         res.send(resend)
@@ -102,7 +113,7 @@ const upDateClass = async (req, res) => {
 
     
 }
-// 新增課程
+
 const createClass = async (req, res) => {
     const userInfo = req.userData
     const classDate = req.body
@@ -123,10 +134,7 @@ const createClass = async (req, res) => {
         upDateArray.push(classDate.web_url)
         upDateArray.push(classDate.class_content)
 
-        
-
-        let sql = 'INSERT INTO class (number, class_name, department, professor, source, remarks, web_url, class_content) VALUES (?)';
-        await query(sql, [upDateArray])
+        await doingCreateClass(upDateArray)
 
         resend.data = true
         console.log('成功創建課程')
@@ -136,9 +144,6 @@ const createClass = async (req, res) => {
     }
 
 }
-
-
-// 刪除課程
 
 const deleteClass = async (req, res) => {
     const userInfo = req.userData
@@ -150,31 +155,28 @@ const deleteClass = async (req, res) => {
     
     if(userInfo.root === 'admin'){
 
-        let sql = 'DELETE FROM pangtingder.class WHERE (number = ?)'
-        await query(sql, classDate.number)
+        doingDeleteClass(classDate)
         console.log('刪除課程:' + classDate.number)
         resend.data = true
         res.send(resend)
     }else{
         res.send(resend)
     }
-
 }
 
 const banUser = async (req, res) => {
-    const userInfo = req.userData
     const {userId, status, root} = req.body
-    
-    if(root){
-        sql = "UPDATE pangtingder.account SET root = ? WHERE (id = ?);"
-        const package = [root, userId]
-        await query(sql, package)
-    }
 
     try {
-        sql = "UPDATE pangtingder.account SET status = ? WHERE (id = ?);"
-        const package = [status, userId]
-        await query(sql, package)
+
+        if(root){
+            updataUserRoot(root, userId)
+        }
+        if(status){
+            updataUserStatus(status, userId)
+        }
+
+        
         res.send('yes')
 
     } catch (error) {
@@ -183,22 +185,18 @@ const banUser = async (req, res) => {
     }
 }
 
+
 const getAccount = async (req, res) => {
     const userInfo = req.userData
     const {keyword, page, userId} = req.body
 
-
     if(userInfo.root === 'admin'){
         if(userId){
-            const getAccountMsg = await query("SELECT count(user_id) as msgTime FROM pangtingder.detail_msg WHERE user_id = ?", userId)
-            const getAccountCollect = await query("SELECT count(user_id) as collectTime FROM pangtingder.collect WHERE user_id = ?", userId)
-            const resend = [getAccountMsg[0], getAccountCollect[0]]
-            res.send(resend)
-
+            res.send(await getUserAccountData(userId))
         }else{
+
             const package = [keyword, keyword, keyword, page*10]
-            const getAllAccount = await query('SELECT * FROM pangtingder.account WHERE user_name like ? or email like ? or id like ? LIMIT ?, 10', package)
-            res.send(getAllAccount)
+            res.send(await selectAccount(package))
         }
     
 
@@ -209,14 +207,15 @@ const getAccount = async (req, res) => {
 }
 
 
+// getAllAotoEvent
 const getAuto = async (req, res) => {
     const userInfo = req.userData
     const {page, keyword} = req.body
 
     if(userInfo.root === 'admin'){
         const package = [keyword, page*10]
-        const getAllAccount = await query('SELECT * FROM pangtingder.auto_work WHERE work like ? LIMIT ?, 10', package)
-        res.send(getAllAccount)
+
+        res.send(await getAutoEvent(package))
 
     }else{
         res.send('false')
@@ -224,28 +223,32 @@ const getAuto = async (req, res) => {
 
 }
 
-// 更新課程
+
 const autoUpdata = async (req, res) => {
     const userInfo = req.userData
     const {status, run, event} = req.body
-
-    console.log(run)
     
     if(userInfo.root == 'admin'){
         let sql = ''
 
         if(run === 1){
-            sql = "UPDATE pangtingder.auto_work SET status = ? WHERE (work = ?)"
+            sql = "UPDATE auto_work SET status = ? WHERE (work = ?)"
         }else if(run ===  0){
-            sql = "UPDATE pangtingder.auto_work SET status = ?, run = ? WHERE (work = ?);"
+            sql = "UPDATE auto_work SET status = ?, run = ? WHERE (work = ?);"
         }
         
         const package = [status, run, event]
-        await query(sql, package)
+        await updataAutoEvent(sql, package)
+        
         res.send('yes')
     }else{
         res.send('false')
     }
+}
+
+
+const test = async (req, res) => {
+    res.send({message:'nicd'})
 }
 
 
@@ -261,5 +264,6 @@ module.exports = {
     getAccount,
     getAuto,
     autoUpdata,
-    fixWeb
+    fixWeb,
+    test
 }

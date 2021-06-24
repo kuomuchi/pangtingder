@@ -2,6 +2,11 @@ const fetch = require('node-fetch')
 const cheerio = require('cheerio')
 const { query } = require('../../models/mysql_model.js')
 
+const { 
+  getNowStatus,
+} = require('../../../util/util')
+
+// get ntu course detail
 const getTextContent = async (url) => {
   try {
     const res = await fetch(url)
@@ -57,27 +62,41 @@ const getTextContent = async (url) => {
 
 
 
-const upDataContent =  async () => {
 
-  async function getNowStatus(){
-    let data = await query("SELECT run FROM pangtingder.auto_work WHERE work = 'coursera'")
-    data = JSON.parse(JSON.stringify(data))
-    return data[0].run
+const judgeConetne = async(class_text, class_number, old_content) => {
+
+  if(!old_content){
+    const post = [class_text, class_number]
+    const sql = 'UPDATE class SET class_content = ? WHERE number = ?'
+    await query(sql, post)
+    console.log('updata')
+
+  }else if(class_text.length > old_content.length){
+    const post = [class_text, class_number]
+    const sql = 'UPDATE class SET class_content = ? WHERE number = ?'
+    await query(sql, post)
+    console.log('updata')
+  }else{
+    console.log('skip')
   }
+
+}
+
+
+// updata Class Content
+const upDataContent =  async () => {
   
-  let result = await query("SELECT number, web_url, class_content FROM pangtingder.class WHERE number like 'ntu%'")
+  let result = await query("SELECT number, web_url, class_content FROM class WHERE number like 'ntu%'")
   result = await JSON.parse(JSON.stringify(result))
 
-  console.log('進入！')
-
+  console.log('satr')
   const maxNum = result.length
 
   for(let i=0; i < maxNum; i++){
-
-    console.log('正在執行: ' + i)
+    console.log('now executed: ' + i)
 
     if(i % 5 === 0){
-      let checkPoint = await getNowStatus()
+      let checkPoint = await getNowStatus('coursera')
       if(!+checkPoint){
         console.log('從外部被關閉')
         return
@@ -88,19 +107,7 @@ const upDataContent =  async () => {
     const class_number = await result[i].number
     const old_content = await result[i].class_content
 
-    // 分開來寫，避免 null.length
-    if(!old_content){
-      const post = [class_text, class_number]
-      const sql = 'UPDATE pangtingder.class SET class_content = ? WHERE number = ?'
-      await query(sql, post)
-      console.log('更新')
-
-    }else if(class_text.length > old_content.length){
-      const post = [class_text, class_number]
-      const sql = 'UPDATE pangtingder.class SET class_content = ? WHERE number = ?'
-      await query(sql, post)
-      console.log('更新')
-    }
+    judgeConetne(class_text, class_number, old_content)
 
   }
 

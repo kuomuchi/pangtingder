@@ -153,10 +153,13 @@ function getNextPage(num){
 
     // 抓到資料後
     xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
+
+
+        if (xhr.readyState === 4 && xhr.status === 200) {
             const data = xhr.responseText
             const objData = JSON.parse(data)
-            // console.log(objData)
+
+            console.log(objData)
 
             const num = objData.length - 1
             getMaxPage = objData[num].maxpage
@@ -311,6 +314,9 @@ function getNextPage(num){
 
             }
             
+        }else if(xhr.readyState === 4 && xhr.status === 429){
+            const data = xhr.responseText
+            alert(data)
         }
     }
 

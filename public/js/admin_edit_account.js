@@ -170,19 +170,19 @@ const getAccountDetail = (userId) => {
   xhrAdmin.onreadystatechange = function () {
 
     if(xhrAdmin.readyState == 4 && xhrAdmin.status == 200){
+
       let getData = "";
       getData = xhrAdmin.responseText;
       getData = JSON.parse(getData)
+
       if(!getData){
 
         alert('你沒有權限喔')
         window.location.href = '/profile.html'
 
-      }else{
-        
+      }else{        
         document.getElementsByClassName('user_msg_time')[0].textContent ='留言次數: ' +  getData[0].msgTime
         document.getElementsByClassName('user_collect')[0].textContent = '收藏數量: ' + getData[1].collectTime
-
       }
 
     }

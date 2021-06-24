@@ -27,6 +27,7 @@ const queryParamsString = window.location.search.substr(1)
 const userInfo = []
 document.getElementById('keyword').addEventListener('focus', () => {
     window.addEventListener('keyup', (event) => {
+
         const intputContent =  document.getElementById('keyword').value
         if(event.code === 'Enter' && intputContent.trim()){
             console.log('sendINg')
@@ -45,83 +46,98 @@ document.getElementById('keyword').addEventListener('focus', () => {
                 reqDetailMsg.setRequestHeader("Content-Type", "application/json");
 
                 let now = 0
+
                 reqDetailMsg.onreadystatechange = function () {
-                    const resend = reqDetailMsg.responseText
 
-                    if(resend === 'false'){
-                        window.localStorage.removeItem('account_token')
-                        alert('登入逾時')
+                    if(reqDetailMsg.readyState === 4 && reqDetailMsg.status === 200){
 
-                    }else if(resend === 'ban'){
-                        alert('被禁言了')
-                        
-                    }else if(resend === 'success' && now === 0){
-                        now++
-                        console.log('yes!')
-
-                        let outElement = document.getElementsByClassName('message_area')[0]
-                        let addnewChild = document.createElement('div')
-                        addnewChild.classList.add('self_message')
-                        outElement.appendChild(addnewChild)
-
-                        // 抓取最後一個Element
-                        outElement = document.getElementsByClassName('self_message')
-                        let stack = outElement.length - 1
-                        outElement = outElement[stack]
-
-                        addnewChild = document.createElement('div')
-                        addnewChild.classList.add('user_msg_area')
-                        outElement.appendChild(addnewChild)
+                        let resend = reqDetailMsg.responseText
+                        resend = JSON.parse(JSON.stringify(resend)).data
 
 
-                        // 抓取最後一個Element
-                        outElement = document.getElementsByClassName('user_msg_area')
-                        stack = outElement.length - 1
-                        outElement = outElement[stack]
+                        if(resend === 'false'){
+                            window.localStorage.removeItem('account_token')
+                            alert('登入逾時')
 
-                        addnewChild = document.createElement('div')
-                        addnewChild.classList.add('user_name')
-                        outElement.appendChild(addnewChild)
-
-
-                        outElement = document.getElementsByClassName('user_name')
-                        stack = outElement.length - 1
-                        outElement = outElement[stack]
-
-                        addnewChild = document.createElement('div')
-                        addnewChild.classList.add('user_msg')
-                        addnewChild.textContent = intputContent
-                        outElement.appendChild(addnewChild)
-
-                        addnewChild = document.createElement('div')
-                        addnewChild.classList.add('delete')
-                        addnewChild.textContent = 'delete'
-                        addnewChild.addEventListener('click', (event) => {
-
-
-                            const packate = {
-                                user_id: userInfo[0].id, 
-                                ser_name: userInfo[0].name,
-                                class_msg: intputContent
-                            }
-                            deleteData(packate, event.path[2])
+                        }else if(resend === 'ban'){
+                            alert('被禁言了')
                             
-                        })
-                        outElement.appendChild(addnewChild)
-                        
+                        }else if(resend === 'success' && now === 0){
+                            now++
+                            console.log('yes!')
 
-                        outElement = document.getElementsByClassName('user_msg_area')
-                        stack = outElement.length - 1
-                        outElement = outElement[stack]
+                            let outElement = document.getElementsByClassName('message_area')[0]
+                            let addnewChild = document.createElement('div')
+                            addnewChild.classList.add('self_message')
+                            outElement.appendChild(addnewChild)
 
-                        addnewChild = document.createElement('img')
-                        addnewChild.classList.add('user_img_msg')
-                        addnewChild.src = './images/userIcon.png'
-                        outElement.appendChild(addnewChild)
+                            // 抓取最後一個Element
+                            outElement = document.getElementsByClassName('self_message')
+                            let stack = outElement.length - 1
+                            outElement = outElement[stack]
+
+                            addnewChild = document.createElement('div')
+                            addnewChild.classList.add('user_msg_area')
+                            outElement.appendChild(addnewChild)
+
+
+                            // 抓取最後一個Element
+                            outElement = document.getElementsByClassName('user_msg_area')
+                            stack = outElement.length - 1
+                            outElement = outElement[stack]
+
+                            addnewChild = document.createElement('div')
+                            addnewChild.classList.add('user_name')
+                            outElement.appendChild(addnewChild)
+
+
+                            outElement = document.getElementsByClassName('user_name')
+                            stack = outElement.length - 1
+                            outElement = outElement[stack]
+
+                            addnewChild = document.createElement('div')
+                            addnewChild.classList.add('user_msg')
+                            addnewChild.textContent = intputContent
+                            outElement.appendChild(addnewChild)
+
+                            addnewChild = document.createElement('div')
+                            addnewChild.classList.add('delete')
+                            addnewChild.textContent = 'delete'
+                            addnewChild.addEventListener('click', (event) => {
+
+                                const packate = {
+                                    user_id: userInfo[0].id, 
+                                    ser_name: userInfo[0].name,
+                                    class_msg: intputContent
+                                }
+                                deleteData(packate, event.path[3])
+                                
+                            })
+                            outElement.appendChild(addnewChild)
+                            
+
+                            outElement = document.getElementsByClassName('user_msg_area')
+                            stack = outElement.length - 1
+                            outElement = outElement[stack]
+
+                            addnewChild = document.createElement('img')
+                            addnewChild.classList.add('user_img_msg')
+                            addnewChild.src = './images/userIcon.png'
+                            outElement.appendChild(addnewChild)
+                            
+                            document.getElementById('keyword').value = ''
+                            document.getElementsByClassName('message_area')[0].scrollTop = -1000
+                        }
                         
-                        document.getElementById('keyword').value = ''
-                        document.getElementsByClassName('message_area')[0].scrollTop = -1000
+                    }else if(reqDetailMsg.readyState === 4 && reqDetailMsg.status === 429){
+                        // 輸入訊息過快
+                        const data = reqDetailMsg.responseText
+                        console.log(userInfo[0].id)
+                        banUser(userInfo[0].id)
                     }
+
+
+
                 }
                 reqDetailMsg.send(JSON.stringify(UserData))
             }else{
@@ -143,7 +159,8 @@ xhr.setRequestHeader("authorization", 'Bearer ' + account_token);
 document.getElementsByClassName('loading')[0].classList.remove('nano')
 
 xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
+
+    if (xhr.readyState === 4 && xhr.status === 200) {
         const data = xhr.responseText
         const allData = JSON.parse(data)
         const objData = JSON.parse(data)[0]
@@ -153,8 +170,6 @@ xhr.onreadystatechange = function () {
 
 
         document.getElementsByClassName('loading')[0].classList.add('nano')
-        
-        console.log(userInfo)
 
         userName.push(objData.number)
         
@@ -303,8 +318,7 @@ xhr.onreadystatechange = function () {
                     addnewChild.textContent = 'delete'
                     addnewChild.addEventListener('click', (event) => {
                         console.log('nice')
-
-                        deleteData(msgData[i], event.path[2])
+                        deleteData(msgData[i], event.path[3])
                     })
                     outElement.appendChild(addnewChild)
                 }
@@ -339,7 +353,7 @@ xhr.onreadystatechange = function () {
                 addnewChild.addEventListener('click', (event) => {
                     console.log('self')
 
-                    deleteData(msgData[i], event.path[2])
+                    deleteData(msgData[i], event.path[3])
                 })
                 outElement.appendChild(addnewChild)
                 createImg()
@@ -467,6 +481,9 @@ xhr.onreadystatechange = function () {
         }
 
 
+    }else if(xhr.readyState === 4 && xhr.status === 429){
+        const data = xhr.responseText
+        alert(data)
     }
 }
 
@@ -486,6 +503,8 @@ async function banUser(dataMsg){
             console.log(data)
             if(data === 'yes'){
                 alert('禁言成功')
+                window.localStorage.removeItem('account_token')
+                window.location.href = '/'
             }else{
                 alert('失敗！')
             }
@@ -515,8 +534,8 @@ async function deleteData(dataMsg, element){
     deleteMsgReq.onreadystatechange = function () {
         if (deleteMsgReq.readyState === 4) {
             const data = deleteMsgReq.responseText
-            console.log(data)
-            if(data === 'yes'){
+            const resendMsg = JSON.parse(JSON.stringify(data)).data
+            if(resendMsg === 'success'){
                 element.remove()
                 alert('刪除成功')
             }
@@ -564,7 +583,7 @@ document.getElementsByClassName('detail_mark')[0].addEventListener('click', (eve
     
     clickStar = event.path[0].id
     clickStar = clickStar.split('star')[1]
-    clickStar = 6 - +clickStar // 校正回歸
+    clickStar = 6 - +clickStar
 
     changeStar(clickStar)
 })

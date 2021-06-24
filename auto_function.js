@@ -7,7 +7,6 @@ const { upDataRecommend } = require('./server/models/recommend_model')
 const { fixWebModel } = require('./server/models/fixweb_model')
 
 
-
 // 爬取ntu 一個禮拜抓一次資料
 const ntu = cron.schedule('0 5 */7 * *', () => {
   console.log('自動化開始，ntu')
@@ -46,22 +45,3 @@ const rating = cron.schedule('0 0 */1 * *', () => {
   upDataRating()
 })
 
-
-
-
-
-
-
-
-
-
-
-// 爬取unschool
-// const { main } = require('./server/crawlers/ntu_crawlers/urschool_comment')
-
-// main('https://urschool.org/ntu/list?page=1')
-
-
-// ntu
-// const { getClass } = require('./server/crawlers/ntu_crawlers/ntu_class')
-// getClass()

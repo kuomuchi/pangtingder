@@ -9,7 +9,9 @@ const {selectClass,
     addCollect,
     deleteCollect,
     addRating
-} = require('../controls/getClass_control')
+} = require('../controls/get_class_control')
+
+
 
 
 router.route('/learnpage/:page').post(wrapAsync(selectClass))

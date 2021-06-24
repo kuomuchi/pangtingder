@@ -15,17 +15,17 @@ const {
     getAccount,
     getAuto,
     autoUpdata,
-    fixWeb
-} = require('../controls/rating_control')
+    fixWeb,
+    test
+} = require('../controls/admin_control')
+
 
 
 router.route('/fixrating').get(userStatus(), wrapAsync(routeUpDataRating))
 router.route('/fixweb').get(userStatus(), wrapAsync(fixWeb))
 
-
-
-// 抓取特定的聊天紀錄
 router.route('/admin_service').post(userStatus(), wrapAsync(getAccountMsg))
+
 
 router.route('/admin_editclass').get(userStatus(), wrapAsync(getAccountStatus))
 router.route('/admin_editclass').patch(userStatus(), wrapAsync(upDateClass))
@@ -37,5 +37,7 @@ router.route('/admin_account').post(userStatus(), wrapAsync(getAccount))
 
 router.route('/admin_auto').post(userStatus(), wrapAsync(getAuto))
 router.route('/admin_auto').patch(userStatus(), wrapAsync(autoUpdata))
+
+router.route('/test').get(wrapAsync(test))
 
 module.exports = router

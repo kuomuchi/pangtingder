@@ -1,31 +1,29 @@
-// const { 
-//     getRecommend,
-// } = require('../models/recommend_model')
+const { 
+    sendMsg,
+    doingDeleteMsg,
+    adminGetUserId,
+    servicePost,
+    serviceMsgHistiry
+} = require('../models/msg_model')
 
-const { query } = require('../models/mysql_model')
 
 const sendDetailMsg = async (req, res) => {
     const classMsg = req.body;
     const userInfo = req.userData
 
-    console.log(userInfo)
 
     if(!userInfo){
-        res.send('false')
+        res.send({data:'false'})
         return
     }else if(userInfo.status !== 'normal'){
-        res.send('ban')
+        res.send({data:'ban'})
         return
     }
 
-    console.log(classMsg.msg)
     const sendData = [classMsg.class_number, userInfo.id, userInfo.name, classMsg.msg]
 
-    let sql = "INSERT INTO `pangtingder`.`detail_msg` (`class_number`, `user_id`, `user_name`, `class_msg`) VALUES (?, ?, ?, ?)"
-
-    await query(sql, sendData)
-
-    res.send('success')
+    await sendMsg(sendData)
+    res.send({data:'success'})
     
 }
 
@@ -33,19 +31,13 @@ const deleteDetailMsg = async (req, res) => {
     const userInfo = req.userData
     const deleteMsg = req.body
 
-    console.log(deleteMsg)
-
     if(userInfo.id === deleteMsg.user_id || userInfo.root){
         const package = [deleteMsg.number, deleteMsg.user_id, deleteMsg.class_msg]
-        let sql = "DELETE FROM pangtingder.detail_msg WHERE class_number = ? AND user_id = ? AND class_msg like ?"
-        await query(sql, package)
-        res.send('yes')
+        res.send(await doingDeleteMsg(package))
         return
     }
 
-    res.send('false')
-    
-
+    res.send({data:'false'})
     
 }
 
@@ -56,16 +48,15 @@ const serviceData = async (req, res) => {
 
     if(userData){
         const package = [userData.id, userData.id]
-        const histiryMsg = await query("SELECT * FROM pangtingder.service WHERE user_id = ? OR sendTo = ?", package)
-        
+        const histiryMsg = await serviceMsgHistiry(package)
         const reSend = [histiryMsg, userData]
 
         if(userData.root === 'admin'){
-            const getUserId = await query("SELECT user_id, user_name FROM pangtingder.service group by user_id")
-            reSend.push(getUserId)
+            reSend.push(await adminGetUserId())
         }
-        
+
         res.send(reSend)
+
     }else{
         const resend = {
             data: 'failure'
@@ -87,9 +78,8 @@ const servicePostMsg = async (req, res) => {
     sendDB.push(req.body.sendTo)
     sendDB.push(req.body.content)
     sendDB.push(nowTime)
-
-    let sql = "INSERT INTO `pangtingder`.`service` (`user_name`, `user_id`, `sendTo`, `content`, `time`) VALUES (?, ?, ?, ?, ?)"
-    await query(sql, sendDB)
+    
+    await servicePost(sendDB)
 
     if(userData){
         res.send(userData)

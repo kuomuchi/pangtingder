@@ -14,14 +14,13 @@ const { query } = require('../models/mysql_model')
 
 const translte = async (req, res) => {
     const userInfo = req.userData
+
     if(userInfo.root === 'admin'){
         translteModel()
         res.send('yes')
     }else{
         res.send('false')
     }
-    translteModel()
-    res.send('yes')
 
 }
 

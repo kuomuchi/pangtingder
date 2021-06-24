@@ -29,7 +29,7 @@ const profile = async (req, res) => {
         status: ''
     }
 
-    // 註冊
+    // signup
     if(req.body.name){
         if(haveEmail){
             res.send({msg:'failure_signup'})
@@ -39,14 +39,13 @@ const profile = async (req, res) => {
             createNewUser.push(email)
             createNewUser.push(getSafe)
 
-            sql = "INSERT INTO pangtingder.account (`user_name`, `email`, `password`, `root`, `status`) VALUES (?, ?, ?, 'user', 'normal')"
+            sql = "INSERT INTO account (`user_name`, `email`, `password`, `root`, `status`) VALUES (?, ?, ?, 'user', 'normal')"
             await query(sql, createNewUser)
 
-            sql = 'SELECT id, root, status FROM pangtingder.account WHERE email = ?'
+            sql = 'SELECT id, root, status FROM account WHERE email = ?'
             const userId = await query(sql, email)
             const userData = JSON.parse(JSON.stringify(userId))[0]
 
-            console.log(userData)
 
             userJwt.name = req.body.name
             userJwt.email = email
@@ -54,7 +53,6 @@ const profile = async (req, res) => {
             userJwt.root = userData.root
             userJwt.status = userData.status
 
-            console.log(userJwt)
 
             const jwt =  await create_JWT_token(userJwt)
             res.send({msg:'success', token: jwt})
@@ -85,14 +83,12 @@ const profile = async (req, res) => {
     
 }
 
-async function getProData(req, res){ // getProData
+const  getProfileData = async (req, res) => {
 
     let resend = req.userData
 
-    console.log(resend)
 
-
-    // 如果沒有東西，就直接消失！
+    // if jwt is expired
     if(!resend){
         resend = {msg:'false'}
         console.log('jwt過期')
@@ -100,24 +96,22 @@ async function getProData(req, res){ // getProData
         return
     }
 
-    let userCollect = await query(`SELECT class_number FROM pangtingder.collect where user_id = '${resend.id}'`)
+    let userCollect = await query(`SELECT class_number FROM collect where user_id = '${resend.id}'`)
     userCollect = JSON.parse(JSON.stringify(userCollect))
 
     const allCollectNumber = []
     let userCollectClass
 
-    // 如果有收藏，將收藏整理起來，傳送到前端。
+    // if have collect, insert it
     if(userCollect.length){
         for(let i=0; i<userCollect.length; i++){
             allCollectNumber.push(userCollect[i].class_number)
         }
     
-        sql = 'SELECT * FROM pangtingder.class WHERE number in (?)'
+        sql = 'SELECT * FROM class WHERE number in (?)'
     
         userCollectClass = await query(sql, [allCollectNumber])
-    
         userCollectClass = JSON.parse(JSON.stringify(userCollectClass))
-
     }
 
     res.send({data:[resend, userCollectClass]})
@@ -125,5 +119,5 @@ async function getProData(req, res){ // getProData
 
 module.exports = {
     profile,
-    getProData
+    getProfileData
 }
