@@ -4,7 +4,8 @@ Pangting centralizes course information from National Taiwan University and onli
 
 # table of Contents
 
-waiing me to add it
+* [Technologies](#technologies)
+* [Structure](#structure)
 
 # Technologies
 
@@ -32,3 +33,6 @@ waiing me to add it
 * Discord bot
 * Chrome extension
 * Git/GitHub
+
+# Structure
+![Structure screenshot](./public/images/structure.jpeg)
