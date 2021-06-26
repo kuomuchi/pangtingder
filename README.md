@@ -41,3 +41,19 @@ Pangting centralizes course information from National Taiwan University and onli
 
 # Database design
 ![MySQL databses](./public/images/sql_Image.jpeg)
+
+# Features
+![web gif](./public/images/pangting_image.gif)
+
+**Features ready**
+
+* Course info
+    * Course data
+    * Course recommend
+    * Course mark
+    * other user message
+
+* Course interaction
+   * Grade the course
+   * add collect
+   * leave comments or delete it.
