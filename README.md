@@ -6,6 +6,7 @@ Pangting centralizes course information from National Taiwan University and onli
 
 * [Technologies](#technologies)
 * [Structure](#structure)
+* [Database design](#database-design)
 
 # Technologies
 
@@ -36,3 +37,7 @@ Pangting centralizes course information from National Taiwan University and onli
 
 # Structure
 ![Structure screenshot](./public/images/structure.jpeg)
+
+
+# Database design
+![MySQL databses](./public/images/sql_Image.jpeg)
