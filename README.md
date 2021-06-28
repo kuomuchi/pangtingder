@@ -7,7 +7,7 @@ Pangting centralizes course information from National Taiwan University and onli
 * [Technologies](#technologies)
 * [Structure](#structure)
 * [Database design](#database-design)
-* [Technique](#technique)
+* [Technique](#special-technique)
 * [Test Account](#test-account)
 
 # Technologies
@@ -38,14 +38,19 @@ Pangting centralizes course information from National Taiwan University and onli
 * Git/GitHub
 
 # Structure
-![Structure screenshot](./public/images/structure.jpeg)
+![Structure screenshot](https://user-images.githubusercontent.com/42135910/123694880-77b05d00-d88c-11eb-9591-c47ef0b56d6f.jpeg)
 
 
 # Database design
-![MySQL databses](./public/images/sql_Image.jpeg)
+* Databases for the present
+![MySQL databses](https://user-images.githubusercontent.com/42135910/123694610-1daf9780-d88c-11eb-8a7b-93bb69300908.jpeg)
+
+* Database optimization
+![MySQL databses](https://user-images.githubusercontent.com/42135910/123694601-1c7e6a80-d88c-11eb-8d46-81f8d9cf5fec.jpeg)
 
 # Features
-![web gif](./public/images/pangting_image.gif)
+![web gif](https://user-images.githubusercontent.com/42135910/123697012-03c38400-d88f-11eb-9b76-ce154259650c.gif)
+
 
 **Features ready**
 
@@ -96,7 +101,7 @@ Pangting centralizes course information from National Taiwan University and onli
 * auto execution
     * control method: Databases, Express API, Node-corn
     * Use node-corn automatic start function to update courses. From client admin account can use api to control datebases, when function are runing it will keep listen databases status.
-![auto_work](./public/images/auto_work.jpeg)
+![auto_work](https://user-images.githubusercontent.com/42135910/123694588-17b9b680-d88c-11eb-9ba5-c1f0511c1438.jpeg)
 
 # Test Account
 
