@@ -101,19 +101,24 @@ Pangting centralizes course information from National Taiwan University and onli
 # Test Account
 
 * Normal user
-    * emal: user1
-    * password: 123456
+    * Account 1
+        * emal: user1
+        * password: 123456
 
-    * emal: user2
-    * password: 123456
+    * Account 2
+        * emal: user2
+        * password: 123456
+    
+    * Account 3
+        * emal: user3
+        * password: 123456
 
-    * emal: user3
-    * password: 123456
-
-    * emal: user4
-    * password: 123456
+    * Account 4
+        * emal: user4
+        * password: 123456
 
 * Admin user
     * Introduction: this account can vary simple to edit courses 、 blockade the account 、 update mark and courses on this website.
-    * email: admin
-    * password: admin
+    * Admin Account
+        * email: admin
+        * password: admin
