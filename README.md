@@ -58,6 +58,7 @@ Pangting centralizes course information from National Taiwan University and onli
 
     * Course recommend
         * top 10 similar course 
+        * translate english to recommend
     * Course mark
     * other user message
 
@@ -90,6 +91,6 @@ Pangting centralizes course information from National Taiwan University and onli
     * method: API, HMTL
 
 * auto execution
-    * control: Databases, express API, node-corn
+    * control method: Databases, Express API, Node-corn
     * Use node-corn automatic start function to update courses. From client admin account can use api to control datebases, when function are runing it will keep listen databases status.
 ![auto_work](./public/images/auto_work.jpeg)
