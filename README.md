@@ -8,6 +8,7 @@ Pangting centralizes course information from National Taiwan University and onli
 * [Structure](#structure)
 * [Database design](#database-design)
 * [Technique](#technique)
+* [Test Account](#test-account)
 
 # Technologies
 
@@ -89,8 +90,30 @@ Pangting centralizes course information from National Taiwan University and onli
 * web crawler
     * tool: fetch, cheerio
     * method: API, HMTL
+    * HMTL description: catch the universities coruses in Taiwan, there has a problem about 'text', becouse big5. When getting the HTML, it will become garbled. I'm use 'JavsScript text doctor' to decoding HMTL.
+    * API description: when I catch the coursera HTML, It was very hardful to decode, Totally unable to catch the point about courses data, So I'm using fetch to request courses data.
 
 * auto execution
     * control method: Databases, Express API, Node-corn
     * Use node-corn automatic start function to update courses. From client admin account can use api to control datebases, when function are runing it will keep listen databases status.
 ![auto_work](./public/images/auto_work.jpeg)
+
+# Test Account
+
+* Normal user
+    * emal: user1
+    * password: 123456
+
+    * emal: user2
+    * password: 123456
+
+    * emal: user3
+    * password: 123456
+
+    * emal: user4
+    * password: 123456
+
+* Admin user
+    * Introduction: this account can vary simple to edit courses 、 blockade the account 、 update mark and courses on this website.
+    * email: admin
+    * password: admin
