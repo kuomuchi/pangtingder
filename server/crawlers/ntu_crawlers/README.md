@@ -1,27 +1,28 @@
-# 台大的資料爬蟲
+# ntu crawler
+
+# Introduction
+
+* I'm wrote four web crawler.
+* One for courses data
+* One for professor data
+* One for ptt data
+* Last one for courses detail
 
 
-* 目前台大課程資料的爬蟲，一共寫了4支爬蟲
-* 一支負責爬取「台大的課程」
-* 一支負責爬取「台大老師的評價」
-* 一支負責爬取「ptt對於台大課程的評價」
-* 最後這一支，會負責抓取所有課程的內容:D
+Although can combine these four web crawler, but that will be very confusion.
 
+# Script
 
-雖然可以把東西都寫在一起，但是我覺得有一點亂。
-因此才會有最後一支爬蟲！
+* Catch ntu course
+    * ntu_class.js
 
+* Catch ntu course rating from ptt
+    * ptt_comment.js
 
-# 抓取台大的課程
-ntu_class.js
+* Catch ntu professor rating from urschool
+    * urschool_comment.js
 
-# 抓取課程的評價
-ptt_comment.js
+* catch ntu course content
+    * ntu_class_content.js
 
-# 抓取老師的評價
-urschool_comment.js
-
-# 抓取課程的內容
-ntu_class_content.js
-
-最後都會把資料丟到MySQL裡面 :D
+At the end, thoes date well update to Databases
