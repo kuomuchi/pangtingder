@@ -30,7 +30,7 @@ document.getElementById('keyword').addEventListener('focus', () => {
 
         const intputContent =  document.getElementById('keyword').value
         if(event.code === 'Enter' && intputContent.trim()){
-            console.log('sendINg')
+
             document.getElementById('keyword').value = ''
             if(window.localStorage.getItem('account_token')){
 
@@ -52,7 +52,7 @@ document.getElementById('keyword').addEventListener('focus', () => {
                     if(reqDetailMsg.readyState === 4 && reqDetailMsg.status === 200){
 
                         let resend = reqDetailMsg.responseText
-                        resend = JSON.parse(JSON.stringify(resend)).data
+                        resend = JSON.parse(resend).data
 
 
                         if(resend === 'false'){
@@ -126,7 +126,7 @@ document.getElementById('keyword').addEventListener('focus', () => {
                             outElement.appendChild(addnewChild)
                             
                             document.getElementById('keyword').value = ''
-                            document.getElementsByClassName('message_area')[0].scrollTop = -1000
+                            document.getElementsByClassName('message_area')[0].scrollTop = -9999
                         }
                         
                     }else if(reqDetailMsg.readyState === 4 && reqDetailMsg.status === 429){
@@ -534,7 +534,7 @@ async function deleteData(dataMsg, element){
     deleteMsgReq.onreadystatechange = function () {
         if (deleteMsgReq.readyState === 4) {
             const data = deleteMsgReq.responseText
-            const resendMsg = JSON.parse(JSON.stringify(data)).data
+            const resendMsg = JSON.parse(data).data
             if(resendMsg === 'success'){
                 element.remove()
                 alert('刪除成功')
