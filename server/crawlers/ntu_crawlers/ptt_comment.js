@@ -153,8 +153,6 @@ async function getStart(url){
     }
 }
 
-main()
-
 module.exports = {
     main
   }
