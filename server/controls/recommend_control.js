@@ -14,9 +14,9 @@ const translte = (req, res) => {
 
 	if(userInfo.root === "admin"){
 		translteModel()
-		res.send("yes")
+		res.send({data:{msg:"success"}})
 	}else{
-		res.send("false")
+		res.send({data:{msg:"false"}})
 	}
 
 }
@@ -26,9 +26,9 @@ const ntu = (req, res) => {
 	const userInfo = req.userData
 	if(userInfo.root === "admin"){
 		getClass()
-		res.send("yes")    
+		res.send({data:{msg:"success"}})
 	}else{
-		res.send("false")
+		res.send({data:{msg:"false"}})
 	}
 }
 
@@ -37,9 +37,9 @@ const coursera = (req, res) => {
 	const userInfo = req.userData
 	if(userInfo.root === "admin"){
 		getCoursera()
-		res.send("yes")
+		res.send({data:{msg:"success"}})
 	}else{
-		res.send("false")
+		res.send({data:{msg:"false"}})
 	}
 }
 
@@ -48,9 +48,9 @@ const recommend = (req, res) => {
 	const userInfo = req.userData
 	if(userInfo.root === "admin"){
 		upDataRecommend()
-		res.send("yes")
+		res.send({data:{msg:"success"}})
 	}else{
-		res.send("false")
+		res.send({data:{msg:"false"}})
 	}
 }
 

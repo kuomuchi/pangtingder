@@ -9,7 +9,7 @@ const profile = async (req, res) => {
 
 	const password = req.body.password
 	const email = req.body.email
-	const getSafe = await addpass(password) //密碼加密
+	const getSafe = await addpass(password) //password encryption
 
 
 	let sql = "SELECT id, user_name, password, root, status FROM account WHERE email = ?"
@@ -31,7 +31,7 @@ const profile = async (req, res) => {
 	// signup
 	if(req.body.name){
 		if(haveEmail){
-			res.send({msg:"failure_signup"})
+			res.send({data:{msg:"failure_signup"}})
 		}else{
 			const createNewUser = []
 			createNewUser.push(req.body.name)
@@ -54,7 +54,7 @@ const profile = async (req, res) => {
 
 
 			const jwt =  await create_JWT_token(userJwt)
-			res.send({msg:"success", token: jwt})
+			res.send({data:{msg:"success", token: jwt}})
 		}
         
 	}else{
@@ -68,13 +68,13 @@ const profile = async (req, res) => {
 				userJwt.status = haveEmail.status
 
 				const jwt =  await create_JWT_token(userJwt)
-				res.send({msg:"success", token: jwt})
+				res.send({data:{msg:"success", token: jwt}})
 			}else{
-				res.send({msg:"failure_login"})
+				res.send({data:{msg:"failure_login"}})
 			}
 
 		} catch (error) {
-			res.send({msg:"nano"})
+			res.send({data:{msg:"nano"}})
 		}
 
         
@@ -85,7 +85,6 @@ const profile = async (req, res) => {
 const  getProfileData = async (req, res) => {
 
 	let resend = req.userData
-
 
 	// if jwt is expired
 	if(!resend){

@@ -4,6 +4,7 @@ const { query } = require("./mysql_model")
 
 const getLearnPageClass = async (popular, source, keyword, page) => {
 
+	// for sql
 	const selectArray = [source, keyword, keyword, keyword, keyword, page*10]
 
 	const allPage = await query("SELECT COUNT(*) as maxpage FROM class WHERE source like ? AND (class_name LIKE ? OR number LIKE ? OR professor LIKE ? OR source LIKE ?)", selectArray)

@@ -1,7 +1,3 @@
-// const { 
-//     getRecommend,
-// } = require('../models/recommend_model')
-
 const { upDataRating } = require("../models/rating_model")
 const { fixWebModel } = require("../models/fixweb_model")
 const { accountMsg } = require("../models/account_msg_model")
@@ -22,11 +18,11 @@ const routeUpDataRating = async (req, res) => {
 	const userInfo = req.userData
 
 	if(userInfo.root === "admin"){
-		console.log("now is good")
+
 		upDataRating(1)
-		res.send("yes")
+		res.send({date:{msg:"success"}})
 	}else{
-		res.send("false")
+		res.send({date:{msg:"false"}})
 	}
 }
 
@@ -37,10 +33,10 @@ const fixWeb = async (req, res) => {
 
 	if(userInfo.root === "admin"){
 		fixWebModel()
-		res.send("yes")
+		res.send({date:{msg:"success"}})
 
 	}else{
-		res.send("false")
+		res.send({date:{msg:"false"}})
 	}
 }
 
@@ -57,11 +53,7 @@ const getAccountMsg = async (req, res) => {
 		res.send(histiryMsg)
 	}else{
 
-		const resend = {
-			data:"failure"
-		}
-
-		res.send(resend)
+		res.send({data:{msg:"failure"}})
 	}
 
 }
@@ -70,13 +62,13 @@ const getAccountMsg = async (req, res) => {
 const getAccountStatus = (req, res) => {
 	const userInfo = req.userDatas
 	const resend = {
-		data: false
+		data: {msg:"false"}
 	}
     
 	if(userInfo.root === "admin"){
-		resend.data = true
+		resend.data.msg = "success"
 	}
-
+	
 	res.send(resend)
 }
 
@@ -86,7 +78,7 @@ const upDateClass = async (req, res) => {
 	const classDate = req.body
 
 	const resend = {
-		data: false
+		data: {msg:"false"}
 	}
     
 	if(userInfo.root === "admin"){
@@ -102,7 +94,7 @@ const upDateClass = async (req, res) => {
 		upDateArray.push(classDate.number)
 
 		await doingUpdataClass(upDateArray)
-		resend.data = true
+		resend.data.msg = "success"
 		console.log("成功更新課程")
 
 		res.send(resend)
@@ -119,7 +111,7 @@ const createClass = async (req, res) => {
 	const classDate = req.body
 
 	const resend = {
-		data: false
+		data: {msg:"false"}
 	}
     
 	if(userInfo.root === "admin"){
@@ -136,7 +128,7 @@ const createClass = async (req, res) => {
 
 		await doingCreateClass(upDateArray)
 
-		resend.data = true
+		resend.data.msg = "success"
 		console.log("成功創建課程")
 		res.send(resend)
 	}else{
@@ -150,14 +142,14 @@ const deleteClass = async (req, res) => {
 	const classDate = req.body
 
 	const resend = {
-		data: false
+		data: {msg:"false"}
 	}
     
 	if(userInfo.root === "admin"){
 
 		doingDeleteClass(classDate)
 		console.log("刪除課程:" + classDate.number)
-		resend.data = true
+		resend.data.msg = "success"
 		res.send(resend)
 	}else{
 		res.send(resend)
@@ -177,11 +169,11 @@ const banUser = async (req, res) => {
 		}
 
         
-		res.send("yes")
+		res.send({data:{msg:"success"}})
 
 	} catch (error) {
 		console.log(error)
-		res.send("false")
+		res.send({data:{msg:"false"}})
 	}
 }
 
@@ -201,7 +193,7 @@ const getAccount = async (req, res) => {
     
 
 	}else{
-		res.send("false")
+		res.send({data: {msg:"false"}})
 	}
 
 }
@@ -218,7 +210,7 @@ const getAuto = async (req, res) => {
 		res.send(await getAutoEvent(package))
 
 	}else{
-		res.send("false")
+		res.send({data: {msg:"false"}})
 	}
 
 }
@@ -240,17 +232,11 @@ const autoUpdata = async (req, res) => {
 		const package = [status, run, event]
 		await updataAutoEvent(sql, package)
         
-		res.send("yes")
+		res.send({data:{msg:"success"}})
 	}else{
-		res.send("false")
+		res.send({data:{msg:"false"}})
 	}
 }
-
-
-const test = async (req, res) => {
-	res.send({message:"nicd"})
-}
-
 
 
 module.exports = {
@@ -264,6 +250,5 @@ module.exports = {
 	getAccount,
 	getAuto,
 	autoUpdata,
-	fixWeb,
-	test
+	fixWeb
 }

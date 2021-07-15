@@ -25,8 +25,6 @@ const selectClass = async (req, res) => {
 		source = "%"
 	}
 
-
-	// popular, source, keyword, page)
 	const page = req.params.page
 
     
@@ -53,7 +51,7 @@ const addCollect = async (req, res) => {
 		console.log("用戶: " + userInfo.name +" 將 " + number + "加入了收藏")
 		res.send(await collect(number, userInfo))
 	}else{
-		res.send({data:"false"})
+		res.send({data:{msg:"false"}})
 	}
     
     
@@ -69,7 +67,7 @@ const addRating = async (req, res) => {
 	if(userInfo){
 		res.send(await rating(userInfo, number, trueMark))
 	}else{
-		res.send({data: "false"})
+		res.send({data:{msg:"false"}})
 	}
     
 }
@@ -83,7 +81,7 @@ const deleteCollect = async (req, res) => {
 		console.dir(userInfo.name + "將" + collect + "從收藏中移除了")
 		res.send(await removeCollect(collect, userInfo))
 	}else{
-		res.send({data:"false"})
+		res.send({data:{msg:"false"}})
 	}
     
 }

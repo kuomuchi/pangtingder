@@ -13,17 +13,17 @@ const sendDetailMsg = async (req, res) => {
 
 
 	if(!userInfo){
-		res.send({data:"false"})
+		res.send({date:{msg:"false"}})
 		return
 	}else if(userInfo.status !== "normal"){
-		res.send({data:"ban"})
+		res.send({date:{msg:"ban"}})
 		return
 	}
 
 	const sendData = [classMsg.class_number, userInfo.id, userInfo.name, classMsg.msg]
 
 	await sendMsg(sendData)
-	res.send({data:"success"})
+	res.send({date:{msg:"success"}})
     
 }
 
@@ -37,7 +37,7 @@ const deleteDetailMsg = async (req, res) => {
 		return
 	}
 
-	res.send({data:"false"})
+	res.send({date:{msg:"false"}})
     
 }
 
@@ -59,7 +59,7 @@ const serviceData = async (req, res) => {
 
 	}else{
 		const resend = {
-			data: "failure"
+			date: {msg:"failure"}
 		}
 		res.send(resend)
 	}
@@ -85,7 +85,7 @@ const servicePostMsg = async (req, res) => {
 		res.send(userData)
 	}else{
 		const resend = {
-			data: "failure"
+			data:{msg: "failure"}
 		}
 		res.send(resend)
 	}
