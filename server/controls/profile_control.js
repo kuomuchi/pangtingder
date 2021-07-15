@@ -1,6 +1,8 @@
 const { 
 	addpass,
 	create_JWT_token,
+	selectEmail,
+	selectCollect
 } = require("../models/profile_model")
 
 const { query } = require("../models/mysql_model")
@@ -12,8 +14,8 @@ const profile = async (req, res) => {
 	const getSafe = await addpass(password) //password encryption
 
 
-	let sql = "SELECT id, user_name, password, root, status FROM account WHERE email = ?"
-	const getEmail = await query(sql, email)
+	let sql = ""
+	const getEmail = await selectEmail(email)
 	const haveEmail = JSON.parse(JSON.stringify(getEmail))[0]
 
 
@@ -82,7 +84,7 @@ const profile = async (req, res) => {
     
 }
 
-const  getProfileData = async (req, res) => {
+const getProfileData = async (req, res) => {
 
 	let resend = req.userData
 
@@ -99,17 +101,15 @@ const  getProfileData = async (req, res) => {
 
 	const allCollectNumber = []
 	let userCollectClass
+	
 
 	// if have collect, insert it
 	if(userCollect.length){
 		for(let i=0; i<userCollect.length; i++){
 			allCollectNumber.push(userCollect[i].class_number)
 		}
-    
-		let sql = "SELECT * FROM class WHERE number in (?)"
-    
-		userCollectClass = await query(sql, [allCollectNumber])
-		userCollectClass = JSON.parse(JSON.stringify(userCollectClass))
+
+		userCollectClass = await selectCollect([allCollectNumber])
 	}
 
 	res.send({data:[resend, userCollectClass]})
